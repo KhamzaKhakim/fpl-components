@@ -11,7 +11,7 @@ export default function Header() {
           Planner
         </Link>
         <Link
-          href="/planner"
+          href="/points"
           className="hover:underline hover:underline-offset-4"
         >
           Points
