@@ -1,3 +1,9 @@
+import Transfers from "@/src/components/Transfers";
+
 export default function PlannerPage() {
-  return <h1>Hello</h1>;
+  return (
+    <div className="flex justify-center">
+      <Transfers />
+    </div>
+  );
 }
