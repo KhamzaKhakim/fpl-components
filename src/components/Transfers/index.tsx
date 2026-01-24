@@ -1,6 +1,7 @@
 import Image from "next/image";
 import PlayerCard from "../PlayerCard";
 import { mapCoordinates } from "@/src/utils/mapCoordinates";
+import { createScaler } from "@/src/utils/scaler";
 
 //TODO:
 // - They need to be draggable to make substitutions (key functionality)
@@ -26,8 +27,7 @@ export default function Transfers({
     perspective,
   );
 
-  const BASE_SIZE = 600;
-  const s = (v: number) => (v / BASE_SIZE) * size;
+  const s = createScaler(size);
 
   return (
     <div
@@ -50,27 +50,29 @@ export default function Transfers({
       >
         {/* GK */}
         <div className="flex justify-center">
-          <PlayerCard size={size} />
+          <PlayerCard name="Alisson" price="5.5" team="LIV" size={size} />
         </div>
 
         {/* DEF */}
         <div className="flex justify-around" style={{ paddingInline: s(16) }}>
-          {Array.from({ length: 5 }).map((_, i) => (
-            <PlayerCard key={i} size={size} />
-          ))}
+          <PlayerCard name="Frimpong" price="5.5" team="LIV" size={size} />
+          <PlayerCard name="Konate" price="5.5" team="LIV" size={size} />
+          <PlayerCard name="Van Djik" price="5.5" team="LIV" size={size} />
+          <PlayerCard name="Kerkez" price="5.5" team="LIV" size={size} />
         </div>
 
         {/* MID */}
         <div className="flex justify-around">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <PlayerCard key={i} size={size} />
-          ))}
+          <PlayerCard name="Sobo" price="5.5" team="LIV" size={size} />
+          <PlayerCard name="Grava" price="5.5" team="LIV" size={size} />
+          <PlayerCard name="Wirtz" price="5.5" team="LIV" size={size} />
         </div>
 
         {/* FWD */}
         <div className="flex justify-around" style={{ paddingInline: s(64) }}>
-          <PlayerCard size={size} />
-          <PlayerCard size={size} />
+          <PlayerCard name="Salah" price="5.5" team="LIV" size={size} />
+          <PlayerCard name="Ekitike" price="5.5" team="LIV" size={size} />
+          <PlayerCard name="Gakpo" price="5.5" team="LIV" size={size} />
         </div>
       </div>
 
