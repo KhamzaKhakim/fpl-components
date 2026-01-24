@@ -1,15 +1,19 @@
-import { mapCoordinates } from "@/src/utils/mapCoordinates";
-
 interface PlayerCardProps {
-  //   x: number;
-  //   y: number;
-  //   size: number;
+  size: number;
 }
 
-export default function PlayerCard() {
-  //   const { x, y } = mapCoordinates(props.x, props.y, props.size, 45, 1000);
+export default function PlayerCard({ size }: PlayerCardProps) {
+  const BASE_SIZE = 600;
+  const s = (v: number) => (v / BASE_SIZE) * size;
 
   return (
-    <div className="h-24 aspect-3/4 bg-amber-300 z-30 border -translate-y-1/2"></div>
+    <div
+      className="bg-amber-300 border z-30 rounded-md"
+      style={{
+        height: s(96), // h-24
+        aspectRatio: "3 / 4",
+        transform: `translateY(-${s(48)}px)`,
+      }}
+    />
   );
 }

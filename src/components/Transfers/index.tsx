@@ -20,69 +20,68 @@ export default function Transfers({
 }: TransfersProps) {
   const { x: leftX, y: topY } = mapCoordinates(
     0,
-    600,
     size,
-    rotation,
-    perspective,
-  );
-  const { x: rightX, y: bottomY } = mapCoordinates(
-    600,
-    600,
     size,
     rotation,
     perspective,
   );
 
-  console.log(topY, bottomY);
-  console.log(leftX, rightX);
+  const BASE_SIZE = 600;
+  const s = (v: number) => (v / BASE_SIZE) * size;
 
   return (
     <div
-      className="m-16 relative overflow-hidden"
-      style={{ perspective: perspective }}
+      className="relative overflow-hidden"
+      style={{
+        perspective,
+        margin: s(64),
+      }}
     >
       <div
-        className="z-10 w-20 backdrop-blur-md absolute flex flex-col justify-between p-4"
+        className="absolute z-10 flex flex-col justify-between"
         style={{
           top: topY,
           left: leftX,
           height: size - topY,
           width: size - 2 * leftX,
+          padding: s(16),
+          paddingBottom: s(64),
         }}
       >
-        <div id="gk" className="flex justify-center">
-          <PlayerCard />
+        {/* GK */}
+        <div className="flex justify-center">
+          <PlayerCard size={size} />
         </div>
-        <div id="def" className="flex justify-around px-[16px]">
-          <PlayerCard />
-          <PlayerCard />
-          <PlayerCard />
-          {/* <PlayerCard /> */}
-          {/* <PlayerCard /> */}
+
+        {/* DEF */}
+        <div className="flex justify-around" style={{ paddingInline: s(16) }}>
+          {Array.from({ length: 5 }).map((_, i) => (
+            <PlayerCard key={i} size={size} />
+          ))}
         </div>
-        <div id="mid" className="flex justify-around">
-          <PlayerCard />
-          <PlayerCard />
-          <PlayerCard />
-          <PlayerCard />
-          {/* <PlayerCard /> */}
+
+        {/* MID */}
+        <div className="flex justify-around">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <PlayerCard key={i} size={size} />
+          ))}
         </div>
-        <div id="fwd" className="flex justify-around px-[64px]">
-          <PlayerCard />
-          <PlayerCard />
-          <PlayerCard />
+
+        {/* FWD */}
+        <div className="flex justify-around" style={{ paddingInline: s(64) }}>
+          <PlayerCard size={size} />
+          <PlayerCard size={size} />
         </div>
       </div>
+
       <Image
-        src={"field.svg"}
+        src="field.svg"
         alt="Football field"
-        height={size}
         width={size}
+        height={size}
         style={{
-          position: "relative",
           transform: `rotateX(${rotation}deg)`,
           transformStyle: "preserve-3d",
-          zIndex: 0,
         }}
       />
     </div>
