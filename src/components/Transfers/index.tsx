@@ -100,7 +100,7 @@ export default function Transfers({
       className="relative overflow-x-hidden"
       style={{
         perspective,
-        margin: s(64),
+        margin: s(24),
       }}
     >
       <div
@@ -166,7 +166,10 @@ export default function Transfers({
           ))}
         </div>
       </div>
-      <div className="absolute bottom-0 z-50 backdrop-blur-md p-4 flex"></div>
+      {/* <div
+        className="absolute bottom-0 z-50 bg-gray-100 p-4 flex"
+        style={{ height: s(96), width: s(360), left: s(120) }}
+      ></div> */}
       {/* <div
         className="absolute bg-amber-200 z-10"
         style={{
@@ -176,16 +179,25 @@ export default function Transfers({
         }}
       ></div> */}
 
-      <Image
-        src="field.svg"
-        alt="Football field"
-        width={size}
-        height={size}
+      <div
+        className="relative overflow-hidden"
         style={{
-          transform: `rotateX(${rotation}deg)`,
-          transformStyle: "preserve-3d",
+          width: size,
+          height: size,
+          perspective,
         }}
-      />
+      >
+        <Image
+          src="field.svg"
+          alt="Football field"
+          width={size}
+          height={size}
+          style={{
+            transform: `rotateX(${rotation}deg)`,
+            transformStyle: "preserve-3d",
+          }}
+        />
+      </div>
     </div>
   );
 }
