@@ -97,7 +97,7 @@ export default function Transfers({
 
   return (
     <div
-      className="relative overflow-hidden"
+      className="relative overflow-x-hidden"
       style={{
         perspective,
         margin: s(64),
@@ -118,7 +118,7 @@ export default function Transfers({
         <div className="flex justify-center">
           {squad.GK.map((p, i) => (
             <PlayerCard
-              key={`${p.name}-${p.team}`}
+              key={`${i}-GK`}
               player={p}
               size={size}
               position="GK"
@@ -131,7 +131,7 @@ export default function Transfers({
         <div className="flex justify-around" style={{ paddingInline: s(16) }}>
           {squad.DEF.map((p, i) => (
             <PlayerCard
-              key={`${p.name}-${p.team}`}
+              key={`${i}-DEF`}
               player={p}
               size={size}
               position="DEF"
@@ -144,7 +144,7 @@ export default function Transfers({
         <div className="flex justify-around">
           {squad.MID.map((p, i) => (
             <PlayerCard
-              key={`${p.name}-${p.team}`}
+              key={`${i}-MID`}
               player={p}
               size={size}
               position="MID"
@@ -157,7 +157,7 @@ export default function Transfers({
         <div className="flex justify-around" style={{ paddingInline: s(64) }}>
           {squad.FWD.map((p, i) => (
             <PlayerCard
-              key={`${p.name}-${p.team}`}
+              key={`${i}-FWD`}
               player={p}
               size={size}
               position="FWD"
@@ -166,6 +166,15 @@ export default function Transfers({
           ))}
         </div>
       </div>
+      <div className="absolute bottom-0 z-50 backdrop-blur-md p-4 flex"></div>
+      {/* <div
+        className="absolute bg-amber-200 z-10"
+        style={{
+          height: s(96),
+          width: "50%",
+          bottom: `-${s(48)}px`,
+        }}
+      ></div> */}
 
       <Image
         src="field.svg"
