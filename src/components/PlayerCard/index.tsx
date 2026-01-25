@@ -1,38 +1,89 @@
+"use client";
 import { createScaler } from "@/src/utils/scaler";
+import { useEffect, useRef, useState } from "react";
+
+import {
+  draggable,
+  dropTargetForElements,
+} from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import { Player, Position } from "../Transfers";
 
 interface PlayerCardProps {
   size: number;
-  name: string;
-  team: string;
-  price: string;
+  player: Player;
+  position: Position;
+  index: number;
 }
 
-export default function PlayerCard({ name, price, size }: PlayerCardProps) {
+export default function PlayerCard({
+  player,
+  position,
+  index,
+  size,
+}: PlayerCardProps) {
   const s = createScaler(size);
 
   const fs = s(10);
 
+  const ref = useRef(null);
+  const [dragging, setDragging] = useState<boolean>(false);
+  const [isDraggedOver, setIsDraggedOver] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    return draggable({
+      element: el,
+      onDragStart: () => setDragging(true),
+      onDrop: () => setDragging(false),
+      getInitialData: () => ({ player, position, index }),
+    });
+  }, []);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    return dropTargetForElements({
+      element: el,
+      onDragEnter: () => setIsDraggedOver(true),
+      onDragLeave: () => setIsDraggedOver(false),
+      onDrop: () => setIsDraggedOver(false),
+      getData: () => ({ player, position, index }),
+    });
+  }, []);
+
+  if (dragging) {
+    console.log(name + " is getting dragged");
+  }
+
+  if (isDraggedOver) {
+    console.log("dragged over " + name);
+  }
+
   return (
     <div
-      className="backdrop-blur-md border border-cyan-50 z-30 rounded-md overflow-hidden"
+      className={`backdrop-blur-md border-2 border-cyan-50 z-30
+                  rounded-md overflow-hidden ${dragging && "opacity-20"} ${isDraggedOver && "bg-cyan-400/40 ring-4 ring-cyan-300/60"}`}
       style={{
         height: s(96),
         aspectRatio: "3 / 4",
-        transform: `translateY(-${s(48)}px)`,
       }}
+      ref={ref}
     >
       <div className="h-[70%]"></div>
       <p
         className="h-[15%] text-center bg-white rounded-t-sm select-none"
         style={{ fontSize: fs }}
       >
-        {name}
+        {player.name}
       </p>
       <p
         className="h-[15%] text-center bg-gray-200 select-none"
         style={{ fontSize: fs }}
       >
-        {price}
+        {player.price}
       </p>
       {/* <p
         className="h-[15%] text-center bg-blue-950 text-white"
