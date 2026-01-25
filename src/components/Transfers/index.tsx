@@ -106,7 +106,7 @@ export default function Transfers({
       <div
         className="absolute z-10 flex flex-col justify-between"
         style={{
-          top: topY - s(48),
+          top: topY - s(64),
           left: leftX,
           height: size - topY,
           width: size - 2 * leftX,
@@ -166,10 +166,28 @@ export default function Transfers({
           ))}
         </div>
       </div>
-      {/* <div
-        className="absolute bottom-0 z-50 bg-gray-100 p-4 flex"
-        style={{ height: s(96), width: s(360), left: s(120) }}
-      ></div> */}
+      <div
+        className="absolute z-50 bg-gray-100 flex justify-between"
+        style={{
+          padding: s(8),
+          bottom: s(0),
+          height: s(96 + 16),
+          width: s(360),
+          left: s(120),
+          borderTopLeftRadius: s(12),
+          borderTopRightRadius: s(12),
+        }}
+      >
+        {squad.DEF.map((p, i) => (
+          <PlayerCard
+            key={`${i}-DEF`}
+            player={p}
+            size={size}
+            position="DEF"
+            index={i}
+          />
+        ))}
+      </div>
       {/* <div
         className="absolute bg-amber-200 z-10"
         style={{
