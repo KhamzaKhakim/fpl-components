@@ -5,7 +5,7 @@ import { mapCoordinates } from "@/src/utils/mapCoordinates";
 import { createScaler } from "@/src/utils/scaler";
 import { useEffect, useState } from "react";
 import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
-import { isPlayer } from "@/src/utils/validatations";
+import { isNumber, isPlayer, isPosition } from "@/src/utils/validatations";
 
 //TODO:
 // - They need to be draggable to make substitutions (key functionality)
@@ -22,9 +22,10 @@ export interface Player {
   name: string;
   price: string;
   team: string;
+  position: Position;
 }
 
-export type Position = "GK" | "DEF" | "MID" | "FWD";
+export type Position = "GK" | "DEF" | "MID" | "FWD" | "SUB";
 
 type Squad = Record<Position, Player[]>;
 
@@ -44,22 +45,28 @@ export default function Transfers({
   const s = createScaler(size);
 
   const [squad, setSquad] = useState<Squad>({
-    GK: [{ name: "Alisson", price: "5.5", team: "LIV" }],
+    GK: [{ name: "Alisson", price: "5.5", team: "LIV", position: "GK" }],
     DEF: [
-      { name: "Frimpong", price: "5.5", team: "LIV" },
-      { name: "Konate", price: "5.5", team: "LIV" },
-      { name: "Van Djik", price: "5.5", team: "LIV" },
-      { name: "Kerkez", price: "5.5", team: "LIV" },
+      { name: "Frimpong", price: "5.5", team: "LIV", position: "DEF" },
+      { name: "Konate", price: "5.5", team: "LIV", position: "DEF" },
+      { name: "Van Djik", price: "5.5", team: "LIV", position: "DEF" },
+      { name: "Kerkez", price: "5.5", team: "LIV", position: "DEF" },
     ],
     MID: [
-      { name: "Szobo", price: "5.5", team: "LIV" },
-      { name: "Macca", price: "5.5", team: "LIV" },
-      { name: "Wirtz", price: "5.5", team: "LIV" },
+      { name: "Szobo", price: "5.5", team: "LIV", position: "MID" },
+      { name: "Macca", price: "5.5", team: "LIV", position: "MID" },
+      { name: "Wirtz", price: "5.5", team: "LIV", position: "MID" },
     ],
     FWD: [
-      { name: "Salah", price: "5.5", team: "LIV" },
-      { name: "Isak", price: "5.5", team: "LIV" },
-      { name: "Gakpo", price: "5.5", team: "LIV" },
+      { name: "Salah", price: "5.5", team: "LIV", position: "FWD" },
+      { name: "Isak", price: "5.5", team: "LIV", position: "FWD" },
+      { name: "Gakpo", price: "5.5", team: "LIV", position: "FWD" },
+    ],
+    SUB: [
+      { name: "Mamardashvili", price: "5.5", team: "LIV", position: "GK" },
+      { name: "Gomez", price: "5.5", team: "LIV", position: "DEF" },
+      { name: "Grava", price: "5.5", team: "LIV", position: "MID" },
+      { name: "Jones", price: "5.5", team: "LIV", position: "MID" },
     ],
   });
 
@@ -69,18 +76,22 @@ export default function Transfers({
         const destination = location.current.dropTargets[0];
         if (!destination) return;
 
-        const src = source.data;
-        const dest = destination.data;
+        const srcPlayer = source.data.player;
+        const destPlayer = destination.data.player;
 
-        if (!isPlayer(src.player) || !isPlayer(dest.player)) {
+        const srcPos = source.data.position;
+        const destPos = destination.data.position;
+
+        const srcIndex = source.data.index;
+        const destIndex = destination.data.index;
+
+        if (!isPlayer(srcPlayer) || !isPlayer(destPlayer)) {
           return;
         }
 
-        const srcPos = src.position as Position;
-        const destPos = dest.position as Position;
+        if (!isPosition(srcPos) || !isPosition(destPos)) return;
 
-        const srcIndex = src.index as number;
-        const destIndex = dest.index as number;
+        if (!isNumber(srcIndex) || !isNumber(destIndex)) return;
 
         setSquad((prev) => {
           const next = structuredClone(prev);
@@ -178,12 +189,12 @@ export default function Transfers({
           borderTopRightRadius: s(12),
         }}
       >
-        {squad.DEF.map((p, i) => (
+        {squad.SUB.map((p, i) => (
           <PlayerCard
             key={`${i}-DEF`}
             player={p}
             size={size}
-            position="DEF"
+            position="SUB"
             index={i}
           />
         ))}

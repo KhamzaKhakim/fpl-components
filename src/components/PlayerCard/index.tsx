@@ -54,37 +54,41 @@ export default function PlayerCard({
     });
   }, []);
 
-  if (dragging) {
-    console.log(name + " is getting dragged");
-  }
+  // if (dragging) {
+  //   console.log(name + " is getting dragged");
+  // }
 
-  if (isDraggedOver) {
-    console.log("dragged over " + name);
-  }
+  // if (isDraggedOver) {
+  //   console.log("dragged over " + name);
+  // }
 
+  //TODO: fix bardrop blur while dragging
   return (
     <div
       className={`backdrop-blur-md border-2 border-cyan-50 z-30
-                  rounded-md overflow-hidden ${dragging && "opacity-20"} ${isDraggedOver && "bg-cyan-400/40 ring-4 ring-cyan-300/60"}`}
+                  rounded-md overflow-hidden bg-transparent ${isDraggedOver && "bg-cyan-400/40 ring-4 ring-cyan-300/60"}`}
       style={{
         height: s(96),
         aspectRatio: "3 / 4",
       }}
       ref={ref}
     >
-      <div className="h-[70%]"></div>
-      <p
-        className="h-[15%] text-center bg-white rounded-t-sm select-none"
-        style={{ fontSize: fs }}
-      >
-        {player.name}
-      </p>
-      <p
-        className="h-[15%] text-center bg-gray-200 select-none"
-        style={{ fontSize: fs }}
-      >
-        {player.price}
-      </p>
+      <div>
+        <div className="h-[70%]"></div>
+        <p
+          className="h-[15%] text-center bg-white rounded-t-sm select-none"
+          style={{ fontSize: fs }}
+        >
+          {player.name}
+        </p>
+        <p
+          className="h-[15%] text-center bg-gray-200 select-none"
+          style={{ fontSize: fs }}
+        >
+          {player.price}
+        </p>
+      </div>
+
       {/* <p
         className="h-[15%] text-center bg-blue-950 text-white"
         style={{ fontSize: fs }}
