@@ -191,7 +191,7 @@ export default function Transfers({
       >
         {squad.SUB.map((p, i) => (
           <PlayerCard
-            key={`${i}-DEF`}
+            key={`${i}-SUB`}
             player={p}
             size={size}
             position="SUB"
