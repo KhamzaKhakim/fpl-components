@@ -8,6 +8,9 @@ type Player = {
   team: number;
   team_code: number;
   selected_by_percent: number;
+  event_points: number;
+  total_points: number;
+  now_cost: number;
 };
 
 async function getPlayers() {
@@ -26,10 +29,17 @@ async function getPlayers() {
         team: p.team,
         teamCode: p.team_code,
         selectedByPercent: p.selected_by_percent,
+        gwPoints: p.event_points,
+        totalPoints: p.total_points,
+        price: p.now_cost,
       }) as PlayerType,
   );
 
   Bun.write("./public/players.json", JSON.stringify(playersMapped));
+  Bun.write(
+    "./public/players-full.json",
+    JSON.stringify(json?.elements.slice(0, 5)),
+  );
 }
 
 console.log("Started players");

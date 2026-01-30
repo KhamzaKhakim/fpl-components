@@ -6,6 +6,9 @@ export const playerBody = t.Object({
   team: t.Number(),
   teamCode: t.Number(),
   selectedByPercent: t.Number(),
+  gwPoints: t.Number(),
+  totalPoints: t.Number(),
+  price: t.Number(),
 });
 
 export type PlayerType = typeof playerBody.static;
