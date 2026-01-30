@@ -7,6 +7,7 @@ import {
   dropTargetForElements,
 } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { Player, Position } from "../Transfers";
+import Image from "next/image";
 
 interface PlayerCardProps {
   size: number;
@@ -64,7 +65,7 @@ export default function PlayerCard({
 
   return (
     <div
-      className={`backdrop-blur-md border-2 border-cyan-50 z-30
+      className={`backdrop-blur-md border border-cyan-50 z-30
                   rounded-md overflow-hidden ${dragging && "opacity-20"} ${isDraggedOver && "bg-cyan-400/40 ring-4 ring-cyan-300/60"}`}
       style={{
         height: s(96),
@@ -72,15 +73,23 @@ export default function PlayerCard({
       }}
       ref={ref}
     >
-      <div className="h-[70%]"></div>
+      <div className="h-[70%]" style={{ padding: s(4) }}>
+        <Image
+          src={`/shirts/shirt_${player.team}.webp`}
+          alt="Liv"
+          width={s(68)}
+          height={s(68)}
+          draggable={false}
+        />
+      </div>
       <p
-        className="h-[15%] text-center bg-white rounded-t-sm select-none"
+        className="h-[15%] text-center bg-white rounded-t-sm select-none relative"
         style={{ fontSize: fs }}
       >
         {player.name}
       </p>
       <p
-        className="h-[15%] text-center bg-gray-200 select-none"
+        className="h-[15%] text-center bg-gray-200 select-none relative"
         style={{ fontSize: fs }}
       >
         {player.price}

@@ -33,6 +33,7 @@ export default function Transfers({
   size = 600,
   perspective = 800,
   rotation = 30,
+  // data,
 }: TransfersProps) {
   const { x: leftX, y: topY } = mapCoordinates(
     0,
