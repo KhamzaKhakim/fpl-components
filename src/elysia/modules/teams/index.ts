@@ -1,5 +1,6 @@
 import { Elysia, file, t } from "elysia";
 import { getCurrentGameweekId } from "../utils/gameweekUtils";
+import { playersById } from "../utils/store";
 
 export const teams = new Elysia({ prefix: "/teams" })
   .get("/", () => file("./public/teams.json"))
@@ -9,5 +10,10 @@ export const teams = new Elysia({ prefix: "/teams" })
       `https://fantasy.premierleague.com/api/entry/${id}/event/${currentGameweek}/picks/`,
     );
     const ans = await response.json();
-    return ans;
+
+    let picks = ans.picks.map((p: any) => ({
+      ...playersById.get(p?.element),
+      ...p,
+    }));
+    return { ...ans, picks };
   });
