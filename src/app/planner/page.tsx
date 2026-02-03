@@ -1,13 +1,17 @@
-"use-client";
+"use client";
 
 import Transfers from "@/src/components/Transfers";
+import { useUser } from "@/src/context/user/useUser";
 import { client } from "@/src/elysia/client";
+import { useEffect, useState } from "react";
 
-export default async function PlannerPage() {
-  const { data } = await client.api.teams({ id: "1712594" }).get();
+export default function PlannerPage() {
+  const user = useUser();
+
+  // console.log(JSON.stringify(a));
 
   return (
-    <div className="flex justify-center bg-cyan-200">
+    <div className="flex justify-center">
       <Transfers size={600} />
     </div>
   );
