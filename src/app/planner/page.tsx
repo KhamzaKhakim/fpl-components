@@ -3,16 +3,30 @@
 import Transfers from "@/src/components/Transfers";
 import { useUser } from "@/src/context/user/useUser";
 import { client } from "@/src/elysia/client";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
 export default function PlannerPage() {
   const user = useUser();
 
-  // console.log(JSON.stringify(a));
+  const { data, isLoading } = useQuery({
+    queryKey: ["get"],
+    queryFn: () =>
+      client
+        .teams({
+          id: user.id!,
+        })
+        .get(),
+    enabled: !!user.id,
+  });
+
+  console.log(data);
+
+  if (isLoading) return <h1>...Loading</h1>;
 
   return (
     <div className="flex justify-center">
-      <Transfers size={600} />
+      <Transfers size={600} data={data} />
     </div>
   );
 }

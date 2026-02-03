@@ -16,6 +16,7 @@ interface TransfersProps {
   size?: number;
   perspective?: number;
   rotation?: number;
+  data: any;
 }
 
 export interface Player {
@@ -33,7 +34,7 @@ export default function Transfers({
   size = 600,
   perspective = 800,
   rotation = 30,
-  // data,
+  data,
 }: TransfersProps) {
   const { x: leftX, y: topY } = mapCoordinates(
     0,

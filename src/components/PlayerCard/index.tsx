@@ -72,8 +72,12 @@ export default function PlayerCard({
           alt="Liv"
           fill
           draggable={false}
-          className="object-contain p-1"
+          className="object-contain"
           loading="eager"
+          sizes="auto"
+          style={{
+            padding: s(4),
+          }}
         />
       </div>
       <div className="h-[30%] absolute bottom-0 w-full">

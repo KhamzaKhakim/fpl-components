@@ -1,6 +1,7 @@
 import { Elysia, file, t } from "elysia";
 import { getCurrentGameweekId } from "../utils/gameweekUtils";
-import { playersById } from "../utils/store";
+import { playersById, teamsById } from "../utils/store";
+import { positionById } from "@/src/utils/mapApi";
 
 export const teams = new Elysia({ prefix: "/teams" })
   .get("/", () => file("./public/teams.json"))
@@ -12,8 +13,11 @@ export const teams = new Elysia({ prefix: "/teams" })
     const ans = await response.json();
 
     let picks = ans.picks.map((p: any) => ({
-      ...playersById.get(p?.element),
       ...p,
+      ...playersById.get(p?.element),
+      teamName: teamsById.get(p.team),
+      teamShortName: teamsById.get(p.team),
+      position: positionById[p.element_type],
     }));
     return { ...ans, picks };
   });

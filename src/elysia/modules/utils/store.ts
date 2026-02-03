@@ -1,10 +1,20 @@
 import { PlayerType } from "../players/types";
+import { TeamType } from "../teams/types";
 
 export const playersById = new Map<number, PlayerType>();
 
-const file = Bun.file("./public/players.json");
-const players = (await file.json()) as PlayerType[];
+const playersFile = Bun.file("./public/players.json");
+const players = (await playersFile.json()) as PlayerType[];
 
 for (const p of players) {
   playersById.set(p.id, p);
+}
+
+export const teamsById = new Map<number, TeamType>();
+
+const teamsFile = Bun.file("./public/teams.json");
+const teams = (await teamsFile.json()) as TeamType[];
+
+for (const t of teams) {
+  teamsById.set(t.id, t);
 }
