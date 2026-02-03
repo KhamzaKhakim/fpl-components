@@ -40,7 +40,7 @@ export default function PlayerCard({
       onDrop: () => setDragging(false),
       getInitialData: () => ({ player, position, index }),
     });
-  }, []);
+  }, [player, position, index]);
 
   useEffect(() => {
     const el = ref.current;
@@ -53,53 +53,43 @@ export default function PlayerCard({
       onDrop: () => setIsDraggedOver(false),
       getData: () => ({ player, position, index }),
     });
-  }, []);
-
-  if (dragging) {
-    console.log(name + " is getting dragged");
-  }
-
-  if (isDraggedOver) {
-    console.log("dragged over " + name);
-  }
+  }, [player, position, index]);
 
   return (
     <div
-      className={`backdrop-blur-md border border-cyan-50 z-30
+      className={`relative backdrop-blur-md border border-cyan-50 z-30
                   rounded-md overflow-hidden ${dragging && "opacity-20"} ${isDraggedOver && "bg-cyan-400/40 ring-4 ring-cyan-300/60"}`}
       style={{
         height: s(96),
         aspectRatio: "3 / 4",
       }}
       ref={ref}
+      key={`${player.name}-${player.team}`}
     >
-      <div className="h-[70%]" style={{ padding: s(4) }}>
+      <div className="relative w-full h-full">
         <Image
           src={`/shirts/shirt_${player.team}.webp`}
           alt="Liv"
-          width={s(68)}
-          height={s(68)}
+          fill
           draggable={false}
+          className="object-contain p-1"
+          loading="eager"
         />
       </div>
-      <p
-        className="h-[15%] text-center bg-white rounded-t-sm select-none relative"
-        style={{ fontSize: fs }}
-      >
-        {player.name}
-      </p>
-      <p
-        className="h-[15%] text-center bg-gray-200 select-none relative"
-        style={{ fontSize: fs }}
-      >
-        {player.price}
-      </p>
-      {/* <p
-        className="h-[15%] text-center bg-blue-950 text-white"
-        style={{ fontSize: fs }}
-      >
-        11
-      </p> */}
+      <div className="h-[30%] absolute bottom-0 w-full">
+        <p
+          className=" text-center bg-white rounded-t-sm select-none"
+          style={{ fontSize: fs }}
+        >
+          {player.name}
+        </p>
+        <p
+          className="text-center bg-gray-200 select-none"
+          style={{ fontSize: fs }}
+        >
+          {player.price}
+        </p>
+      </div>
     </div>
   );
 }

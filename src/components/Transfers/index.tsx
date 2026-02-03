@@ -179,7 +179,7 @@ export default function Transfers({
         </div>
       </div>
       <div
-        className="absolute z-50 bg-gray-100 flex justify-between"
+        className="absolute z-50 bg-green-200/30 backdrop-blur-md flex justify-between"
         style={{
           padding: s(8),
           bottom: s(0),
@@ -200,15 +200,6 @@ export default function Transfers({
           />
         ))}
       </div>
-      {/* <div
-        className="absolute bg-amber-200 z-10"
-        style={{
-          height: s(96),
-          width: "50%",
-          bottom: `-${s(48)}px`,
-        }}
-      ></div> */}
-
       <div
         className="relative overflow-hidden"
         style={{
