@@ -17,6 +17,7 @@ interface TransfersProps {
   perspective?: number;
   rotation?: number;
   data: any;
+  isLoading: boolean;
 }
 
 export interface Player {
@@ -35,6 +36,7 @@ export default function Transfers({
   perspective = 800,
   rotation = 30,
   data,
+  isLoading,
 }: TransfersProps) {
   const { x: leftX, y: topY } = mapCoordinates(
     0,
@@ -136,6 +138,7 @@ export default function Transfers({
               size={size}
               position="GK"
               index={i}
+              isLoading={isLoading}
             />
           ))}
         </div>
@@ -149,6 +152,7 @@ export default function Transfers({
               size={size}
               position="DEF"
               index={i}
+              isLoading={isLoading}
             />
           ))}
         </div>
@@ -162,6 +166,7 @@ export default function Transfers({
               size={size}
               position="MID"
               index={i}
+              isLoading={isLoading}
             />
           ))}
         </div>
@@ -175,6 +180,7 @@ export default function Transfers({
               size={size}
               position="FWD"
               index={i}
+              isLoading={isLoading}
             />
           ))}
         </div>
@@ -198,6 +204,7 @@ export default function Transfers({
             size={size}
             position="SUB"
             index={i}
+            isLoading={isLoading}
           />
         ))}
       </div>

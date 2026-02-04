@@ -8,12 +8,14 @@ import {
 } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { Player, Position } from "../Transfers";
 import Image from "next/image";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface PlayerCardProps {
   size: number;
   player: Player;
   position: Position;
   index: number;
+  isLoading: boolean;
 }
 
 export default function PlayerCard({
@@ -21,6 +23,7 @@ export default function PlayerCard({
   position,
   index,
   size,
+  isLoading,
 }: PlayerCardProps) {
   const s = createScaler(size);
 
@@ -55,6 +58,15 @@ export default function PlayerCard({
     });
   }, [player, position, index]);
 
+  if (isLoading) {
+    return (
+      <Skeleton
+        className="rounded-md z-30 relative"
+        style={{ height: s(96), aspectRatio: "3 / 4" }}
+      />
+    );
+  }
+
   return (
     <div
       className={`relative backdrop-blur-md border border-cyan-50 z-30
@@ -66,6 +78,7 @@ export default function PlayerCard({
       ref={ref}
       key={`${player.name}-${player.team}`}
     >
+      <Skeleton />
       <div className="relative w-full h-full">
         <Image
           src={`/shirts/shirt_${player.team}.webp`}

@@ -9,8 +9,8 @@ import { useEffect, useState } from "react";
 export default function PlannerPage() {
   const user = useUser();
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["get"],
+  const { data: response, isLoading } = useQuery({
+    queryKey: ["squad"],
     queryFn: () =>
       client
         .teams({
@@ -20,13 +20,11 @@ export default function PlannerPage() {
     enabled: !!user.id,
   });
 
-  console.log(data);
-
-  if (isLoading) return <h1>...Loading</h1>;
+  console.log(JSON.stringify(response?.data));
 
   return (
     <div className="flex justify-center">
-      <Transfers size={600} data={data} />
+      <Transfers size={600} data={response?.data} isLoading={isLoading} />
     </div>
   );
 }
