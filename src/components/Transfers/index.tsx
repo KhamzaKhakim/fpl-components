@@ -48,6 +48,8 @@ export default function Transfers({
 
   const s = createScaler(size);
 
+  console.log(data);
+
   const [squad, setSquad] = useState<Squad>({
     GK: [{ name: "Alisson", price: "5.5", team: "LIV", position: "GK" }],
     DEF: [

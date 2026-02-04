@@ -43,7 +43,7 @@ export default function PlayerCard({
       onDrop: () => setDragging(false),
       getInitialData: () => ({ player, position, index }),
     });
-  }, [player, position, index]);
+  }, [player, position, index, isLoading]);
 
   useEffect(() => {
     const el = ref.current;
@@ -56,7 +56,7 @@ export default function PlayerCard({
       onDrop: () => setIsDraggedOver(false),
       getData: () => ({ player, position, index }),
     });
-  }, [player, position, index]);
+  }, [player, position, index, isLoading]);
 
   if (isLoading) {
     return (
@@ -81,7 +81,7 @@ export default function PlayerCard({
       <Skeleton />
       <div className="relative w-full h-full">
         <Image
-          src={`/shirts/shirt_${player.team}.webp`}
+          src={`/shirts/${player.team}.png`}
           alt="Liv"
           fill
           draggable={false}
