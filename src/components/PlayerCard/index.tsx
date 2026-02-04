@@ -13,14 +13,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 interface PlayerCardProps {
   size: number;
   player: Player;
-  position: Position;
   index: number;
   isLoading: boolean;
 }
 
 export default function PlayerCard({
   player,
-  position,
   index,
   size,
   isLoading,
@@ -41,9 +39,9 @@ export default function PlayerCard({
       element: el,
       onDragStart: () => setDragging(true),
       onDrop: () => setDragging(false),
-      getInitialData: () => ({ player, position, index }),
+      getInitialData: () => ({ player, index }),
     });
-  }, [player, position, index, isLoading]);
+  }, [player, index, isLoading]);
 
   useEffect(() => {
     const el = ref.current;
@@ -54,9 +52,9 @@ export default function PlayerCard({
       onDragEnter: () => setIsDraggedOver(true),
       onDragLeave: () => setIsDraggedOver(false),
       onDrop: () => setIsDraggedOver(false),
-      getData: () => ({ player, position, index }),
+      getData: () => ({ player, index }),
     });
-  }, [player, position, index, isLoading]);
+  }, [player, index, isLoading]);
 
   if (isLoading) {
     return (
@@ -81,7 +79,11 @@ export default function PlayerCard({
       <Skeleton />
       <div className="relative w-full h-full">
         <Image
-          src={`/shirts/${player.team}.png`}
+          src={
+            player.position === "GK"
+              ? `/gk-shirts/${player.teamShortName}.png`
+              : `/shirts/${player.teamShortName}.png`
+          }
           alt="Liv"
           fill
           draggable={false}
@@ -104,7 +106,7 @@ export default function PlayerCard({
           className="text-center bg-gray-200 select-none"
           style={{ fontSize: fs }}
         >
-          {player.price}
+          {+player.price / 10}
         </p>
       </div>
     </div>

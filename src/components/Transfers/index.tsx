@@ -6,6 +6,7 @@ import { createScaler } from "@/src/utils/scaler";
 import { useEffect, useState } from "react";
 import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { isNumber, isPlayer, isPosition } from "@/src/utils/validatations";
+import { teamsById } from "@/src/elysia/modules/utils/store";
 
 //TODO:
 // - They need to be draggable to make substitutions (key functionality)
@@ -24,12 +25,137 @@ export interface Player {
   name: string;
   price: string;
   team: string;
+  teamShortName: string;
   position: Position;
+  gwPoints: number;
 }
 
-export type Position = "GK" | "DEF" | "MID" | "FWD" | "SUB";
+export type Position = "GK" | "DEF" | "MID" | "FWD";
 
-type Squad = Record<Position, Player[]>;
+type Squad = Player[];
+
+const defaultValue: Squad = [
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "GK",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "DEF",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "DEF",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "DEF",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "DEF",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "MID",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "MID",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "MID",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "FWD",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "FWD",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "FWD",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "GK",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "DEF",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "MID",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "MID",
+    gwPoints: 0,
+  },
+];
 
 export default function Transfers({
   size = 600,
@@ -48,33 +174,14 @@ export default function Transfers({
 
   const s = createScaler(size);
 
-  console.log(data);
+  const [squad, setSquad] = useState<Squad>(data?.picks || defaultValue);
 
-  const [squad, setSquad] = useState<Squad>({
-    GK: [{ name: "Alisson", price: "5.5", team: "LIV", position: "GK" }],
-    DEF: [
-      { name: "Frimpong", price: "5.5", team: "LIV", position: "DEF" },
-      { name: "Konate", price: "5.5", team: "LIV", position: "DEF" },
-      { name: "Van Djik", price: "5.5", team: "LIV", position: "DEF" },
-      { name: "Kerkez", price: "5.5", team: "LIV", position: "DEF" },
-    ],
-    MID: [
-      { name: "Szobo", price: "5.5", team: "LIV", position: "MID" },
-      { name: "Macca", price: "5.5", team: "LIV", position: "MID" },
-      { name: "Wirtz", price: "5.5", team: "LIV", position: "MID" },
-    ],
-    FWD: [
-      { name: "Salah", price: "5.5", team: "LIV", position: "FWD" },
-      { name: "Isak", price: "5.5", team: "LIV", position: "FWD" },
-      { name: "Gakpo", price: "5.5", team: "LIV", position: "FWD" },
-    ],
-    SUB: [
-      { name: "Mamardashvili", price: "5.5", team: "LIV", position: "GK" },
-      { name: "Gomez", price: "5.5", team: "LIV", position: "DEF" },
-      { name: "Grava", price: "5.5", team: "LIV", position: "MID" },
-      { name: "Jones", price: "5.5", team: "LIV", position: "MID" },
-    ],
-  });
+  useEffect(() => {
+    if (data?.picks) {
+      console.log(data.picks);
+      setSquad(data.picks);
+    }
+  }, [data]);
 
   useEffect(() => {
     return monitorForElements({
@@ -85,9 +192,6 @@ export default function Transfers({
         const srcPlayer = source.data.player;
         const destPlayer = destination.data.player;
 
-        const srcPos = source.data.position;
-        const destPos = destination.data.position;
-
         const srcIndex = source.data.index;
         const destIndex = destination.data.index;
 
@@ -95,16 +199,14 @@ export default function Transfers({
           return;
         }
 
-        if (!isPosition(srcPos) || !isPosition(destPos)) return;
-
         if (!isNumber(srcIndex) || !isNumber(destIndex)) return;
 
         setSquad((prev) => {
           const next = structuredClone(prev);
 
-          const temp = next[destPos][destIndex];
-          next[destPos][destIndex] = next[srcPos][srcIndex];
-          next[srcPos][srcIndex] = temp;
+          const temp = next[destIndex];
+          next[destIndex] = next[srcIndex];
+          next[srcIndex] = temp;
 
           return next;
         });
@@ -133,58 +235,66 @@ export default function Transfers({
       >
         {/* GK */}
         <div className="flex justify-center">
-          {squad.GK.map((p, i) => (
-            <PlayerCard
-              key={`${i}-GK`}
-              player={p}
-              size={size}
-              position="GK"
-              index={i}
-              isLoading={isLoading}
-            />
-          ))}
+          {squad
+            .map((p, i) => ({ player: p, idx: i }))
+            .filter((p, i) => p.player.position == "GK" && p.idx < 11)
+            .map((p, i) => (
+              <PlayerCard
+                key={`${i}-GK`}
+                player={p.player}
+                size={size}
+                index={p.idx}
+                isLoading={isLoading}
+              />
+            ))}
         </div>
 
         {/* DEF */}
         <div className="flex justify-around" style={{ paddingInline: s(16) }}>
-          {squad.DEF.map((p, i) => (
-            <PlayerCard
-              key={`${i}-DEF`}
-              player={p}
-              size={size}
-              position="DEF"
-              index={i}
-              isLoading={isLoading}
-            />
-          ))}
+          {squad
+            .map((p, i) => ({ player: p, idx: i }))
+            .filter((p, i) => p.player.position == "DEF" && p.idx < 11)
+            .map((p, i) => (
+              <PlayerCard
+                key={`${i}-DEF`}
+                player={p.player}
+                size={size}
+                index={p.idx}
+                isLoading={isLoading}
+              />
+            ))}
         </div>
 
         {/* MID */}
         <div className="flex justify-around">
-          {squad.MID.map((p, i) => (
-            <PlayerCard
-              key={`${i}-MID`}
-              player={p}
-              size={size}
-              position="MID"
-              index={i}
-              isLoading={isLoading}
-            />
-          ))}
+          {squad
+            .map((p, i) => ({ player: p, idx: i }))
+            .filter((p, i) => p.player.position == "MID" && p.idx < 11)
+            .map((p, i) => (
+              <PlayerCard
+                key={`${i}-MID`}
+                player={p.player}
+                size={size}
+                index={p.idx}
+                isLoading={isLoading}
+              />
+            ))}
         </div>
 
         {/* FWD */}
         <div className="flex justify-around" style={{ paddingInline: s(64) }}>
-          {squad.FWD.map((p, i) => (
-            <PlayerCard
-              key={`${i}-FWD`}
-              player={p}
-              size={size}
-              position="FWD"
-              index={i}
-              isLoading={isLoading}
-            />
-          ))}
+          {squad
+            .map((p, i) => ({ player: p, idx: i }))
+            .filter((p, i) => p.player.position == "FWD" && p.idx < 11)
+            .map((p, i) => (
+              <PlayerCard
+                key={`${i}-FWD`}
+                player={p.player}
+                size={size}
+                index={p.idx}
+                isLoading={isLoading}
+              />
+            ))}
         </div>
       </div>
       <div
@@ -199,16 +309,18 @@ export default function Transfers({
           borderTopRightRadius: s(12),
         }}
       >
-        {squad.SUB.map((p, i) => (
-          <PlayerCard
-            key={`${i}-SUB`}
-            player={p}
-            size={size}
-            position="SUB"
-            index={i}
-            isLoading={isLoading}
-          />
-        ))}
+        {squad
+          .map((p, i) => ({ player: p, idx: i }))
+          .filter((_, i) => i > 10)
+          .map((p, i) => (
+            <PlayerCard
+              key={`${i}-SUB`}
+              player={p.player}
+              size={size}
+              index={p.idx}
+              isLoading={isLoading}
+            />
+          ))}
       </div>
       <div
         className="relative overflow-hidden"

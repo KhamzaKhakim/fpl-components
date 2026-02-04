@@ -15,13 +15,19 @@ export const teams = new Elysia({ prefix: "/teams" })
 
     const ans = await response.json();
 
-    let picks = ans.picks.map((p: any) => ({
-      ...p,
-      ...playersById.get(p?.element),
-      teamName: teamsById.get(p.team),
-      teamShortName: teamsById.get(p.team),
-      position: positionById[p.element_type],
-    }));
+    console.log(ans.picks[0]);
+
+    let picks = ans.picks.map((p: any) => {
+      const player = playersById.get(p?.element);
+      const team = teamsById.get(player?.team!);
+      return {
+        ...p,
+        ...player,
+        teamName: team?.name || "",
+        teamShortName: team?.shortName || "short",
+        position: positionById[p.element_type],
+      };
+    });
 
     return { ...ans, picks };
   });

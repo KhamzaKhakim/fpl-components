@@ -20,11 +20,13 @@ export default function PlannerPage() {
     enabled: !!user.id,
   });
 
-  console.log(JSON.stringify(response?.data));
-
   return (
     <div className="flex justify-center">
-      <Transfers size={600} data={response?.data} isLoading={isLoading} />
+      <Transfers
+        size={600}
+        data={response?.data}
+        isLoading={!response || isLoading}
+      />
     </div>
   );
 }
