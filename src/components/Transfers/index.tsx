@@ -183,36 +183,36 @@ export default function Transfers({
     }
   }, [data]);
 
-  useEffect(() => {
-    return monitorForElements({
-      onDrop({ source, location }) {
-        const destination = location.current.dropTargets[0];
-        if (!destination) return;
+  // useEffect(() => {
+  //   return monitorForElements({
+  //     onDrop({ source, location }) {
+  //       const destination = location.current.dropTargets[0];
+  //       if (!destination) return;
 
-        const srcPlayer = source.data.player;
-        const destPlayer = destination.data.player;
+  //       const srcPlayer = source.data.player;
+  //       const destPlayer = destination.data.player;
 
-        const srcIndex = source.data.index;
-        const destIndex = destination.data.index;
+  //       const srcIndex = source.data.index;
+  //       const destIndex = destination.data.index;
 
-        if (!isPlayer(srcPlayer) || !isPlayer(destPlayer)) {
-          return;
-        }
+  //       if (!isPlayer(srcPlayer) || !isPlayer(destPlayer)) {
+  //         return;
+  //       }
 
-        if (!isNumber(srcIndex) || !isNumber(destIndex)) return;
+  //       if (!isNumber(srcIndex) || !isNumber(destIndex)) return;
 
-        setSquad((prev) => {
-          const next = structuredClone(prev);
+  //       setSquad((prev) => {
+  //         const next = structuredClone(prev);
 
-          const temp = next[destIndex];
-          next[destIndex] = next[srcIndex];
-          next[srcIndex] = temp;
+  //         const temp = next[destIndex];
+  //         next[destIndex] = next[srcIndex];
+  //         next[srcIndex] = temp;
 
-          return next;
-        });
-      },
-    });
-  }, []);
+  //         return next;
+  //       });
+  //     },
+  //   });
+  // }, []);
 
   return (
     <div
