@@ -6,12 +6,10 @@ import {
   draggable,
   dropTargetForElements,
 } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
-import { Player, Position } from "../Transfers";
-import Image from "next/image";
+import { Player } from "../Transfers";
 import { Skeleton } from "@/components/ui/skeleton";
 import { setCustomNativeDragPreview } from "@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview";
 import { centerUnderPointer } from "@atlaskit/pragmatic-drag-and-drop/element/center-under-pointer";
-import styles from "./styles.module.css";
 import { createRoot } from "react-dom/client";
 
 interface PlayerCardProps {
@@ -21,51 +19,6 @@ interface PlayerCardProps {
   isLoading: boolean;
 }
 
-function Preview({ player, size }: { player: Player; size: number }) {
-  const s = createScaler(size);
-  const fs = s(10);
-
-  return (
-    <div
-      className="relative backdrop-blur-md border border-cyan-50 rounded-md overflow-hidden"
-      style={{
-        height: s(96),
-        aspectRatio: "3 / 4",
-      }}
-    >
-      <div className="relative w-full h-full">
-        <Image
-          src={
-            player.position === "GK"
-              ? `/gk-shirts/${player.teamShortName || "ARS"}.png`
-              : `/shirts/${player.teamShortName || "ARS"}.png`
-          }
-          alt={player.teamShortName}
-          fill
-          draggable={false}
-          className="object-contain"
-          loading="eager"
-          sizes="auto"
-          style={{
-            padding: s(4),
-          }}
-        />
-      </div>
-      <div className="h-[30%] absolute bottom-0 w-full">
-        <p
-          className="text-center bg-white rounded-t-sm"
-          style={{ fontSize: fs }}
-        >
-          {player.name}
-        </p>
-        <p className="text-center bg-gray-200" style={{ fontSize: fs }}>
-          {+player.price / 10}
-        </p>
-      </div>
-    </div>
-  );
-}
-
 export default function PlayerCard({
   player,
   index,
@@ -73,6 +26,10 @@ export default function PlayerCard({
   isLoading,
 }: PlayerCardProps) {
   const s = createScaler(size);
+  const src =
+    player.position === "GK"
+      ? `/gk-shirts/${player.teamShortName || "ARS"}.png`
+      : `/shirts/${player.teamShortName || "ARS"}.png`;
 
   const fs = s(10);
 
@@ -131,7 +88,7 @@ export default function PlayerCard({
 
   return (
     <div
-      className={`relative backdrop-blur-md border border-cyan-50 z-30
+      className={`relative select-none backdrop-blur-md border border-cyan-50 z-30
                   rounded-md overflow-hidden ${dragging && "opacity-20"} ${isDraggedOver && "bg-cyan-400/40 ring-4 ring-cyan-300/60"}`}
       style={{
         height: s(96),
@@ -141,18 +98,11 @@ export default function PlayerCard({
       key={`${player.name}-${player.team}`}
     >
       <div className="relative w-full h-full">
-        <Image
-          src={
-            player.position === "GK"
-              ? `/gk-shirts/${player.teamShortName || "ARS"}.png`
-              : `/shirts/${player.teamShortName || "ARS"}.png`
-          }
+        <img
+          src={src}
           alt={player.teamShortName}
-          fill
           draggable={false}
-          className="object-contain"
-          loading="eager"
-          sizes="auto"
+          className="object-contain w-full h-full"
           style={{
             padding: s(4),
           }}
@@ -161,6 +111,48 @@ export default function PlayerCard({
       <div className="h-[30%] absolute bottom-0 w-full">
         <p
           className=" text-center bg-white rounded-t-sm"
+          style={{ fontSize: fs }}
+        >
+          {player.name}
+        </p>
+        <p className="text-center bg-gray-200" style={{ fontSize: fs }}>
+          {+player.price / 10}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function Preview({ player, size }: { player: Player; size: number }) {
+  const s = createScaler(size);
+  const fs = s(10);
+  const src =
+    player.position === "GK"
+      ? `/gk-shirts/${player.teamShortName || "ARS"}.png`
+      : `/shirts/${player.teamShortName || "ARS"}.png`;
+
+  return (
+    <div
+      className="relative backdrop-blur-md border border-cyan-50 rounded-md overflow-hidden select-none"
+      style={{
+        height: s(96),
+        aspectRatio: "3 / 4",
+      }}
+    >
+      <div className="relative w-full h-full">
+        <img
+          src={src}
+          alt={player.teamShortName}
+          draggable={false}
+          className="object-contain w-full h-full"
+          style={{
+            padding: s(4),
+          }}
+        />
+      </div>
+      <div className="h-[30%] absolute bottom-0 w-full">
+        <p
+          className="text-center bg-white rounded-t-sm"
           style={{ fontSize: fs }}
         >
           {player.name}

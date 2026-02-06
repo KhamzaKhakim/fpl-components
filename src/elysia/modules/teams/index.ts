@@ -29,5 +29,10 @@ export const teams = new Elysia({ prefix: "/teams" })
       };
     });
 
-    return { ...ans, picks };
+    return { ...ans, picks } as {
+      active_chip: any;
+      automatic_subs: any[];
+      entry_history: object;
+      picks: any[];
+    };
   });
