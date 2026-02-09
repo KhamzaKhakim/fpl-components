@@ -1,16 +1,15 @@
 "use client";
 import { createScaler } from "@/src/utils/scaler";
 import { useEffect, useRef, useState } from "react";
-
+import { disableNativeDragPreview } from "@atlaskit/pragmatic-drag-and-drop/element/disable-native-drag-preview";
+import { preventUnhandled } from "@atlaskit/pragmatic-drag-and-drop/prevent-unhandled";
 import {
   draggable,
   dropTargetForElements,
 } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { Player } from "../Transfers";
 import { Skeleton } from "@/components/ui/skeleton";
-import { setCustomNativeDragPreview } from "@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview";
-import { centerUnderPointer } from "@atlaskit/pragmatic-drag-and-drop/element/center-under-pointer";
-import { createRoot } from "react-dom/client";
+import { createPortal } from "react-dom";
 
 interface PlayerCardProps {
   size: number;
@@ -36,6 +35,10 @@ export default function PlayerCard({
   const ref = useRef<HTMLDivElement | null>(null);
   const [dragging, setDragging] = useState<boolean>(false);
   const [isDraggedOver, setIsDraggedOver] = useState(false);
+  const [previewPosition, setPreviewPosition] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
 
   useEffect(() => {
     const el = ref.current;
@@ -43,23 +46,41 @@ export default function PlayerCard({
 
     return draggable({
       element: el,
-      onDragStart: () => setDragging(true),
-      onDrop: () => setDragging(false),
+      onDragStart: ({ location }) => {
+        setDragging(true);
+
+        preventUnhandled.start();
+
+        const { input } = location.initial;
+
+        setPreviewPosition({
+          x: input.clientX,
+          y: input.clientY,
+        });
+      },
+      onDrag: ({ location }) => {
+        const { input } = location.current;
+
+        setPreviewPosition({
+          x: input.clientX,
+          y: input.clientY,
+        });
+
+        if (document.body.style.cursor !== "grabbing") {
+          document.body.style.setProperty("cursor", "grabbing", "important");
+        }
+      },
+      onDrop: () => {
+        setDragging(false);
+        document.body.style.cursor = "";
+
+        preventUnhandled.stop();
+
+        setPreviewPosition(null);
+      },
       getInitialData: () => ({ player, index }),
       onGenerateDragPreview: ({ nativeSetDragImage }) => {
-        setCustomNativeDragPreview({
-          getOffset: centerUnderPointer,
-          render({ container }) {
-            const root = createRoot(container);
-
-            root.render(<Preview player={player} size={size} />);
-
-            return function cleanup() {
-              root.unmount();
-            };
-          },
-          nativeSetDragImage,
-        });
+        disableNativeDragPreview({ nativeSetDragImage });
       },
     });
   }, [player, index]);
@@ -88,7 +109,7 @@ export default function PlayerCard({
 
   return (
     <div
-      className={`relative select-none backdrop-blur-md border border-cyan-50 z-30
+      className={`relative select-none backdrop-blur-md border border-cyan-50 z-30 cursor-grab
                   rounded-md overflow-hidden ${dragging && "opacity-20"} ${isDraggedOver && "bg-cyan-400/40 ring-4 ring-cyan-300/60"}`}
       style={{
         height: s(96),
@@ -119,6 +140,23 @@ export default function PlayerCard({
           {+player.price / 10}
         </p>
       </div>
+      {dragging &&
+        previewPosition &&
+        createPortal(
+          <div
+            style={{
+              position: "fixed",
+              left: `${previewPosition.x}px`,
+              top: `${previewPosition.y}px`,
+              pointerEvents: "none",
+              zIndex: 1000,
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <Preview player={player} size={size} />
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }
@@ -133,7 +171,7 @@ function Preview({ player, size }: { player: Player; size: number }) {
 
   return (
     <div
-      className="relative backdrop-blur-md border border-cyan-50 rounded-md overflow-hidden select-none"
+      className="relative backdrop-blur-md border border-cyan-50 rounded-md overflow-hidden"
       style={{
         height: s(96),
         aspectRatio: "3 / 4",
@@ -145,6 +183,7 @@ function Preview({ player, size }: { player: Player; size: number }) {
           alt={player.teamShortName}
           draggable={false}
           className="object-contain w-full h-full"
+          decoding="sync"
           style={{
             padding: s(4),
           }}

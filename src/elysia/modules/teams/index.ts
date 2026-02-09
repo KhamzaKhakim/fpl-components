@@ -15,8 +15,6 @@ export const teams = new Elysia({ prefix: "/teams" })
 
     const ans = await response.json();
 
-    console.log(ans.picks[0]);
-
     let picks = ans.picks.map((p: any) => {
       const player = playersById.get(p?.element);
       const team = teamsById.get(player?.team!);

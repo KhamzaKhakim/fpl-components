@@ -338,6 +338,9 @@ export default function Transfers({
           style={{
             transform: `rotateX(${rotation}deg)`,
             transformStyle: "preserve-3d",
+            pointerEvents: "none",
+            userSelect: "none",
+            WebkitUserSelect: "none",
           }}
         />
       </div>
