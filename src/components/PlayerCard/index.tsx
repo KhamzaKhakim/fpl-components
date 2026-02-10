@@ -16,7 +16,7 @@ interface PlayerCardProps {
   player: Player;
   index: number;
   isLoading: boolean;
-  canDrop?: boolean;
+  canDrop: boolean;
 }
 
 export default function PlayerCard({
@@ -24,7 +24,7 @@ export default function PlayerCard({
   index,
   size,
   isLoading,
-  canDrop = true,
+  canDrop,
 }: PlayerCardProps) {
   const s = createScaler(size);
   const src =
@@ -94,16 +94,16 @@ export default function PlayerCard({
     return dropTargetForElements({
       element: el,
       onDragEnter: () => setIsDraggedOver(true),
-      // canDrop: ({ source }) => {
-      //   let ans = source.data?.player?.position != "GK" || false;
-      //   setCanDrop(ans);
-      //   return ans;
-      // },
+      canDrop: () => {
+        return canDrop;
+      },
       onDragLeave: () => setIsDraggedOver(false),
-      onDrop: () => setIsDraggedOver(false),
+      onDrop: ({ location }) => {
+        setIsDraggedOver(false);
+      },
       getData: () => ({ player, index }),
     });
-  }, [player, index, isLoading]);
+  }, [player, index, isLoading, canDrop]);
 
   if (isLoading) {
     return (
@@ -117,8 +117,9 @@ export default function PlayerCard({
   return (
     <div
       className={`relative select-none backdrop-blur-md border border-cyan-50 z-30 cursor-grab
-                  rounded-md overflow-hidden ${dragging && "opacity-20"} ${isDraggedOver && "bg-cyan-400/40 ring-4 ring-cyan-300/60"}
-                  ${!canDrop && "bg-gray-500"}`}
+                  rounded-md overflow-hidden transition-opacity duration-300 ease-in-out
+                  ${(dragging || !canDrop) && "opacity-40"}
+                  ${canDrop && isDraggedOver && "bg-cyan-400/40 ring-4 ring-cyan-300/60"}`}
       style={{
         height: s(96),
         aspectRatio: "3 / 4",

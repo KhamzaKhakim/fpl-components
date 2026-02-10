@@ -180,7 +180,8 @@ export default function Transfers({
         setSelectedPlayer(data.index);
       },
       onDrop({ source, location }) {
-        console.log("Drop");
+        const destination = location.current.dropTargets[0];
+        console.log("Drop: " + JSON.stringify(destination?.data));
         setSelectedPlayer(null);
       },
       //   const destination = location.current.dropTargets[0];

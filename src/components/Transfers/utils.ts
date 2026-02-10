@@ -7,6 +7,8 @@ export function canDrop(
 ) {
   if (dragIndex == null) return true;
 
+  if (dragIndex == dropIndex) return false;
+
   const currStartingDefs = squad.filter(
     (v, i) => v.position == "DEF" && i < 11,
   ).length;
