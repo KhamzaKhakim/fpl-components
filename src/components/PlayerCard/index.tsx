@@ -7,15 +7,16 @@ import {
   draggable,
   dropTargetForElements,
 } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
-import { Player } from "../Transfers";
 import { Skeleton } from "@/components/ui/skeleton";
 import { createPortal } from "react-dom";
+import { Player } from "../Transfers/types";
 
 interface PlayerCardProps {
   size: number;
   player: Player;
   index: number;
   isLoading: boolean;
+  canDrop?: boolean;
 }
 
 export default function PlayerCard({
@@ -23,6 +24,7 @@ export default function PlayerCard({
   index,
   size,
   isLoading,
+  canDrop = true,
 }: PlayerCardProps) {
   const s = createScaler(size);
   const src =
@@ -33,7 +35,7 @@ export default function PlayerCard({
   const fs = s(10);
 
   const ref = useRef<HTMLDivElement | null>(null);
-  const [dragging, setDragging] = useState<boolean>(false);
+  const [dragging, setDragging] = useState(false);
   const [isDraggedOver, setIsDraggedOver] = useState(false);
   const [previewPosition, setPreviewPosition] = useState<{
     x: number;
@@ -92,6 +94,11 @@ export default function PlayerCard({
     return dropTargetForElements({
       element: el,
       onDragEnter: () => setIsDraggedOver(true),
+      // canDrop: ({ source }) => {
+      //   let ans = source.data?.player?.position != "GK" || false;
+      //   setCanDrop(ans);
+      //   return ans;
+      // },
       onDragLeave: () => setIsDraggedOver(false),
       onDrop: () => setIsDraggedOver(false),
       getData: () => ({ player, index }),
@@ -110,7 +117,8 @@ export default function PlayerCard({
   return (
     <div
       className={`relative select-none backdrop-blur-md border border-cyan-50 z-30 cursor-grab
-                  rounded-md overflow-hidden ${dragging && "opacity-20"} ${isDraggedOver && "bg-cyan-400/40 ring-4 ring-cyan-300/60"}`}
+                  rounded-md overflow-hidden ${dragging && "opacity-20"} ${isDraggedOver && "bg-cyan-400/40 ring-4 ring-cyan-300/60"}
+                  ${!canDrop && "bg-gray-500"}`}
       style={{
         height: s(96),
         aspectRatio: "3 / 4",
@@ -137,7 +145,7 @@ export default function PlayerCard({
           {player.name}
         </p>
         <p className="text-center bg-gray-200" style={{ fontSize: fs }}>
-          {+player.price / 10}
+          {+player.price / 10} {index}
         </p>
       </div>
       {dragging &&
