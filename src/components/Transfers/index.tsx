@@ -214,7 +214,6 @@ export default function Transfers({
 
   return (
     <div>
-      <p>{selectedPlayer || "Not selected"}</p>
       <div
         className="relative overflow-x-hidden"
         style={{
