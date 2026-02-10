@@ -157,21 +157,31 @@ export default function Points({
   const s = createScaler(size);
 
   const [squad, setSquad] = useState<Squad>(data?.picks || defaultValue);
+  const [points, setPoints] = useState<number>(0);
 
   useEffect(() => {
     if (data?.picks) {
-      console.log(data.picks);
       setSquad(data.picks);
+      setPoints(data.entry_history.points);
     }
   }, [data]);
 
   return (
-    <div>
+    <div className="pt-6">
+      <div className="flex justify-center">
+        <div
+          className="bg-gray-400/20 flex flex-col justify-center"
+          style={{ height: s(84), width: s(84), borderRadius: s(12) }}
+        >
+          <p className="text-center">Points:</p>
+          <h1 className="text-center text-4xl">{points}</h1>
+        </div>
+      </div>
       <div
         className="relative overflow-x-hidden"
         style={{
           perspective,
-          margin: s(24),
+          margin: s(12),
         }}
       >
         <div

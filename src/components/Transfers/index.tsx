@@ -169,7 +169,6 @@ export default function Transfers({
 
   useEffect(() => {
     if (data?.picks) {
-      console.log(data.picks);
       setSquad(data.picks);
     }
   }, [data]);
@@ -183,7 +182,6 @@ export default function Transfers({
       onDrop({ source, location }) {
         setSelectedPlayer(null);
         const destination = location.current.dropTargets[0];
-        console.log("Drop: " + JSON.stringify(destination?.data));
 
         if (!destination) return;
 
