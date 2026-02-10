@@ -1,24 +1,297 @@
+"use client";
 import Image from "next/image";
+import PointsCard from "../PointsCard";
+import { mapCoordinates } from "@/src/utils/mapCoordinates";
+import { createScaler } from "@/src/utils/scaler";
+import { useEffect, useState } from "react";
+import { Player } from "../Transfers/types";
 
-//TODO:
-// Should take a list of 15 players (with their team, name, points)
+interface PointsProps {
+  size?: number;
+  perspective?: number;
+  rotation?: number;
+  data: any;
+  isLoading: boolean;
+}
 
-export default function Points() {
+type Squad = Player[];
+
+const defaultValue: Squad = [
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "GK",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "DEF",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "DEF",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "DEF",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "DEF",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "MID",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "MID",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "MID",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "FWD",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "FWD",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "FWD",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "GK",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "DEF",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "MID",
+    gwPoints: 0,
+  },
+  {
+    name: "",
+    price: "45",
+    team: "",
+    teamShortName: "",
+    position: "MID",
+    gwPoints: 0,
+  },
+];
+
+export default function Points({
+  size = 600,
+  perspective = 800,
+  rotation = 30,
+  data,
+  isLoading,
+}: PointsProps) {
+  const { x: leftX, y: topY } = mapCoordinates(
+    0,
+    size,
+    size,
+    rotation,
+    perspective,
+  );
+
+  const s = createScaler(size);
+
+  const [squad, setSquad] = useState<Squad>(data?.picks || defaultValue);
+
+  useEffect(() => {
+    if (data?.picks) {
+      console.log(data.picks);
+      setSquad(data.picks);
+    }
+  }, [data]);
+
   return (
-    <div
-      className="mt-24 flex items-center justify-center"
-      style={{ perspective: "1000px" }}
-    >
-      <Image
-        src={"field.svg"}
-        alt="Football field"
-        height={500}
-        width={500}
+    <div>
+      <div
+        className="relative overflow-x-hidden"
         style={{
-          transform: "rotateX(25deg)",
-          transformStyle: "preserve-3d",
+          perspective,
+          margin: s(24),
         }}
-      />
+      >
+        <div
+          className="absolute z-10 flex flex-col justify-between"
+          style={{
+            top: topY - s(64),
+            left: leftX,
+            height: size - topY,
+            width: size - 2 * leftX,
+            padding: s(16),
+            paddingBottom: s(64),
+          }}
+        >
+          {/* GK */}
+          <div className="flex justify-center">
+            {squad
+              .map((p, i) => ({ player: p, idx: i }))
+              .filter((p, i) => p.player.position == "GK" && p.idx < 11)
+              .map((p, i) => (
+                <PointsCard
+                  key={`${i}-GK`}
+                  player={p.player}
+                  size={size}
+                  isLoading={isLoading}
+                />
+              ))}
+          </div>
+
+          {/* DEF */}
+          <div className="flex justify-around" style={{ paddingInline: s(16) }}>
+            {squad
+              .map((p, i) => ({ player: p, idx: i }))
+              .filter((p, i) => p.player.position == "DEF" && p.idx < 11)
+              .map((p, i) => (
+                <PointsCard
+                  key={`${i}-DEF`}
+                  player={p.player}
+                  size={size}
+                  isLoading={isLoading}
+                />
+              ))}
+          </div>
+
+          {/* MID */}
+          <div className="flex justify-around">
+            {squad
+              .map((p, i) => ({ player: p, idx: i }))
+              .filter((p, i) => p.player.position == "MID" && p.idx < 11)
+              .map((p, i) => (
+                <PointsCard
+                  key={`${i}-MID`}
+                  player={p.player}
+                  size={size}
+                  isLoading={isLoading}
+                />
+              ))}
+          </div>
+
+          {/* FWD */}
+          <div className="flex justify-around" style={{ paddingInline: s(64) }}>
+            {squad
+              .map((p, i) => ({ player: p, idx: i }))
+              .filter((p, i) => p.player.position == "FWD" && p.idx < 11)
+              .map((p, i) => (
+                <PointsCard
+                  key={`${i}-FWD`}
+                  player={p.player}
+                  size={size}
+                  isLoading={isLoading}
+                />
+              ))}
+          </div>
+        </div>
+        <div
+          className="absolute z-50 bg-green-200/30 backdrop-blur-md flex justify-between"
+          style={{
+            padding: s(8),
+            bottom: s(0),
+            height: s(96 + 16),
+            width: s(360),
+            left: s(120),
+            borderTopLeftRadius: s(12),
+            borderTopRightRadius: s(12),
+          }}
+        >
+          {squad
+            .map((p, i) => ({ player: p, idx: i }))
+            .filter((_, i) => i > 10)
+            .map((p, i) => (
+              <PointsCard
+                key={`${i}-SUB`}
+                player={p.player}
+                size={size}
+                isLoading={isLoading}
+              />
+            ))}
+        </div>
+        <div
+          className="relative overflow-hidden"
+          style={{
+            width: size,
+            height: size,
+            perspective,
+          }}
+        >
+          <Image
+            src="field.svg"
+            alt="Football field"
+            width={size}
+            height={size}
+            style={{
+              transform: `rotateX(${rotation}deg)`,
+              transformStyle: "preserve-3d",
+              pointerEvents: "none",
+              userSelect: "none",
+              WebkitUserSelect: "none",
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 }
