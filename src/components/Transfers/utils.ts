@@ -35,7 +35,7 @@ export function canDrop(
     if (dropIndex < 11 && squad[dropIndex].position == "DEF") return false;
   }
 
-  if (currStartingMids == 3) {
+  if (currStartingMids == 2) {
     if (squad[dragIndex].position == "MID" && dragIndex < 11)
       return squad[dropIndex].position == "MID";
 

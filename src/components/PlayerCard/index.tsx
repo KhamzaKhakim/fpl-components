@@ -98,7 +98,7 @@ export default function PlayerCard({
         return canDrop;
       },
       onDragLeave: () => setIsDraggedOver(false),
-      onDrop: ({ location }) => {
+      onDrop: () => {
         setIsDraggedOver(false);
       },
       getData: () => ({ player, index }),
@@ -146,7 +146,7 @@ export default function PlayerCard({
           {player.name}
         </p>
         <p className="text-center bg-gray-200" style={{ fontSize: fs }}>
-          {+player.price / 10} {index}
+          {Number(player.price) / 10}
         </p>
       </div>
       {dragging &&
@@ -206,7 +206,7 @@ function Preview({ player, size }: { player: Player; size: number }) {
           {player.name}
         </p>
         <p className="text-center bg-gray-200" style={{ fontSize: fs }}>
-          {+player.price / 10}
+          {Number(player.price) / 10}
         </p>
       </div>
     </div>

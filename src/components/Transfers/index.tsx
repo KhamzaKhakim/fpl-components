@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { Player } from "./types";
 import { canDrop } from "./utils";
+import { isNumber, isPlayer } from "@/src/utils/validatations";
 
 //TODO:
 // - They need to be draggable to make substitutions (key functionality)
@@ -175,40 +176,39 @@ export default function Transfers({
 
   useEffect(() => {
     return monitorForElements({
-      onDragStart({ source, location }) {
+      onDragStart({ source }) {
         const data = source.data as { index: number; player: Player };
         setSelectedPlayer(data.index);
       },
       onDrop({ source, location }) {
+        setSelectedPlayer(null);
         const destination = location.current.dropTargets[0];
         console.log("Drop: " + JSON.stringify(destination?.data));
-        setSelectedPlayer(null);
+
+        if (!destination) return;
+
+        const srcPlayer = source.data.player;
+        const destPlayer = destination.data.player;
+
+        const srcIndex = source.data.index;
+        const destIndex = destination.data.index;
+
+        if (!isPlayer(srcPlayer) || !isPlayer(destPlayer)) {
+          return;
+        }
+
+        if (!isNumber(srcIndex) || !isNumber(destIndex)) return;
+
+        setSquad((prev) => {
+          const next = structuredClone(prev);
+
+          const temp = next[destIndex];
+          next[destIndex] = next[srcIndex];
+          next[srcIndex] = temp;
+
+          return next;
+        });
       },
-      //   const destination = location.current.dropTargets[0];
-      //   if (!destination) return;
-
-      //   const srcPlayer = source.data.player;
-      //   const destPlayer = destination.data.player;
-
-      //   const srcIndex = source.data.index;
-      //   const destIndex = destination.data.index;
-
-      //   if (!isPlayer(srcPlayer) || !isPlayer(destPlayer)) {
-      //     return;
-      //   }
-
-      //   if (!isNumber(srcIndex) || !isNumber(destIndex)) return;
-
-      //   setSquad((prev) => {
-      //     const next = structuredClone(prev);
-
-      //     const temp = next[destIndex];
-      //     next[destIndex] = next[srcIndex];
-      //     next[srcIndex] = temp;
-
-      //     return next;
-      //   });
-      // },
     });
   }, []);
 
