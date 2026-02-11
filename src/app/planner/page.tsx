@@ -15,7 +15,7 @@ export default function PlannerPage() {
         .teams({
           id: user.id!,
         })
-        .get(),
+        .transfers.get(),
     enabled: !!user.id,
   });
 
