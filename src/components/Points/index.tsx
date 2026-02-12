@@ -157,12 +157,13 @@ export default function Points({
   const s = createScaler(size);
 
   const [squad, setSquad] = useState<Squad>(data?.picks || defaultValue);
+
   const [points, setPoints] = useState<number>(0);
 
   useEffect(() => {
     if (data?.picks) {
       setSquad(data.picks);
-      setPoints(data.entry_history.points);
+      setPoints(data.entryHistory.points);
     }
   }, [data]);
 

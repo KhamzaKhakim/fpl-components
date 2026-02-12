@@ -1,3 +1,6 @@
+import { keysToCamel } from "./shared/utils/objectMapper";
+import camelcaseKeys from "camelcase-keys";
+
 const API_BASE = "https://fantasy.premierleague.com/api/entry";
 
 export async function fplFetch(path: string, options?: RequestInit) {
@@ -13,5 +16,7 @@ export async function fplFetch(path: string, options?: RequestInit) {
     throw new Error(`API error: ${res.status}`);
   }
 
-  return res.json();
+  const data = await res.json();
+
+  return camelcaseKeys(data, { deep: true });
 }

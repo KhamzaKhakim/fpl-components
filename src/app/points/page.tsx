@@ -25,8 +25,6 @@ export default function PointsPage() {
     enabled: !!userId && !!gw?.id,
   });
 
-  console.log(response);
-
   return (
     <div className="flex justify-center">
       <Points

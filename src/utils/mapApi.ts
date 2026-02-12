@@ -1,4 +1,4 @@
-import { Position } from "../components/Transfers";
+import { Position } from "../components/Transfers/types";
 
 export const positionById: Record<number, Position> = {
   1: "GK",

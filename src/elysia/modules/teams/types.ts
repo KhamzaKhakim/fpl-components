@@ -14,3 +14,7 @@ export const teamBody = t.Object({
 });
 
 export type TeamType = typeof teamBody.static;
+
+export const chip = t.UnionEnum(["wildcard", "freehit", "bboost", "3xc"]);
+
+export type ChipType = typeof chip.static;
