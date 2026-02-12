@@ -18,3 +18,12 @@ const teams = (await teamsFile.json()) as TeamType[];
 for (const t of teams) {
   teamsById.set(t.id, t);
 }
+
+export const fixturesById = new Map<number, object>();
+
+const fixturesFile = Bun.file("./public/fixtures.json");
+const fixtures = await fixturesFile.json();
+
+for (const t of fixtures) {
+  fixturesById.set(t.id, t);
+}

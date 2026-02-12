@@ -1,4 +1,9 @@
 import { getCurrentGameweekId } from "@/src/elysia/modules/utils/gameweekUtils";
+import {
+  fixturesById,
+  playersById,
+  teamsById,
+} from "@/src/elysia/modules/utils/store";
 import camelcaseKeys from "camelcase-keys";
 
 export {};
@@ -50,23 +55,48 @@ async function getLivePoints() {
 
   let fixturesJson = await fixtures.json();
 
-  fixturesJson = fixturesJson.elements;
-
   const camelCaseFixturesJson = camelcaseKeys(fixturesJson, { deep: true });
 
   Bun.write("./public/fixtures.json", JSON.stringify(camelCaseFixturesJson));
 
-  //   const fixedLivePoints = [];
-  //   for (const element of camelCaseLiveJson) {
-  //     fixedLivePoints.push({
-  //       id: element.id,
-  //       totalPoints: element.stats.totalPoints,
-  //       finished: true, //bool
-  //       fixtureIds: element.explain.map((v: any) => v.fixture),
-  //       fixtures,
-  //       //   fixturePoints: element.explain.map((v: any) => stats)
-  //     });
-  //   }
+  //TODO: improve this part
+  const fixedLivePoints = camelCaseLiveJson
+    .map((element) => {
+      const player = playersById.get(element.id);
+      if (!player) return null;
+
+      const team = teamsById.get(player.team);
+      if (!team) return null;
+
+      const fixtureIds: number[] = [];
+      const fixtures: string[] = [];
+      const fixturesFinished: boolean[] = [];
+
+      for (const explain of element.explain) {
+        const fixture = fixturesById.get(explain.fixture);
+        if (!fixture) continue;
+
+        fixtureIds.push(fixture.id);
+        fixturesFinished.push(fixture.finished);
+
+        const isHome = fixture.teamH === team.id;
+        const opponentId = isHome ? fixture.teamA : fixture.teamH;
+        const opponent = teamsById.get(opponentId);
+
+        fixtures.push(`${opponent?.shortName ?? "UNK"}(${isHome ? "H" : "A"})`);
+      }
+
+      return {
+        id: element.id,
+        totalPoints: element.stats.totalPoints,
+        fixtureIds,
+        fixtures,
+        fixturesFinished,
+      };
+    })
+    .filter(Boolean);
+
+  Bun.write("./public/fixtures-final.json", JSON.stringify(fixedLivePoints));
 }
 
 console.log("Started live points");
