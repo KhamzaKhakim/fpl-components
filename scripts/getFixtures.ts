@@ -1,7 +1,5 @@
 import camelcaseKeys from "camelcase-keys";
 
-export {};
-
 async function getFixtures() {
   const fixtures = await fetch(
     `https://fantasy.premierleague.com/api/fixtures/`,

@@ -1,3 +1,4 @@
+import { LiveType } from "../../live/types";
 import { FixtureType } from "../fixtures/types";
 import { PlayerType } from "../players/types";
 import { TeamType } from "../teams/types";
@@ -27,4 +28,13 @@ const fixtures = await fixturesFile.json();
 
 for (const t of fixtures) {
   fixturesById.set(t.id, t);
+}
+
+export const livePointsById = new Map<number, LiveType>();
+
+const livePointsFile = Bun.file("./public/live-points.json");
+const livePoints = await livePointsFile.json();
+
+for (const t of livePoints) {
+  livePointsById.set(t.id, t);
 }
