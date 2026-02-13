@@ -8,28 +8,52 @@ import camelcaseKeys from "camelcase-keys";
 
 export {};
 
-type Team = {
-  code: number;
-  draw: number;
-  form: string | null;
+export type FplPlayerStat = {
   id: number;
-  loss: number;
-  name: string;
-  played: number;
-  points: number;
-  position: number;
-  short_name: string;
-  strength: number;
-  team_division: number | null;
-  unavailable: boolean;
-  win: number;
-  strength_overall_home: number;
-  strength_overall_away: number;
-  strength_attack_home: number;
-  strength_attack_away: number;
-  strength_defence_home: number;
-  strength_defence_away: number;
-  pulse_id: number;
+  stats: {
+    minutes: number;
+    goalsScored: number;
+    assists: number;
+    cleanSheets: number;
+    goalsConceded: number;
+    ownGoals: number;
+    penaltiesSaved: number;
+    penaltiesMissed: number;
+    yellowCards: number;
+    redCards: number;
+    saves: number;
+    bonus: number;
+    bps: number;
+    influence: string;
+    creativity: string;
+    threat: string;
+    ictIndex: string;
+    clearancesBlocksInterceptions: number;
+    recoveries: number;
+    tackles: number;
+    defensiveContribution: number;
+    starts: number;
+    expectedGoals: string;
+    expectedAssists: string;
+    expectedGoalInvolvements: string;
+    expectedGoalsConceded: string;
+    totalPoints: number;
+    inDreamTeam: boolean;
+  };
+  explain: {
+    fixture: number;
+    stats: {
+      identifier: string;
+      points: number;
+      value: number;
+      pointsModification: number;
+    }[];
+  }[];
+  modified: boolean;
+};
+
+type LiveResponse = {
+  elements: FplPlayerStat[];
 };
 
 async function getLivePoints() {
@@ -41,26 +65,16 @@ async function getLivePoints() {
     `https://fantasy.premierleague.com/api/event/${gw}/live/`,
   );
 
-  let liveJson = await live.json();
+  let liveResponse = (await live.json()) as LiveResponse;
 
-  liveJson = liveJson.elements;
+  let liveElements = liveResponse.elements;
 
-  const camelCaseLiveJson = camelcaseKeys(liveJson, { deep: true });
+  const camelCaseliveElements = camelcaseKeys(liveElements, { deep: true });
 
-  Bun.write("./public/live.json", JSON.stringify(camelCaseLiveJson));
-
-  const fixtures = await fetch(
-    `https://fantasy.premierleague.com/api/fixtures/`,
-  );
-
-  let fixturesJson = await fixtures.json();
-
-  const camelCaseFixturesJson = camelcaseKeys(fixturesJson, { deep: true });
-
-  Bun.write("./public/fixtures.json", JSON.stringify(camelCaseFixturesJson));
+  Bun.write("./public/live.json", JSON.stringify(camelCaseliveElements));
 
   //TODO: improve this part
-  const fixedLivePoints = camelCaseLiveJson
+  const fixedLivePoints = camelCaseliveElements
     .map((element) => {
       const player = playersById.get(element.id);
       if (!player) return null;
@@ -96,7 +110,7 @@ async function getLivePoints() {
     })
     .filter(Boolean);
 
-  Bun.write("./public/fixtures-final.json", JSON.stringify(fixedLivePoints));
+  Bun.write("./public/live-points.json", JSON.stringify(fixedLivePoints));
 }
 
 console.log("Started live points");

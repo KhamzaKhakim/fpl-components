@@ -1,3 +1,4 @@
+import { FixtureType } from "../fixtures/types";
 import { PlayerType } from "../players/types";
 import { TeamType } from "../teams/types";
 
@@ -19,7 +20,7 @@ for (const t of teams) {
   teamsById.set(t.id, t);
 }
 
-export const fixturesById = new Map<number, object>();
+export const fixturesById = new Map<number, FixtureType>();
 
 const fixturesFile = Bun.file("./public/fixtures.json");
 const fixtures = await fixturesFile.json();

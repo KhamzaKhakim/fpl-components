@@ -36,7 +36,7 @@ export const teams = new Elysia({ prefix: "/teams" })
           ...player,
           teamName: team?.name || "",
           teamShortName: team?.shortName || "short",
-          position: positionById[p.element_type],
+          position: positionById[p.elementType],
         };
       });
 

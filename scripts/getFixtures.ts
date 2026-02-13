@@ -14,6 +14,6 @@ async function getFixtures() {
   Bun.write("./public/fixtures.json", JSON.stringify(camelCaseFixturesJson));
 }
 
-console.log("Started players");
+console.log("Started fixtures");
 await getFixtures();
-console.log("Finished players");
+console.log("Finished fixtures");

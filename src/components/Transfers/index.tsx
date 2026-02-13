@@ -169,6 +169,7 @@ export default function Transfers({
 
   useEffect(() => {
     if (data?.picks) {
+      console.log(data.picks);
       setSquad(data.picks);
     }
   }, [data]);
