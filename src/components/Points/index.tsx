@@ -4,138 +4,183 @@ import PointsCard from "../PointsCard";
 import { mapCoordinates } from "@/src/utils/mapCoordinates";
 import { createScaler } from "@/src/utils/scaler";
 import { useEffect, useState } from "react";
-import { Player } from "../Transfers/types";
+import { TeamsModel } from "@/src/elysia/modules/teams/model";
 
 interface PointsProps {
   size?: number;
   perspective?: number;
   rotation?: number;
-  data: any;
+  data?: TeamsModel.PointsResponse;
   isLoading: boolean;
 }
 
-type Squad = Player[];
+type Squad = TeamsModel.PickType[];
 
 const defaultValue: Squad = [
   {
+    id: 1,
     name: "",
-    price: "45",
-    team: "",
+    team: 1,
     teamShortName: "",
     position: "GK",
     gwPoints: 0,
+    isCaptain: false,
+    isViceCaptain: false,
+    multiplier: 1,
   },
   {
+    id: 1,
     name: "",
-    price: "45",
-    team: "",
+    team: 1,
     teamShortName: "",
     position: "DEF",
     gwPoints: 0,
+    isCaptain: false,
+    isViceCaptain: false,
+    multiplier: 1,
   },
   {
+    id: 1,
     name: "",
-    price: "45",
-    team: "",
+    team: 1,
     teamShortName: "",
     position: "DEF",
     gwPoints: 0,
+    isCaptain: false,
+    isViceCaptain: false,
+    multiplier: 1,
   },
   {
+    id: 1,
     name: "",
-    price: "45",
-    team: "",
+    team: 1,
     teamShortName: "",
     position: "DEF",
     gwPoints: 0,
+    isCaptain: false,
+    isViceCaptain: false,
+    multiplier: 1,
   },
   {
+    id: 1,
     name: "",
-    price: "45",
-    team: "",
+    team: 1,
     teamShortName: "",
     position: "DEF",
     gwPoints: 0,
+    isCaptain: false,
+    isViceCaptain: false,
+    multiplier: 1,
   },
   {
+    id: 1,
     name: "",
-    price: "45",
-    team: "",
+    team: 1,
     teamShortName: "",
     position: "MID",
     gwPoints: 0,
+    isCaptain: false,
+    isViceCaptain: false,
+    multiplier: 1,
   },
   {
+    id: 1,
     name: "",
-    price: "45",
-    team: "",
+    team: 1,
     teamShortName: "",
     position: "MID",
     gwPoints: 0,
+    isCaptain: false,
+    isViceCaptain: false,
+    multiplier: 1,
   },
   {
+    id: 1,
     name: "",
-    price: "45",
-    team: "",
+    team: 1,
     teamShortName: "",
     position: "MID",
     gwPoints: 0,
+    isCaptain: false,
+    isViceCaptain: false,
+    multiplier: 1,
   },
   {
+    id: 1,
     name: "",
-    price: "45",
-    team: "",
+    team: 1,
     teamShortName: "",
     position: "FWD",
     gwPoints: 0,
+    isCaptain: false,
+    isViceCaptain: false,
+    multiplier: 1,
   },
   {
+    id: 1,
     name: "",
-    price: "45",
-    team: "",
+    team: 1,
     teamShortName: "",
     position: "FWD",
     gwPoints: 0,
+    isCaptain: false,
+    isViceCaptain: false,
+    multiplier: 1,
   },
   {
+    id: 1,
     name: "",
-    price: "45",
-    team: "",
+    team: 1,
     teamShortName: "",
     position: "FWD",
     gwPoints: 0,
+    isCaptain: false,
+    isViceCaptain: false,
+    multiplier: 1,
   },
   {
+    id: 1,
     name: "",
-    price: "45",
-    team: "",
+    team: 1,
     teamShortName: "",
     position: "GK",
     gwPoints: 0,
+    isCaptain: false,
+    isViceCaptain: false,
+    multiplier: 1,
   },
   {
+    id: 1,
     name: "",
-    price: "45",
-    team: "",
+    team: 1,
     teamShortName: "",
     position: "DEF",
     gwPoints: 0,
+    isCaptain: false,
+    isViceCaptain: false,
+    multiplier: 1,
   },
   {
+    id: 1,
     name: "",
-    price: "45",
-    team: "",
+    team: 1,
+    teamShortName: "",
+    position: "DEF",
+    gwPoints: 0,
+    isCaptain: false,
+    isViceCaptain: false,
+    multiplier: 1,
+  },
+  {
+    id: 1,
+    name: "",
+    team: 1,
     teamShortName: "",
     position: "MID",
     gwPoints: 0,
-  },
-  {
-    name: "",
-    price: "45",
-    team: "",
-    teamShortName: "",
-    position: "MID",
-    gwPoints: 0,
+    isCaptain: false,
+    isViceCaptain: false,
+    multiplier: 1,
   },
 ];
 
@@ -163,7 +208,7 @@ export default function Points({
   useEffect(() => {
     if (data?.picks) {
       setSquad(data.picks);
-      setPoints(data.entryHistory.points);
+      setPoints(data.totalPoints);
     }
   }, [data]);
 

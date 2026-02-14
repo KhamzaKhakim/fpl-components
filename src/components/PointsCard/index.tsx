@@ -2,10 +2,11 @@
 import { createScaler } from "@/src/utils/scaler";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Player } from "../Transfers/types";
+import { TeamsModel } from "@/src/elysia/modules/teams/model";
 
 interface PointsCardProps {
   size: number;
-  player: Player;
+  player: TeamsModel.PickType;
   isLoading: boolean;
 }
 

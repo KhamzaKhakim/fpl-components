@@ -34,7 +34,7 @@ export namespace FplModel {
     value: t.Number(),
   });
 
-  const PickSchema = t.Object({
+  export const PickSchema = t.Object({
     element: t.Number(),
     elementType: t.Number(),
     isCaptain: t.Boolean(),
@@ -51,4 +51,5 @@ export namespace FplModel {
   });
 
   export type PicksResponse = typeof PicksResponseSchema.static;
+  export type FplPicksType = typeof PickSchema.static;
 }

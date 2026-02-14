@@ -1,7 +1,8 @@
 export interface Player {
+  id: number;
   name: string;
-  price: string;
   team: string;
+  // teamName: string;
   teamShortName: string;
   position: Position;
   gwPoints: number;

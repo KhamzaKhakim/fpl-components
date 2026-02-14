@@ -11,13 +11,15 @@ export const teams = new Elysia({ prefix: "/teams" })
   .get("/", () => file("./public/teams.json"))
   // TODO: add typing
   .get(
-    "/:id/points/:gw?",
+    "/:id/points/:gw",
     async ({ params: { id, gw } }) => {
-      let gameweek = gw;
+      let currGw = await getCurrentGameweekId();
 
-      if (!gameweek) gameweek = await getCurrentGameweekId();
+      if (currGw == gw) {
+        return TeamsService.getPoints({ id, gw: currGw });
+      }
 
-      return TeamsService.getPoints({ id, gw: gameweek });
+      return TeamsService.getPoints({ id, gw });
     },
     {
       params: TeamsModel.PointsBodySchema,

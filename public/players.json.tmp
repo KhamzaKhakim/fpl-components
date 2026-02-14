@@ -1394,7 +1394,7 @@
     "name": "Hill",
     "team": 4,
     "teamCode": 91,
-    "selectedByPercent": "3.0",
+    "selectedByPercent": "3.1",
     "gwPoints": 9,
     "totalPoints": 59,
     "price": 40
@@ -2754,7 +2754,7 @@
     "name": "Palmer",
     "team": 7,
     "teamCode": 8,
-    "selectedByPercent": "14.9",
+    "selectedByPercent": "15.0",
     "gwPoints": 12,
     "totalPoints": 79,
     "price": 106
@@ -2874,7 +2874,7 @@
     "name": "João Pedro",
     "team": 7,
     "teamCode": 8,
-    "selectedByPercent": "45.4",
+    "selectedByPercent": "45.5",
     "gwPoints": 10,
     "totalPoints": 132,
     "price": 77
@@ -3424,7 +3424,7 @@
     "name": "Pickford",
     "team": 9,
     "teamCode": 11,
-    "selectedByPercent": "13.7",
+    "selectedByPercent": "13.6",
     "gwPoints": 1,
     "totalPoints": 108,
     "price": 56
@@ -3914,7 +3914,7 @@
     "name": "Wilson",
     "team": 10,
     "teamCode": 54,
-    "selectedByPercent": "20.6",
+    "selectedByPercent": "20.5",
     "gwPoints": 2,
     "totalPoints": 120,
     "price": 60
@@ -4514,7 +4514,7 @@
     "name": "Virgil",
     "team": 12,
     "teamCode": 14,
-    "selectedByPercent": "21.4",
+    "selectedByPercent": "21.5",
     "gwPoints": 17,
     "totalPoints": 111,
     "price": 59
@@ -4654,7 +4654,7 @@
     "name": "Szoboszlai",
     "team": 12,
     "teamCode": 14,
-    "selectedByPercent": "5.3",
+    "selectedByPercent": "5.4",
     "gwPoints": 0,
     "totalPoints": 97,
     "price": 67
@@ -4814,7 +4814,7 @@
     "name": "Semenyo",
     "team": 13,
     "teamCode": 43,
-    "selectedByPercent": "49.5",
+    "selectedByPercent": "49.6",
     "gwPoints": 14,
     "totalPoints": 153,
     "price": 79
@@ -4984,7 +4984,7 @@
     "name": "Foden",
     "team": 13,
     "teamCode": 43,
-    "selectedByPercent": "10.0",
+    "selectedByPercent": "9.9",
     "gwPoints": 5,
     "totalPoints": 108,
     "price": 82
@@ -5014,7 +5014,7 @@
     "name": "Cherki",
     "team": 13,
     "teamCode": 43,
-    "selectedByPercent": "9.1",
+    "selectedByPercent": "9.0",
     "gwPoints": 1,
     "totalPoints": 90,
     "price": 65
@@ -5824,7 +5824,7 @@
     "name": "Bruno G.",
     "team": 15,
     "teamCode": 4,
-    "selectedByPercent": "12.2",
+    "selectedByPercent": "12.1",
     "gwPoints": 3,
     "totalPoints": 134,
     "price": 70
@@ -6934,7 +6934,7 @@
     "name": "Pedro Porro",
     "team": 18,
     "teamCode": 6,
-    "selectedByPercent": "9.7",
+    "selectedByPercent": "9.6",
     "gwPoints": 0,
     "totalPoints": 79,
     "price": 52
@@ -7004,7 +7004,7 @@
     "name": "Van de Ven",
     "team": 18,
     "teamCode": 6,
-    "selectedByPercent": "23.8",
+    "selectedByPercent": "23.7",
     "gwPoints": 3,
     "totalPoints": 100,
     "price": 45
@@ -7214,7 +7214,7 @@
     "name": "Richarlison",
     "team": 18,
     "teamCode": 6,
-    "selectedByPercent": "5.5",
+    "selectedByPercent": "5.4",
     "gwPoints": 0,
     "totalPoints": 75,
     "price": 63
@@ -7484,7 +7484,7 @@
     "name": "Souček",
     "team": 19,
     "teamCode": 21,
-    "selectedByPercent": "0.2",
+    "selectedByPercent": "0.3",
     "gwPoints": 9,
     "totalPoints": 61,
     "price": 57

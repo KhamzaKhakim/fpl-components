@@ -5,7 +5,6 @@ import { useGameweek } from "@/src/context/gameweek/useGameweek";
 import { useUser } from "@/src/context/user/useUser";
 import { client } from "@/src/elysia/client";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
 
 export default function PointsPage() {
   const { id: userId } = useUser();
@@ -29,7 +28,8 @@ export default function PointsPage() {
     <div className="flex justify-center">
       <Points
         size={600}
-        data={response?.data}
+        // TODO: fix this part
+        data={response?.data || undefined}
         isLoading={!response || isLoading}
       />
     </div>

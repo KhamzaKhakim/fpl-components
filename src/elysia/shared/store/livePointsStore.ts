@@ -2,7 +2,7 @@ import camelcaseKeys from "camelcase-keys";
 import { getCurrentGameweekId } from "../../modules/utils/gameweekUtils";
 import { getFixtureById } from "./fixturesStore";
 import { getPlayerById } from "./playersStore";
-import { LiveType } from "../../modules/live/types";
+import { LiveType } from "../../modules/live/model";
 import { getTeamById } from "./teamsStore";
 
 const LIVE_POINTS_FILE = "./public/livePoints.json";
