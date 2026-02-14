@@ -1,10 +1,11 @@
 import { Elysia, file, t } from "elysia";
 import { getCurrentGameweekId } from "../utils/gameweekUtils";
-import { playersById, teamsById } from "../utils/store";
 import { positionById } from "@/src/utils/mapApi";
 import { fplFetch } from "../../fplClient";
 import { TeamsModel } from "./model";
 import { TeamsService } from "./service";
+import { getPlayerById } from "../../shared/store/playersStore";
+import { getTeamById } from "../../shared/store/teamsStore";
 
 export const teams = new Elysia({ prefix: "/teams" })
   .get("/", () => file("./public/teams.json"))
@@ -29,8 +30,8 @@ export const teams = new Elysia({ prefix: "/teams" })
       const ans = await fplFetch(`/${id}/event/${gameweek}/picks/`);
 
       let picks = ans.picks.map((p: any) => {
-        const player = playersById.get(p?.element);
-        const team = teamsById.get(player?.team!);
+        const player = getPlayerById(p?.element);
+        const team = getTeamById(player?.team!);
         return {
           ...p,
           ...player,

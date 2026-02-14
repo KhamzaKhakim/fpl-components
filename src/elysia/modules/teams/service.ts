@@ -1,8 +1,9 @@
 import { positionById } from "@/src/utils/mapApi";
 import { fplFetch } from "../../fplClient";
-import { playersById, teamsById } from "../utils/store";
 import { TeamsModel } from "./model";
 import { FplService } from "../../shared/service/fpl/service";
+import { getPlayerById } from "../../shared/store/playersStore";
+import { getTeamById } from "../../shared/store/teamsStore";
 
 export abstract class TeamsService {
   static async getPoints({
@@ -14,8 +15,8 @@ export abstract class TeamsService {
     )) as TeamsModel.PointsResponse;
 
     let picks = res.picks.map((p: any) => {
-      const player = playersById.get(p?.element);
-      const team = teamsById.get(player?.team!);
+      const player = getPlayerById(p?.element);
+      const team = getTeamById(player?.team!);
       return {
         ...p,
         ...player,
