@@ -6,6 +6,7 @@ import { TeamsModel } from "./model";
 import { TeamsService } from "./service";
 import { getPlayerById } from "../../shared/store/playersStore";
 import { getTeamById } from "../../shared/store/teamsStore";
+import { LiveService } from "../live/service";
 
 export const teams = new Elysia({ prefix: "/teams" })
   .get("/", () => file("./public/teams.json"))
@@ -16,10 +17,16 @@ export const teams = new Elysia({ prefix: "/teams" })
       let currGw = await getCurrentGameweekId();
 
       if (currGw == gw) {
-        return TeamsService.getPoints({ id, gw: currGw });
+        return {
+          live: "true" as const,
+          data: await LiveService.getPoints({ id, gw: currGw }),
+        };
       }
 
-      return TeamsService.getPoints({ id, gw });
+      return {
+        live: "false" as const,
+        data: await TeamsService.getPoints({ id, gw }),
+      };
     },
     {
       params: TeamsModel.PointsBodySchema,

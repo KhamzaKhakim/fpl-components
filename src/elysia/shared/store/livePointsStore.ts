@@ -2,13 +2,13 @@ import camelcaseKeys from "camelcase-keys";
 import { getCurrentGameweekId } from "../../modules/utils/gameweekUtils";
 import { getFixtureById } from "./fixturesStore";
 import { getPlayerById } from "./playersStore";
-import { LiveType } from "../../modules/live/model";
 import { getTeamById } from "./teamsStore";
+import { LiveModel } from "../../modules/live/model";
 
 const LIVE_POINTS_FILE = "./public/livePoints.json";
 const UPDATE_INTERVAL_MS = 60 * 60 * 1000; // 1 hour
 
-let livePointsById = new Map<number, LiveType>();
+let livePointsById = new Map<number, LiveModel.LiveType>();
 let isUpdating = false;
 let lastUpdateTime = 0;
 
@@ -60,7 +60,7 @@ type LiveResponse = {
   elements: FplPlayerStat[];
 };
 
-async function fetchLivePoints(): Promise<LiveType[]> {
+async function fetchLivePoints(): Promise<LiveModel.LiveType[]> {
   try {
     const gw = await getCurrentGameweekId();
 
@@ -110,11 +110,11 @@ async function fetchLivePoints(): Promise<LiveType[]> {
 
         return {
           id: element.id,
-          totalPoints: element.stats.totalPoints,
+          gwPoints: element.stats.totalPoints,
           fixtureIds,
           fixtures,
           fixturesFinished,
-        };
+        } satisfies LiveModel.LiveType;
       })
       .filter((p) => p != null);
 
@@ -146,7 +146,7 @@ async function updateLivePoints(): Promise<void> {
     await Bun.write(LIVE_POINTS_FILE, await Bun.file(tempFile).text());
 
     // Update in-memory Map
-    const newMap = new Map<number, LiveType>();
+    const newMap = new Map<number, LiveModel.LiveType>();
     for (const team of livePoints) {
       newMap.set(team.id, team);
     }
@@ -168,7 +168,7 @@ async function updateLivePoints(): Promise<void> {
 async function initializelivePoints(): Promise<void> {
   try {
     const livePointsFile = Bun.file(LIVE_POINTS_FILE);
-    const livePoints = (await livePointsFile.json()) as LiveType[];
+    const livePoints = (await livePointsFile.json()) as LiveModel.LiveType[];
 
     for (const fixture of livePoints) {
       livePointsById.set(fixture.id, fixture);
@@ -206,11 +206,11 @@ await initializelivePoints();
 startPeriodicUpdates();
 
 // Export getter function instead of raw Map
-export function getLivePointById(id: number): LiveType | undefined {
+export function getLivePointById(id: number): LiveModel.LiveType | undefined {
   return livePointsById.get(id);
 }
 
-export function getAlLivePoints(): LiveType[] {
+export function getAlLivePoints(): LiveModel.LiveType[] {
   return Array.from(livePointsById.values());
 }
 

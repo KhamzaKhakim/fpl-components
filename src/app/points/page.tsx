@@ -29,7 +29,8 @@ export default function PointsPage() {
       <Points
         size={600}
         // TODO: fix this part
-        data={response?.data || undefined}
+        live={response?.data?.live == "true"}
+        data={response?.data?.data}
         isLoading={!response || isLoading}
       />
     </div>

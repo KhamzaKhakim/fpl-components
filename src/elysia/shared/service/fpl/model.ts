@@ -52,4 +52,7 @@ export namespace FplModel {
 
   export type PicksResponse = typeof PicksResponseSchema.static;
   export type FplPicksType = typeof PickSchema.static;
+
+  export const ChipEnum = t.UnionEnum(["wildcard", "freehit", "bboost", "3xc"]);
+  export const PositionEnum = t.UnionEnum(["GK", "DEF", "MID", "FWD"]);
 }

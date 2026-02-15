@@ -1,33 +1,57 @@
 import { positionById } from "@/src/utils/mapApi";
-import { fplFetch } from "../../fplClient";
 import { FplService } from "../../shared/service/fpl/service";
 import { getPlayerById } from "../../shared/store/playersStore";
 import { getTeamById } from "../../shared/store/teamsStore";
-import { TeamsModel } from "../teams/model";
+import { FplModel } from "../../shared/service/fpl/model";
+import { LiveModel } from "./model";
+import { getLivePointById } from "../../shared/store/livePointsStore";
 
 export abstract class LiveService {
   static async getPoints({
     id,
     gw,
-  }: TeamsModel.PointsBody): Promise<TeamsModel.PointsResponse> {
+  }: LiveModel.PointsBody): Promise<LiveModel.LivePointsResponse> {
     const res = await FplService.getPicks({ id, gw });
 
-    let picks = res.picks.map((p: any) => {
-      const player = getPlayerById(p?.element);
-      const team = getTeamById(player?.team!);
-      return {
-        ...p,
-        ...player,
-        teamName: team?.name || "",
-        teamShortName: team?.shortName || "short",
-        position: positionById[p.elementType],
-      };
-    });
+    let picks: LiveModel.LivePickType[] = res.picks.map(
+      (p: FplModel.FplPicksType) => {
+        const player = getPlayerById(p.element);
 
+        if (!player) throw new Error(`Player by id ${p.element} not found`);
+
+        const team = getTeamById(player.team);
+
+        if (!team) throw new Error(`Team by id ${player.team} not found`);
+
+        const livePoint = getLivePointById(p.element);
+
+        if (!livePoint)
+          throw new Error(
+            `Live point for player with id ${p.element} not found`,
+          );
+
+        const pick: LiveModel.LivePickType = {
+          id: p.element,
+          name: player.name,
+          team: player.team,
+          teamShortName: team.shortName,
+          gwPoints: player.gwPoints,
+          position: positionById[p.elementType],
+          isCaptain: p.isCaptain,
+          isViceCaptain: p.isViceCaptain,
+          multiplier: p.multiplier,
+          fixtureIds: livePoint.fixtureIds,
+          fixtures: livePoint.fixtures,
+          fixturesFinished: livePoint.fixturesFinished,
+        };
+
+        return pick;
+      },
+    );
     return {
       activeChip: res.activeChip,
-      totalPoints: res.entryHistory.totalPoints,
+      totalPoints: res.entryHistory.points,
       picks,
-    } as TeamsModel.PointsResponse;
+    };
   }
 }

@@ -7,7 +7,7 @@
     "selectedByPercent": "35.3",
     "gwPoints": 2,
     "totalPoints": 108,
-    "price": 59
+    "price": 60
   },
   {
     "id": 2,
@@ -194,7 +194,7 @@
     "name": "Rice",
     "team": 1,
     "teamCode": 3,
-    "selectedByPercent": "35.4",
+    "selectedByPercent": "35.3",
     "gwPoints": 4,
     "totalPoints": 138,
     "price": 76
@@ -364,7 +364,7 @@
     "name": "Martinez",
     "team": 2,
     "teamCode": 7,
-    "selectedByPercent": "3.9",
+    "selectedByPercent": "4.0",
     "gwPoints": 8,
     "totalPoints": 92,
     "price": 50
@@ -514,7 +514,7 @@
     "name": "Rogers",
     "team": 2,
     "teamCode": 7,
-    "selectedByPercent": "30.5",
+    "selectedByPercent": "30.6",
     "gwPoints": 2,
     "totalPoints": 125,
     "price": 76
@@ -1724,7 +1724,7 @@
     "name": "Rayan",
     "team": 4,
     "teamCode": 91,
-    "selectedByPercent": "0.7",
+    "selectedByPercent": "0.8",
     "gwPoints": 6,
     "totalPoints": 19,
     "price": 55
@@ -1804,7 +1804,7 @@
     "name": "Collins",
     "team": 5,
     "teamCode": 94,
-    "selectedByPercent": "3.1",
+    "selectedByPercent": "3.0",
     "gwPoints": 0,
     "totalPoints": 92,
     "price": 50
@@ -2084,7 +2084,7 @@
     "name": "Thiago",
     "team": 5,
     "teamCode": 94,
-    "selectedByPercent": "30.0",
+    "selectedByPercent": "30.1",
     "gwPoints": 2,
     "totalPoints": 133,
     "price": 70
@@ -2524,7 +2524,7 @@
     "name": "Welbeck",
     "team": 6,
     "teamCode": 36,
-    "selectedByPercent": "3.7",
+    "selectedByPercent": "3.6",
     "gwPoints": 2,
     "totalPoints": 73,
     "price": 61
@@ -2644,7 +2644,7 @@
     "name": "Cucurella",
     "team": 7,
     "teamCode": 8,
-    "selectedByPercent": "17.1",
+    "selectedByPercent": "17.0",
     "gwPoints": 1,
     "totalPoints": 90,
     "price": 61
@@ -2754,7 +2754,7 @@
     "name": "Palmer",
     "team": 7,
     "teamCode": 8,
-    "selectedByPercent": "15.0",
+    "selectedByPercent": "15.1",
     "gwPoints": 12,
     "totalPoints": 79,
     "price": 106
@@ -2874,7 +2874,7 @@
     "name": "João Pedro",
     "team": 7,
     "teamCode": 8,
-    "selectedByPercent": "45.5",
+    "selectedByPercent": "45.6",
     "gwPoints": 10,
     "totalPoints": 132,
     "price": 77
@@ -3244,7 +3244,7 @@
     "name": "Mateta",
     "team": 8,
     "teamCode": 31,
-    "selectedByPercent": "7.2",
+    "selectedByPercent": "7.1",
     "gwPoints": 0,
     "totalPoints": 84,
     "price": 75
@@ -3294,7 +3294,7 @@
     "name": "Strand Larsen",
     "team": 8,
     "teamCode": 31,
-    "selectedByPercent": "1.7",
+    "selectedByPercent": "1.8",
     "gwPoints": 13,
     "totalPoints": 53,
     "price": 61
@@ -3464,7 +3464,7 @@
     "name": "Tarkowski",
     "team": 9,
     "teamCode": 11,
-    "selectedByPercent": "12.2",
+    "selectedByPercent": "12.1",
     "gwPoints": 1,
     "totalPoints": 117,
     "price": 57
@@ -4654,7 +4654,7 @@
     "name": "Szoboszlai",
     "team": 12,
     "teamCode": 14,
-    "selectedByPercent": "5.4",
+    "selectedByPercent": "5.5",
     "gwPoints": 0,
     "totalPoints": 97,
     "price": 67
@@ -4814,7 +4814,7 @@
     "name": "Semenyo",
     "team": 13,
     "teamCode": 43,
-    "selectedByPercent": "49.6",
+    "selectedByPercent": "49.7",
     "gwPoints": 14,
     "totalPoints": 153,
     "price": 79
@@ -4834,7 +4834,7 @@
     "name": "Guéhi",
     "team": 13,
     "teamCode": 43,
-    "selectedByPercent": "36.7",
+    "selectedByPercent": "36.8",
     "gwPoints": 7,
     "totalPoints": 124,
     "price": 52
@@ -5114,7 +5114,7 @@
     "name": "Haaland",
     "team": 13,
     "teamCode": 43,
-    "selectedByPercent": "68.7",
+    "selectedByPercent": "68.6",
     "gwPoints": 5,
     "totalPoints": 187,
     "price": 149
@@ -5314,7 +5314,7 @@
     "name": "Maguire",
     "team": 14,
     "teamCode": 1,
-    "selectedByPercent": "1.6",
+    "selectedByPercent": "1.7",
     "gwPoints": 2,
     "totalPoints": 52,
     "price": 43
@@ -5824,7 +5824,7 @@
     "name": "Bruno G.",
     "team": 15,
     "teamCode": 4,
-    "selectedByPercent": "12.1",
+    "selectedByPercent": "11.8",
     "gwPoints": 3,
     "totalPoints": 134,
     "price": 70
@@ -6774,7 +6774,7 @@
     "name": "Xhaka",
     "team": 17,
     "teamCode": 56,
-    "selectedByPercent": "3.6",
+    "selectedByPercent": "3.5",
     "gwPoints": 0,
     "totalPoints": 90,
     "price": 51
@@ -6937,7 +6937,7 @@
     "selectedByPercent": "9.6",
     "gwPoints": 0,
     "totalPoints": 79,
-    "price": 52
+    "price": 51
   },
   {
     "id": 569,
@@ -7494,7 +7494,7 @@
     "name": "Summerville",
     "team": 19,
     "teamCode": 21,
-    "selectedByPercent": "2.5",
+    "selectedByPercent": "2.6",
     "gwPoints": 3,
     "totalPoints": 77,
     "price": 56
@@ -8094,7 +8094,7 @@
     "name": "Mané",
     "team": 20,
     "teamCode": 39,
-    "selectedByPercent": "3.1",
+    "selectedByPercent": "3.0",
     "gwPoints": 2,
     "totalPoints": 44,
     "price": 46

@@ -1,12 +1,12 @@
 "use client";
 import { createScaler } from "@/src/utils/scaler";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Player } from "../Transfers/types";
 import { TeamsModel } from "@/src/elysia/modules/teams/model";
+import { LiveModel } from "@/src/elysia/modules/live/model";
 
 interface PointsCardProps {
   size: number;
-  player: TeamsModel.PickType;
+  player: TeamsModel.PickType | LiveModel.LivePickType;
   isLoading: boolean;
 }
 
@@ -61,9 +61,19 @@ export default function PointsCard({
         >
           {player.name}
         </p>
-        <p className="text-center bg-gray-200" style={{ fontSize: fs }}>
-          {Number(player.gwPoints)}
-        </p>
+        {"fixtures" in player && (
+          <p
+            className={`text-center ${player.fixturesFinished.every((f) => f) ? "bg-gray-800 text-white" : "bg-gray-200"}`}
+            style={{ fontSize: fs }}
+          >
+            {Number(player.gwPoints)}
+          </p>
+        )}
+        {!("fixtures" in player) && (
+          <p className="text-center bg-gray-200" style={{ fontSize: fs }}>
+            {Number(player.gwPoints)}
+          </p>
+        )}
       </div>
     </div>
   );
