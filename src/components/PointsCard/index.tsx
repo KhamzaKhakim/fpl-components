@@ -23,6 +23,7 @@ export default function PointsCard({
       : `/shirts/${player.teamShortName || "ARS"}.png`;
 
   const fs = s(10);
+  const fsPoints = s(8);
 
   if (isLoading) {
     return (
@@ -31,6 +32,22 @@ export default function PointsCard({
         style={{ height: s(96), aspectRatio: "3 / 4" }}
       />
     );
+  }
+
+  let display: string | number;
+  let finished = false;
+
+  if ("fixtures" in player) {
+    if (player.fixturesFinished.every(Boolean)) {
+      display = player.gwPoints;
+      finished = true;
+    } else if (player.minutes.every((m) => m === 0)) {
+      display = player.fixtures.join(", ");
+    } else {
+      display = `${player.gwPoints}, ${player.fixtures[1]}`;
+    }
+  } else {
+    display = player.gwPoints;
   }
 
   return (
@@ -61,19 +78,12 @@ export default function PointsCard({
         >
           {player.name}
         </p>
-        {"fixtures" in player && (
-          <p
-            className={`text-center ${player.fixturesFinished.every((f) => f) ? "bg-gray-800 text-white" : "bg-gray-200"}`}
-            style={{ fontSize: fs }}
-          >
-            {Number(player.gwPoints)}
-          </p>
-        )}
-        {!("fixtures" in player) && (
-          <p className="text-center bg-gray-200" style={{ fontSize: fs }}>
-            {Number(player.gwPoints)}
-          </p>
-        )}
+        <p
+          className={`flex justify-center items-center text-center ${finished ? "bg-gray-800 text-white" : "bg-gray-200"}`}
+          style={{ fontSize: fsPoints, height: "50%" }}
+        >
+          {display}
+        </p>
       </div>
     </div>
   );

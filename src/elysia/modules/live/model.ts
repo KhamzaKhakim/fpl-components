@@ -13,6 +13,7 @@ export namespace LiveModel {
     id: t.Number(),
     gwPoints: t.Number(),
     fixtureIds: t.Array(t.Number()),
+    minutes: t.Array(t.Number()),
     fixtures: t.Array(t.String()),
     fixturesFinished: t.Array(t.Boolean()),
   });
@@ -32,6 +33,7 @@ export namespace LiveModel {
     fixtureIds: t.Array(t.Number()),
     fixtures: t.Array(t.String()),
     fixturesFinished: t.Array(t.Boolean()),
+    minutes: t.Array(t.Number()),
   });
 
   export const LivePointsResponseSchema = t.Object({

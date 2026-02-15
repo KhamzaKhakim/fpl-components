@@ -43,6 +43,7 @@ export abstract class LiveService {
           fixtureIds: livePoint.fixtureIds,
           fixtures: livePoint.fixtures,
           fixturesFinished: livePoint.fixturesFinished,
+          minutes: livePoint.minutes,
         };
 
         return pick;

@@ -91,6 +91,7 @@ async function fetchLivePoints(): Promise<LiveModel.LiveType[]> {
         const fixtureIds: number[] = [];
         const fixtures: string[] = [];
         const fixturesFinished: boolean[] = [];
+        const minutes: number[] = [];
 
         for (const explain of element.explain) {
           const fixture = getFixtureById(explain.fixture);
@@ -98,6 +99,7 @@ async function fetchLivePoints(): Promise<LiveModel.LiveType[]> {
 
           fixtureIds.push(fixture.id);
           fixturesFinished.push(fixture.finished);
+          minutes.push(fixture.minutes);
 
           const isHome = fixture.teamH === team.id;
           const opponentId = isHome ? fixture.teamA : fixture.teamH;
@@ -111,6 +113,7 @@ async function fetchLivePoints(): Promise<LiveModel.LiveType[]> {
         return {
           id: element.id,
           gwPoints: element.stats.totalPoints,
+          minutes,
           fixtureIds,
           fixtures,
           fixturesFinished,
