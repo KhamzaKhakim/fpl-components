@@ -6,6 +6,7 @@ export const eventBody = t.Object({
   deadlinetime: t.String(),
   deadlineTimeEpoch: t.String(),
   isCurrent: t.Boolean(),
+  finished: t.Boolean(),
   highestScore: t.Number(),
 });
 
