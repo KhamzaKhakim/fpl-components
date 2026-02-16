@@ -35,16 +35,17 @@ export default function PointsCard({
   }
 
   let display: string | number;
-  let finished = false;
+  let finished = true;
 
   if ("fixtures" in player) {
     if (player.fixturesFinished.every(Boolean)) {
       display = player.gwPoints;
-      finished = true;
     } else if (player.minutes.every((m) => m === 0)) {
       display = player.fixtures.join(", ");
+      finished = false;
     } else {
       display = `${player.gwPoints}, ${player.fixtures[1]}`;
+      finished = false;
     }
   } else {
     display = player.gwPoints;

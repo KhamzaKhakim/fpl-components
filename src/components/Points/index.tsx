@@ -14,6 +14,8 @@ interface PointsProps {
   live: boolean;
   data?: TeamsModel.PointsResponse | LiveModel.LivePointsResponse;
   isLoading: boolean;
+  gameweek: number | null;
+  setGameweek: (gw: number) => void;
 }
 
 type Squad = TeamsModel.PickType[] | LiveModel.LivePickType[];
@@ -24,6 +26,8 @@ export default function Points({
   rotation = 30,
   data,
   isLoading,
+  gameweek,
+  setGameweek,
 }: PointsProps) {
   const { x: leftX, y: topY } = mapCoordinates(
     0,
@@ -48,14 +52,17 @@ export default function Points({
 
   return (
     <div className="pt-6">
-      <div className="flex justify-center">
+      <div className="flex justify-center gap-4">
+        <button>Prev</button>
         <div
           className="bg-gray-400/20 flex flex-col justify-center"
           style={{ height: s(84), width: s(84), borderRadius: s(12) }}
         >
+          {/* <p className="text-center text-xs">Gameweek {gameweek}</p> */}
           <p className="text-center">Points:</p>
           <h1 className="text-center text-4xl">{points}</h1>
         </div>
+        <button>Next</button>
       </div>
       <div
         className="relative overflow-x-hidden"

@@ -1,7 +1,6 @@
-import { keysToCamel } from "./shared/utils/objectMapper";
 import camelcaseKeys from "camelcase-keys";
 
-const API_BASE = "https://fantasy.premierleague.com/api/entry";
+const API_BASE = "https://fantasy.premierleague.com/api/";
 
 export async function fplFetch(path: string, options?: RequestInit) {
   console.log(`${API_BASE}${path}`);

@@ -6,6 +6,6 @@ export abstract class FplService {
     id,
     gw,
   }: FplModel.PicksBody): Promise<FplModel.PicksResponse> {
-    return fplFetch(`/${id}/event/${gw}/picks/`);
+    return fplFetch(`/entry/${id}/event/${gw}/picks/`);
   }
 }

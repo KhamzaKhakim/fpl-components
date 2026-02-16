@@ -314,7 +314,7 @@
     "name": "Gyökeres",
     "team": 1,
     "teamCode": 3,
-    "selectedByPercent": "13.3",
+    "selectedByPercent": "13.2",
     "gwPoints": 1,
     "totalPoints": 76,
     "price": 88
@@ -404,7 +404,7 @@
     "name": "Cash",
     "team": 2,
     "teamCode": 7,
-    "selectedByPercent": "11.4",
+    "selectedByPercent": "11.3",
     "gwPoints": 0,
     "totalPoints": 99,
     "price": 49
@@ -1004,7 +1004,7 @@
     "name": "Worrall",
     "team": 3,
     "teamCode": 90,
-    "selectedByPercent": "0.1",
+    "selectedByPercent": "0.2",
     "gwPoints": 3,
     "totalPoints": 10,
     "price": 38
@@ -1874,7 +1874,7 @@
     "name": "Van den Berg",
     "team": 5,
     "teamCode": 94,
-    "selectedByPercent": "0.6",
+    "selectedByPercent": "0.7",
     "gwPoints": 6,
     "totalPoints": 68,
     "price": 45
@@ -2734,7 +2734,7 @@
     "name": "Acheampong",
     "team": 7,
     "teamCode": 8,
-    "selectedByPercent": "1.4",
+    "selectedByPercent": "1.5",
     "gwPoints": 0,
     "totalPoints": 32,
     "price": 37
@@ -4394,7 +4394,7 @@
     "name": "Calvert-Lewin",
     "team": 11,
     "teamCode": 2,
-    "selectedByPercent": "11.0",
+    "selectedByPercent": "10.9",
     "gwPoints": 0,
     "totalPoints": 102,
     "price": 59
@@ -4514,7 +4514,7 @@
     "name": "Virgil",
     "team": 12,
     "teamCode": 14,
-    "selectedByPercent": "21.5",
+    "selectedByPercent": "21.6",
     "gwPoints": 17,
     "totalPoints": 111,
     "price": 59
@@ -5114,7 +5114,7 @@
     "name": "Haaland",
     "team": 13,
     "teamCode": 43,
-    "selectedByPercent": "68.6",
+    "selectedByPercent": "68.5",
     "gwPoints": 5,
     "totalPoints": 187,
     "price": 149
@@ -5384,7 +5384,7 @@
     "name": "B.Fernandes",
     "team": 14,
     "teamCode": 1,
-    "selectedByPercent": "36.6",
+    "selectedByPercent": "36.7",
     "gwPoints": 2,
     "totalPoints": 143,
     "price": 98
@@ -5824,7 +5824,7 @@
     "name": "Bruno G.",
     "team": 15,
     "teamCode": 4,
-    "selectedByPercent": "11.7",
+    "selectedByPercent": "11.6",
     "gwPoints": 3,
     "totalPoints": 134,
     "price": 70
