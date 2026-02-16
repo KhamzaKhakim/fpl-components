@@ -4,8 +4,8 @@ import { getFixtureById } from "./fixturesStore";
 import { getPlayerById } from "./playersStore";
 import { getTeamById } from "./teamsStore";
 import { LiveModel } from "../../modules/live/model";
+import { redis } from "bun";
 
-const LIVE_POINTS_FILE = "./public/livePoints.json";
 const UPDATE_INTERVAL_MS = 60 * 60 * 1000; // 1 hour
 
 let livePointsById = new Map<number, LiveModel.LiveType>();
@@ -129,7 +129,6 @@ async function fetchLivePoints(): Promise<LiveModel.LiveType[]> {
 }
 
 async function updateLivePoints(): Promise<void> {
-  // Prevent concurrent updates
   if (isUpdating) {
     console.log("Update already in progress, skipping");
     return;
@@ -138,27 +137,19 @@ async function updateLivePoints(): Promise<void> {
   isUpdating = true;
 
   try {
+    const gw = await getCurrentGameweekId();
+
+    if (!gw) throw new Error("Current gameweek not found");
+
     console.log("Updating livePoints...");
     const livePoints = await fetchLivePoints();
-
-    // Write to temp file first, then move (atomic operation)
-    const tempFile = `${LIVE_POINTS_FILE}.tmp`;
-    await Bun.write(tempFile, JSON.stringify(livePoints, null, 2));
-
-    // Move temp to actual file (atomic on most filesystems)
-    await Bun.write(LIVE_POINTS_FILE, await Bun.file(tempFile).text());
-
-    // Update in-memory Map
-    const newMap = new Map<number, LiveModel.LiveType>();
-    for (const team of livePoints) {
-      newMap.set(team.id, team);
-    }
-    livePointsById = newMap;
-
-    lastUpdateTime = Date.now();
-    console.log(
-      `livePoints updated successfully at ${new Date().toISOString()}`,
+    redis.hset(
+      `gw-${gw}`,
+      Object.fromEntries(
+        livePoints.map((p) => [p.id.toString(), JSON.stringify(p)]),
+      ),
     );
+    console.log("Finished gw: " + gw);
   } catch (error) {
     console.error("Failed to update livePoints:", error);
     // Map remains unchanged on error
@@ -167,29 +158,6 @@ async function updateLivePoints(): Promise<void> {
   }
 }
 
-// Load livePoints on startup
-async function initializelivePoints(): Promise<void> {
-  try {
-    const livePointsFile = Bun.file(LIVE_POINTS_FILE);
-    const livePoints = (await livePointsFile.json()) as LiveModel.LiveType[];
-
-    for (const fixture of livePoints) {
-      livePointsById.set(fixture.id, fixture);
-    }
-
-    console.log(`Loaded ${livePointsById.size} livePoints from file`);
-    lastUpdateTime = Date.now();
-  } catch (error) {
-    console.warn(
-      "Could not load livePoints from file, starting with empty map:",
-      error,
-    );
-    // Try to fetch immediately if file doesn't exist
-    await updateLivePoints();
-  }
-}
-
-// Start periodic updates
 function startPeriodicUpdates(): void {
   // Update immediately on start
   updateLivePoints().catch(console.error);
@@ -204,24 +172,21 @@ function startPeriodicUpdates(): void {
   );
 }
 
-// Initialize and start
-await initializelivePoints();
 startPeriodicUpdates();
 
-// Export getter function instead of raw Map
-export function getLivePointById(id: number): LiveModel.LiveType | undefined {
-  return livePointsById.get(id);
-}
+export async function getLivePoint({
+  gw,
+  player,
+}: {
+  gw: number;
+  player: number;
+}) {
+  const livePointString = await redis.hget(`gw-${gw}`, player.toString());
 
-export function getAlLivePoints(): LiveModel.LiveType[] {
-  return Array.from(livePointsById.values());
-}
+  if (!livePointString)
+    throw new Error(`Live point not found for gw: ${gw}, player: ${player}`);
 
-export function getLastUpdateTime(): number {
-  return lastUpdateTime;
-}
+  const livePoint = JSON.parse(livePointString) as LiveModel.LiveType;
 
-// For debugging
-export function forceUpdate(): Promise<void> {
-  return updateLivePoints();
+  return livePoint;
 }

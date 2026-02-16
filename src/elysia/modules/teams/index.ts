@@ -14,18 +14,9 @@ export const teams = new Elysia({ prefix: "/teams" })
   .get(
     "/:id/points/:gw",
     async ({ params: { id, gw } }) => {
-      let currGw = await getCurrentGameweekId();
-
-      if (currGw == gw) {
-        return {
-          live: "true" as const,
-          data: await LiveService.getPoints({ id, gw: currGw }),
-        };
-      }
-
       return {
-        live: "false" as const,
-        data: await TeamsService.getPoints({ id, gw }),
+        live: "true" as const,
+        data: await LiveService.getPoints({ id, gw }),
       };
     },
     {
@@ -36,6 +27,7 @@ export const teams = new Elysia({ prefix: "/teams" })
     "/:id/transfers",
     async ({ params: { id } }) => {
       const gameweek = await getCurrentGameweekId();
+
       const ans = await fplFetch(`/${id}/event/${gameweek}/picks/`);
 
       let picks = ans.picks.map((p: any) => {

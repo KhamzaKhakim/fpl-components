@@ -119,11 +119,12 @@ async function fetchLivePoints() {
         })
         .filter((p) => p != null);
 
-      const hashData = Object.fromEntries(
-        fixedLivePoints.map((p) => [p.id.toString(), JSON.stringify(p)]),
+      redis.hset(
+        `gw-${events[i].id}`,
+        Object.fromEntries(
+          fixedLivePoints.map((p) => [p.id.toString(), JSON.stringify(p)]),
+        ),
       );
-
-      redis.hset(`gw-${events[i].id}`, hashData);
       console.log("Finished gw: " + events[i].id);
     }
   } catch (error) {
