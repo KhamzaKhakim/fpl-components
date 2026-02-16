@@ -14,10 +14,7 @@ export const teams = new Elysia({ prefix: "/teams" })
   .get(
     "/:id/points/:gw",
     async ({ params: { id, gw } }) => {
-      return {
-        live: "true" as const,
-        data: await LiveService.getPoints({ id, gw }),
-      };
+      return LiveService.getPoints({ id, gw });
     },
     {
       params: TeamsModel.PointsBodySchema,

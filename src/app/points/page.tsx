@@ -20,7 +20,7 @@ export default function PointsPage() {
   }, [gw]);
 
   const { data: response, isLoading } = useQuery({
-    queryKey: ["points", gw],
+    queryKey: ["points", gameweek],
     queryFn: () =>
       client
         .teams({
@@ -40,8 +40,7 @@ export default function PointsPage() {
         gameweek={gameweek}
         setGameweek={setGameweek}
         // TODO: fix this part
-        live={response?.data?.live == "true"}
-        data={response?.data?.data}
+        data={response?.data}
         isLoading={!response || isLoading}
       />
     </div>

@@ -4,21 +4,19 @@ import PointsCard from "../PointsCard";
 import { mapCoordinates } from "@/src/utils/mapCoordinates";
 import { createScaler } from "@/src/utils/scaler";
 import { useEffect, useState } from "react";
-import { TeamsModel } from "@/src/elysia/modules/teams/model";
 import { LiveModel } from "@/src/elysia/modules/live/model";
 
 interface PointsProps {
   size?: number;
   perspective?: number;
   rotation?: number;
-  live: boolean;
-  data?: TeamsModel.PointsResponse | LiveModel.LivePointsResponse;
+  data?: LiveModel.LivePointsResponse | null;
   isLoading: boolean;
   gameweek: number | null;
-  setGameweek: (gw: number) => void;
+  setGameweek: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
-type Squad = TeamsModel.PickType[] | LiveModel.LivePickType[];
+type Squad = LiveModel.LivePickType[];
 
 export default function Points({
   size = 600,
@@ -53,16 +51,20 @@ export default function Points({
   return (
     <div className="pt-6">
       <div className="flex justify-center gap-4">
-        <button>Prev</button>
+        <button disabled={!gameweek} onClick={() => setGameweek((g) => g! - 1)}>
+          Prev
+        </button>
         <div
           className="bg-gray-400/20 flex flex-col justify-center"
-          style={{ height: s(84), width: s(84), borderRadius: s(12) }}
+          style={{ height: s(88), width: s(88), borderRadius: s(12) }}
         >
-          {/* <p className="text-center text-xs">Gameweek {gameweek}</p> */}
+          <p className="text-center text-xs">Gameweek {gameweek}</p>
           <p className="text-center">Points:</p>
           <h1 className="text-center text-4xl">{points}</h1>
         </div>
-        <button>Next</button>
+        <button disabled={!gameweek} onClick={() => setGameweek((g) => g! + 1)}>
+          Next
+        </button>
       </div>
       <div
         className="relative overflow-x-hidden"
@@ -204,6 +206,10 @@ const defaultValue: Squad = [
     isCaptain: false,
     isViceCaptain: false,
     multiplier: 1,
+    fixtures: [],
+    fixtureIds: [],
+    fixturesFinished: [],
+    minutes: [],
   },
   {
     id: 1,
@@ -215,6 +221,10 @@ const defaultValue: Squad = [
     isCaptain: false,
     isViceCaptain: false,
     multiplier: 1,
+    fixtures: [],
+    fixtureIds: [],
+    fixturesFinished: [],
+    minutes: [],
   },
   {
     id: 1,
@@ -226,6 +236,10 @@ const defaultValue: Squad = [
     isCaptain: false,
     isViceCaptain: false,
     multiplier: 1,
+    fixtures: [],
+    fixtureIds: [],
+    fixturesFinished: [],
+    minutes: [],
   },
   {
     id: 1,
@@ -237,6 +251,10 @@ const defaultValue: Squad = [
     isCaptain: false,
     isViceCaptain: false,
     multiplier: 1,
+    fixtures: [],
+    fixtureIds: [],
+    fixturesFinished: [],
+    minutes: [],
   },
   {
     id: 1,
@@ -248,6 +266,10 @@ const defaultValue: Squad = [
     isCaptain: false,
     isViceCaptain: false,
     multiplier: 1,
+    fixtures: [],
+    fixtureIds: [],
+    fixturesFinished: [],
+    minutes: [],
   },
   {
     id: 1,
@@ -259,6 +281,10 @@ const defaultValue: Squad = [
     isCaptain: false,
     isViceCaptain: false,
     multiplier: 1,
+    fixtures: [],
+    fixtureIds: [],
+    fixturesFinished: [],
+    minutes: [],
   },
   {
     id: 1,
@@ -270,6 +296,10 @@ const defaultValue: Squad = [
     isCaptain: false,
     isViceCaptain: false,
     multiplier: 1,
+    fixtures: [],
+    fixtureIds: [],
+    fixturesFinished: [],
+    minutes: [],
   },
   {
     id: 1,
@@ -281,6 +311,10 @@ const defaultValue: Squad = [
     isCaptain: false,
     isViceCaptain: false,
     multiplier: 1,
+    fixtures: [],
+    fixtureIds: [],
+    fixturesFinished: [],
+    minutes: [],
   },
   {
     id: 1,
@@ -292,6 +326,10 @@ const defaultValue: Squad = [
     isCaptain: false,
     isViceCaptain: false,
     multiplier: 1,
+    fixtures: [],
+    fixtureIds: [],
+    fixturesFinished: [],
+    minutes: [],
   },
   {
     id: 1,
@@ -303,6 +341,10 @@ const defaultValue: Squad = [
     isCaptain: false,
     isViceCaptain: false,
     multiplier: 1,
+    fixtures: [],
+    fixtureIds: [],
+    fixturesFinished: [],
+    minutes: [],
   },
   {
     id: 1,
@@ -314,6 +356,10 @@ const defaultValue: Squad = [
     isCaptain: false,
     isViceCaptain: false,
     multiplier: 1,
+    fixtures: [],
+    fixtureIds: [],
+    fixturesFinished: [],
+    minutes: [],
   },
   {
     id: 1,
@@ -325,6 +371,10 @@ const defaultValue: Squad = [
     isCaptain: false,
     isViceCaptain: false,
     multiplier: 1,
+    fixtures: [],
+    fixtureIds: [],
+    fixturesFinished: [],
+    minutes: [],
   },
   {
     id: 1,
@@ -336,6 +386,10 @@ const defaultValue: Squad = [
     isCaptain: false,
     isViceCaptain: false,
     multiplier: 1,
+    fixtures: [],
+    fixtureIds: [],
+    fixturesFinished: [],
+    minutes: [],
   },
   {
     id: 1,
@@ -347,6 +401,10 @@ const defaultValue: Squad = [
     isCaptain: false,
     isViceCaptain: false,
     multiplier: 1,
+    fixtures: [],
+    fixtureIds: [],
+    fixturesFinished: [],
+    minutes: [],
   },
   {
     id: 1,
@@ -358,5 +416,9 @@ const defaultValue: Squad = [
     isCaptain: false,
     isViceCaptain: false,
     multiplier: 1,
+    fixtures: [],
+    fixtureIds: [],
+    fixturesFinished: [],
+    minutes: [],
   },
 ];
