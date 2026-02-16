@@ -12,6 +12,7 @@ interface PointsProps {
   rotation?: number;
   data?: LiveModel.LivePointsResponse | null;
   isLoading: boolean;
+  currGameweek?: number;
   gameweek: number | null;
   setGameweek: React.Dispatch<React.SetStateAction<number | null>>;
 }
@@ -24,6 +25,7 @@ export default function Points({
   rotation = 30,
   data,
   isLoading,
+  currGameweek,
   gameweek,
   setGameweek,
 }: PointsProps) {
@@ -50,20 +52,46 @@ export default function Points({
 
   return (
     <div className="pt-6">
-      <div className="flex justify-center gap-4">
-        <button disabled={!gameweek} onClick={() => setGameweek((g) => g! - 1)}>
-          Prev
-        </button>
-        <div
-          className="bg-gray-400/20 flex flex-col justify-center"
-          style={{ height: s(88), width: s(88), borderRadius: s(12) }}
+      <div className="flex justify-center items-center gap-4">
+        <button
+          aria-label="Previous gameweek"
+          disabled={!gameweek || !currGameweek || gameweek === 1}
+          onClick={() => setGameweek((g) => g! - 1)}
+          className={`
+          p-2 rounded-lg transition 
+          ${
+            !gameweek || !currGameweek || gameweek === 1
+              ? "opacity-40 cursor-not-allowed"
+              : "hover:bg-gray-200"
+          }
+          `}
         >
-          <p className="text-center text-xs">Gameweek {gameweek}</p>
-          <p className="text-center">Points:</p>
-          <h1 className="text-center text-4xl">{points}</h1>
+          <img src="./icons/arrow-left.svg" alt="Prev" className="w-5 h-5" />
+        </button>
+
+        <div
+          className="flex flex-col justify-center items-center bg-gray-200/50 text-gray-900 transition"
+          style={{ width: s(88), height: s(88), borderRadius: s(12) }}
+        >
+          <p className="text-center text-sm font-medium">GW {gameweek}</p>
+          <p className="text-center text-xs text-gray-600">points:</p>
+          <h1 className="text-center text-2xl font-bold">{points}</h1>
         </div>
-        <button disabled={!gameweek} onClick={() => setGameweek((g) => g! + 1)}>
-          Next
+
+        <button
+          aria-label="Next gameweek"
+          disabled={!gameweek || !currGameweek || gameweek === currGameweek}
+          onClick={() => setGameweek((g) => g! + 1)}
+          className={`
+            p-2 rounded-lg transition
+            ${
+              !gameweek || !currGameweek || gameweek === currGameweek
+                ? "opacity-40 cursor-not-allowed"
+                : "hover:bg-gray-200"
+            }
+          `}
+        >
+          <img src="./icons/arrow-right.svg" alt="Next" className="w-5 h-5" />
         </button>
       </div>
       <div

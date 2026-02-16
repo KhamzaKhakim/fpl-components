@@ -39,6 +39,7 @@ export default function PointsPage() {
         size={600}
         gameweek={gameweek}
         setGameweek={setGameweek}
+        currGameweek={gw?.id}
         // TODO: fix this part
         data={response?.data}
         isLoading={!response || isLoading}

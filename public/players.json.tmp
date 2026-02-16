@@ -44,7 +44,7 @@
     "name": "Gabriel",
     "team": 1,
     "teamCode": 3,
-    "selectedByPercent": "43.0",
+    "selectedByPercent": "43.1",
     "gwPoints": 3,
     "totalPoints": 138,
     "price": 71
@@ -2374,7 +2374,7 @@
     "name": "Gruda",
     "team": 6,
     "teamCode": 36,
-    "selectedByPercent": "0.1",
+    "selectedByPercent": "0.0",
     "gwPoints": 0,
     "totalPoints": 35,
     "price": 54
@@ -2754,7 +2754,7 @@
     "name": "Palmer",
     "team": 7,
     "teamCode": 8,
-    "selectedByPercent": "15.1",
+    "selectedByPercent": "15.2",
     "gwPoints": 12,
     "totalPoints": 79,
     "price": 106
@@ -4764,7 +4764,7 @@
     "name": "Ekitiké",
     "team": 12,
     "teamCode": 14,
-    "selectedByPercent": "25.4",
+    "selectedByPercent": "25.5",
     "gwPoints": 2,
     "totalPoints": 104,
     "price": 89
@@ -5824,7 +5824,7 @@
     "name": "Bruno G.",
     "team": 15,
     "teamCode": 4,
-    "selectedByPercent": "11.6",
+    "selectedByPercent": "11.5",
     "gwPoints": 3,
     "totalPoints": 134,
     "price": 70
@@ -5974,7 +5974,7 @@
     "name": "Woltemade",
     "team": 15,
     "teamCode": 4,
-    "selectedByPercent": "8.3",
+    "selectedByPercent": "8.2",
     "gwPoints": 1,
     "totalPoints": 84,
     "price": 69
