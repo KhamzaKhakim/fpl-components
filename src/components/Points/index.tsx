@@ -119,7 +119,7 @@ export default function Points({
               .filter((p, i) => p.player.position == "GK" && p.idx < 11)
               .map((p, i) => (
                 <PointsCard
-                  key={`${i}-GK`}
+                  key={`${p.player.id}-${gameweek}-GK`}
                   player={p.player}
                   size={size}
                   isLoading={isLoading}

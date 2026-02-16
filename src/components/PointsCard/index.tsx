@@ -39,12 +39,12 @@ export default function PointsCard({
 
   if ("fixtures" in player) {
     if (player.fixturesFinished.every(Boolean)) {
-      display = player.gwPoints;
+      display = player.gwPoints * player.multiplier;
     } else if (player.minutes.every((m) => m === 0)) {
       display = player.fixtures.join(", ");
       finished = false;
     } else {
-      display = `${player.gwPoints}, ${player.fixtures[1]}`;
+      display = `${player.gwPoints * player.multiplier}, ${player.fixtures[1]}`;
       finished = false;
     }
   } else {
@@ -59,8 +59,9 @@ export default function PointsCard({
         height: s(96),
         aspectRatio: "3 / 4",
       }}
-      key={`${player.name}-${player.team}`}
     >
+      {player.isCaptain && <CaptainBadge s={s} />}
+      {player.isViceCaptain && <ViceCaptainBadge s={s} />}
       <div className="relative w-full h-full">
         <img
           src={src}
@@ -86,6 +87,40 @@ export default function PointsCard({
           {display}
         </p>
       </div>
+    </div>
+  );
+}
+
+function CaptainBadge({ s }: { s: (v: number) => number }) {
+  return (
+    <div
+      className="absolute top-0 left-0 bg-black text-white rounded-4xl flex items-center justify-center"
+      style={{
+        fontSize: s(10),
+        width: s(12),
+        height: s(12),
+        top: s(2),
+        left: s(2),
+      }}
+    >
+      C
+    </div>
+  );
+}
+
+function ViceCaptainBadge({ s }: { s: (v: number) => number }) {
+  return (
+    <div
+      className="absolute top-0 left-0 bg-black text-white rounded-4xl flex items-center justify-center"
+      style={{
+        fontSize: s(10),
+        width: s(12),
+        height: s(12),
+        top: s(2),
+        left: s(2),
+      }}
+    >
+      V
     </div>
   );
 }

@@ -3,7 +3,6 @@ import { getCurrentGameweekId } from "../utils/gameweekUtils";
 import { positionById } from "@/src/utils/mapApi";
 import { fplFetch } from "../../fplClient";
 import { TeamsModel } from "./model";
-import { TeamsService } from "./service";
 import { getPlayerById } from "../../shared/store/playersStore";
 import { getTeamById } from "../../shared/store/teamsStore";
 import { LiveService } from "../live/service";

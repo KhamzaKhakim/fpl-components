@@ -35,7 +35,7 @@ export abstract class LiveService {
         name: player.name,
         team: player.team,
         teamShortName: team.shortName,
-        gwPoints: player.gwPoints,
+        gwPoints: livePoint.gwPoints,
         position: positionById[p.elementType],
         isCaptain: p.isCaptain,
         isViceCaptain: p.isViceCaptain,
