@@ -194,7 +194,7 @@
     "name": "Rice",
     "team": 1,
     "teamCode": 3,
-    "selectedByPercent": "35.3",
+    "selectedByPercent": "35.2",
     "gwPoints": 4,
     "totalPoints": 138,
     "price": 76
@@ -2084,7 +2084,7 @@
     "name": "Thiago",
     "team": 5,
     "teamCode": 94,
-    "selectedByPercent": "30.1",
+    "selectedByPercent": "30.2",
     "gwPoints": 2,
     "totalPoints": 133,
     "price": 70
@@ -2754,7 +2754,7 @@
     "name": "Palmer",
     "team": 7,
     "teamCode": 8,
-    "selectedByPercent": "15.2",
+    "selectedByPercent": "15.3",
     "gwPoints": 12,
     "totalPoints": 79,
     "price": 106
@@ -4514,7 +4514,7 @@
     "name": "Virgil",
     "team": 12,
     "teamCode": 14,
-    "selectedByPercent": "21.6",
+    "selectedByPercent": "21.7",
     "gwPoints": 17,
     "totalPoints": 111,
     "price": 59
@@ -4814,7 +4814,7 @@
     "name": "Semenyo",
     "team": 13,
     "teamCode": 43,
-    "selectedByPercent": "49.8",
+    "selectedByPercent": "49.9",
     "gwPoints": 14,
     "totalPoints": 153,
     "price": 79
@@ -4954,7 +4954,7 @@
     "name": "O'Reilly",
     "team": 13,
     "teamCode": 43,
-    "selectedByPercent": "4.7",
+    "selectedByPercent": "4.8",
     "gwPoints": 13,
     "totalPoints": 100,
     "price": 49
@@ -5824,7 +5824,7 @@
     "name": "Bruno G.",
     "team": 15,
     "teamCode": 4,
-    "selectedByPercent": "11.4",
+    "selectedByPercent": "11.3",
     "gwPoints": 3,
     "totalPoints": 134,
     "price": 70

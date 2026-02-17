@@ -12,16 +12,6 @@ export const teams = new Elysia({ prefix: "/teams" })
   .get("/", () => file("./public/teams.json"))
   // TODO: add typing
   .get(
-    "/:id/points/:gw",
-    async ({ params: { id, gw } }) => {
-      return LiveService.getPoints({ id, gw });
-    },
-    {
-      params: TeamsModel.PointsBodySchema,
-    },
-  )
-  //TODO: create new service
-  .get(
     "/:id/transfers",
     async ({ params: { id } }) => {
       const gameweek = await getCurrentGameweekId();

@@ -20,10 +20,10 @@ export default function PointsPage() {
   }, [gw]);
 
   const { data: response, isLoading } = useQuery({
-    queryKey: ["points", gameweek],
+    queryKey: ["live", gameweek],
     queryFn: () =>
       client
-        .teams({
+        .live({
           id: userId!,
         })
         .points({
