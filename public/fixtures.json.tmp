@@ -15,7 +15,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 3,
-    "teamADifficulty": 4,
+    "teamADifficulty": 5,
     "pulseId": 125097
   },
   {
@@ -713,7 +713,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124792
   },
   {
@@ -1421,7 +1421,7 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
+    "teamHDifficulty": 1,
     "teamADifficulty": 3,
     "pulseId": 124796
   },
@@ -1767,7 +1767,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124795
   },
   {
@@ -2465,7 +2465,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124798
   },
   {
@@ -3187,7 +3187,7 @@
       }
     ],
     "teamHDifficulty": 4,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124799
   },
   {
@@ -3519,7 +3519,7 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
+    "teamHDifficulty": 3,
     "teamADifficulty": 3,
     "pulseId": 124800
   },
@@ -4270,7 +4270,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 4,
+    "teamADifficulty": 5,
     "pulseId": 124808
   },
   {
@@ -4637,7 +4637,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 4,
+    "teamADifficulty": 3,
     "pulseId": 124802
   },
   {
@@ -5002,7 +5002,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124803
   },
   {
@@ -7216,7 +7216,7 @@
         ]
       }
     ],
-    "teamHDifficulty": 4,
+    "teamHDifficulty": 3,
     "teamADifficulty": 4,
     "pulseId": 124809
   },
@@ -7583,7 +7583,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124813
   },
   {
@@ -7984,8 +7984,8 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamHDifficulty": 1,
+    "teamADifficulty": 4,
     "pulseId": 124816
   },
   {
@@ -8730,7 +8730,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124818
   },
   {
@@ -9108,7 +9108,7 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
+    "teamHDifficulty": 3,
     "teamADifficulty": 2,
     "pulseId": 124820
   },
@@ -10879,7 +10879,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124811
   },
   {
@@ -11626,7 +11626,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 4,
+    "teamADifficulty": 3,
     "pulseId": 124822
   },
   {
@@ -13725,7 +13725,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124823
   },
   {
@@ -14061,7 +14061,7 @@
         ]
       }
     ],
-    "teamHDifficulty": 4,
+    "teamHDifficulty": 3,
     "teamADifficulty": 2,
     "pulseId": 124824
   },
@@ -14410,7 +14410,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 4,
+    "teamADifficulty": 5,
     "pulseId": 124828
   },
   {
@@ -14758,7 +14758,7 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
+    "teamHDifficulty": 3,
     "teamADifficulty": 4,
     "pulseId": 124836
   },
@@ -16599,7 +16599,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124837
   },
   {
@@ -17341,7 +17341,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 4,
+    "teamADifficulty": 3,
     "pulseId": 124832
   },
   {
@@ -17715,7 +17715,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124838
   },
   {
@@ -18478,7 +18478,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124842
   },
   {
@@ -18883,7 +18883,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124843
   },
   {
@@ -19259,7 +19259,7 @@
         ]
       }
     ],
-    "teamHDifficulty": 4,
+    "teamHDifficulty": 3,
     "teamADifficulty": 3,
     "pulseId": 124844
   },
@@ -20009,8 +20009,8 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
-    "teamADifficulty": 4,
+    "teamHDifficulty": 1,
+    "teamADifficulty": 5,
     "pulseId": 124847
   },
   {
@@ -21133,7 +21133,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124841
   },
   {
@@ -22243,7 +22243,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 4,
+    "teamADifficulty": 3,
     "pulseId": 124853
   },
   {
@@ -23350,7 +23350,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124858
   },
   {
@@ -23732,8 +23732,8 @@
         ]
       }
     ],
-    "teamHDifficulty": 4,
-    "teamADifficulty": 3,
+    "teamHDifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124855
   },
   {
@@ -24101,8 +24101,8 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamHDifficulty": 1,
+    "teamADifficulty": 4,
     "pulseId": 124852
   },
   {
@@ -25567,7 +25567,7 @@
       }
     ],
     "teamHDifficulty": 4,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124854
   },
   {
@@ -27389,8 +27389,8 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
-    "teamADifficulty": 4,
+    "teamHDifficulty": 3,
+    "teamADifficulty": 5,
     "pulseId": 124866
   },
   {
@@ -27735,7 +27735,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124868
   },
   {
@@ -29907,7 +29907,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124875
   },
   {
@@ -30695,7 +30695,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124878
   },
   {
@@ -31099,8 +31099,8 @@
         ]
       }
     ],
-    "teamHDifficulty": 4,
-    "teamADifficulty": 3,
+    "teamHDifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124874
   },
   {
@@ -31814,7 +31814,7 @@
       }
     ],
     "teamHDifficulty": 4,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124872
   },
   {
@@ -32180,7 +32180,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 4,
+    "teamADifficulty": 3,
     "pulseId": 124873
   },
   {
@@ -32543,7 +32543,7 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
+    "teamHDifficulty": 1,
     "teamADifficulty": 2,
     "pulseId": 124880
   },
@@ -36129,7 +36129,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 4,
+    "teamADifficulty": 5,
     "pulseId": 124886
   },
   {
@@ -36476,8 +36476,8 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamHDifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124888
   },
   {
@@ -37599,7 +37599,7 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
+    "teamHDifficulty": 1,
     "teamADifficulty": 2,
     "pulseId": 124900
   },
@@ -37939,7 +37939,7 @@
       }
     ],
     "teamHDifficulty": 4,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124898
   },
   {
@@ -38276,7 +38276,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124893
   },
   {
@@ -38676,7 +38676,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124891
   },
   {
@@ -39061,7 +39061,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124892
   },
   {
@@ -40141,8 +40141,8 @@
         ]
       }
     ],
-    "teamHDifficulty": 4,
-    "teamADifficulty": 4,
+    "teamHDifficulty": 3,
+    "teamADifficulty": 5,
     "pulseId": 124896
   },
   {
@@ -40864,7 +40864,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 4,
+    "teamADifficulty": 3,
     "pulseId": 124902
   },
   {
@@ -43798,8 +43798,8 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamHDifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124908
   },
   {
@@ -44161,8 +44161,8 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamHDifficulty": 1,
+    "teamADifficulty": 4,
     "pulseId": 124912
   },
   {
@@ -44540,7 +44540,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 4,
+    "teamADifficulty": 5,
     "pulseId": 124916
   },
   {
@@ -44962,7 +44962,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124918
   },
   {
@@ -46416,7 +46416,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124911
   },
   {
@@ -47106,7 +47106,7 @@
         ]
       }
     ],
-    "teamHDifficulty": 4,
+    "teamHDifficulty": 3,
     "teamADifficulty": 2,
     "pulseId": 124920
   },
@@ -47461,7 +47461,7 @@
       }
     ],
     "teamHDifficulty": 4,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124913
   },
   {
@@ -47798,8 +47798,8 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
-    "teamADifficulty": 4,
+    "teamHDifficulty": 3,
+    "teamADifficulty": 3,
     "pulseId": 124922
   },
   {
@@ -51073,7 +51073,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124928
   },
   {
@@ -51429,7 +51429,7 @@
       }
     ],
     "teamHDifficulty": 4,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124931
   },
   {
@@ -51748,7 +51748,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 4,
+    "teamADifficulty": 3,
     "pulseId": 124932
   },
   {
@@ -52489,7 +52489,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 4,
+    "teamADifficulty": 5,
     "pulseId": 124937
   },
   {
@@ -52863,7 +52863,7 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
+    "teamHDifficulty": 1,
     "teamADifficulty": 4,
     "pulseId": 124938
   },
@@ -53622,7 +53622,7 @@
         ]
       }
     ],
-    "teamHDifficulty": 4,
+    "teamHDifficulty": 3,
     "teamADifficulty": 3,
     "pulseId": 124936
   },
@@ -55071,8 +55071,8 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamHDifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124944
   },
   {
@@ -57252,7 +57252,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124949
   },
   {
@@ -57969,7 +57969,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124942
   },
   {
@@ -58374,7 +58374,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124947
   },
   {
@@ -59104,8 +59104,8 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
-    "teamADifficulty": 4,
+    "teamHDifficulty": 1,
+    "teamADifficulty": 3,
     "pulseId": 124952
   },
   {
@@ -59796,7 +59796,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 4,
+    "teamADifficulty": 5,
     "pulseId": 124957
   },
   {
@@ -60540,7 +60540,7 @@
         ]
       }
     ],
-    "teamHDifficulty": 4,
+    "teamHDifficulty": 3,
     "teamADifficulty": 3,
     "pulseId": 124959
   },
@@ -61631,7 +61631,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124951
   },
   {
@@ -62366,7 +62366,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124967
   },
   {
@@ -63459,7 +63459,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124962
   },
   {
@@ -63781,7 +63781,7 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
+    "teamHDifficulty": 3,
     "teamADifficulty": 2,
     "pulseId": 124963
   },
@@ -64840,7 +64840,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124964
   },
   {
@@ -65164,7 +65164,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124969
   },
   {
@@ -66240,7 +66240,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124974
   },
   {
@@ -66572,7 +66572,7 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
+    "teamHDifficulty": 3,
     "teamADifficulty": 3,
     "pulseId": 124978
   },
@@ -67714,7 +67714,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124977
   },
   {
@@ -68731,7 +68731,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124972
   },
   {
@@ -69056,7 +69056,7 @@
       }
     ],
     "teamHDifficulty": 4,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124979
   },
   {
@@ -69433,7 +69433,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124981
   },
   {
@@ -69777,7 +69777,7 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
+    "teamHDifficulty": 1,
     "teamADifficulty": 3,
     "pulseId": 124983
   },
@@ -70499,7 +70499,7 @@
       }
     ],
     "teamHDifficulty": 4,
-    "teamADifficulty": 4,
+    "teamADifficulty": 3,
     "pulseId": 124982
   },
   {
@@ -72268,7 +72268,7 @@
         ]
       }
     ],
-    "teamHDifficulty": 4,
+    "teamHDifficulty": 3,
     "teamADifficulty": 3,
     "pulseId": 124985
   },
@@ -72616,7 +72616,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 4,
+    "teamADifficulty": 5,
     "pulseId": 124987
   },
   {
@@ -73328,7 +73328,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 4,
+    "teamADifficulty": 3,
     "pulseId": 124992
   },
   {
@@ -73680,7 +73680,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 124993
   },
   {
@@ -75097,7 +75097,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 4,
+    "teamADifficulty": 5,
     "pulseId": 124998
   },
   {
@@ -76192,7 +76192,7 @@
         ]
       }
     ],
-    "teamHDifficulty": 4,
+    "teamHDifficulty": 3,
     "teamADifficulty": 5,
     "pulseId": 124991
   },
@@ -76563,7 +76563,7 @@
       }
     ],
     "teamHDifficulty": 4,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125006
   },
   {
@@ -76920,7 +76920,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125003
   },
   {
@@ -77651,7 +77651,7 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
+    "teamHDifficulty": 1,
     "teamADifficulty": 4,
     "pulseId": 125005
   },
@@ -78361,7 +78361,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125008
   },
   {
@@ -79343,8 +79343,8 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamHDifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125001
   },
   {
@@ -81144,7 +81144,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 4,
+    "teamADifficulty": 5,
     "pulseId": 125018
   },
   {
@@ -81512,8 +81512,8 @@
         ]
       }
     ],
-    "teamHDifficulty": 4,
-    "teamADifficulty": 4,
+    "teamHDifficulty": 3,
+    "teamADifficulty": 3,
     "pulseId": 125012
   },
   {
@@ -81853,7 +81853,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125013
   },
   {
@@ -83672,7 +83672,7 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
+    "teamHDifficulty": 3,
     "teamADifficulty": 3,
     "pulseId": 125022
   },
@@ -84815,7 +84815,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125023
   },
   {
@@ -85518,7 +85518,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125021
   },
   {
@@ -85902,7 +85902,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125026
   },
   {
@@ -86984,8 +86984,8 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamHDifficulty": 1,
+    "teamADifficulty": 4,
     "pulseId": 125028
   },
   {
@@ -87712,7 +87712,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125038
   },
   {
@@ -88423,7 +88423,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 4,
+    "teamADifficulty": 3,
     "pulseId": 125032
   },
   {
@@ -89162,7 +89162,7 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
+    "teamHDifficulty": 3,
     "teamADifficulty": 3,
     "pulseId": 125035
   },
@@ -90989,7 +90989,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125043
   },
   {
@@ -92447,7 +92447,7 @@
       }
     ],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125041
   },
   {
@@ -92837,7 +92837,7 @@
       }
     ],
     "teamHDifficulty": 2,
-    "teamADifficulty": 4,
+    "teamADifficulty": 5,
     "pulseId": 125046
   },
   {
@@ -93534,7 +93534,7 @@
         ]
       }
     ],
-    "teamHDifficulty": 2,
+    "teamHDifficulty": 1,
     "teamADifficulty": 3,
     "pulseId": 125044
   },
@@ -93867,8 +93867,8 @@
         ]
       }
     ],
-    "teamHDifficulty": 4,
-    "teamADifficulty": 3,
+    "teamHDifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125048
   },
   {
@@ -94233,7 +94233,7 @@
       }
     ],
     "teamHDifficulty": 4,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125042
   },
   {
@@ -94271,7 +94271,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125051
   },
   {
@@ -94290,7 +94290,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125052
   },
   {
@@ -94308,8 +94308,8 @@
     "teamH": 7,
     "teamHScore": null,
     "stats": [],
-    "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamHDifficulty": 1,
+    "teamADifficulty": 4,
     "pulseId": 125053
   },
   {
@@ -94347,7 +94347,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 3,
-    "teamADifficulty": 4,
+    "teamADifficulty": 5,
     "pulseId": 125056
   },
   {
@@ -94384,7 +94384,7 @@
     "teamH": 16,
     "teamHScore": null,
     "stats": [],
-    "teamHDifficulty": 4,
+    "teamHDifficulty": 3,
     "teamADifficulty": 3,
     "pulseId": 125057
   },
@@ -94404,7 +94404,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125058
   },
   {
@@ -94480,7 +94480,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 2,
-    "teamADifficulty": 4,
+    "teamADifficulty": 3,
     "pulseId": 125062
   },
   {
@@ -94536,7 +94536,7 @@
     "teamH": 15,
     "teamHScore": null,
     "stats": [],
-    "teamHDifficulty": 2,
+    "teamHDifficulty": 3,
     "teamADifficulty": 4,
     "pulseId": 125069
   },
@@ -94613,7 +94613,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125068
   },
   {
@@ -94651,7 +94651,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 3,
-    "teamADifficulty": 4,
+    "teamADifficulty": 3,
     "pulseId": 125072
   },
   {
@@ -94669,7 +94669,7 @@
     "teamH": 9,
     "teamHScore": null,
     "stats": [],
-    "teamHDifficulty": 2,
+    "teamHDifficulty": 1,
     "teamADifficulty": 3,
     "pulseId": 125074
   },
@@ -94707,7 +94707,7 @@
     "teamH": 20,
     "teamHScore": null,
     "stats": [],
-    "teamHDifficulty": 4,
+    "teamHDifficulty": 3,
     "teamADifficulty": 2,
     "pulseId": 125080
   },
@@ -94727,7 +94727,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125071
   },
   {
@@ -94784,7 +94784,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 2,
-    "teamADifficulty": 4,
+    "teamADifficulty": 5,
     "pulseId": 125077
   },
   {
@@ -94883,25 +94883,6 @@
     "pulseId": 125085
   },
   {
-    "code": 2562192,
-    "event": 30,
-    "finished": false,
-    "finishedProvisional": false,
-    "id": 298,
-    "kickoffTime": "2026-03-14T15:00:00Z",
-    "minutes": 0,
-    "provisionalStartTime": false,
-    "started": false,
-    "teamA": 10,
-    "teamAScore": null,
-    "teamH": 16,
-    "teamHScore": null,
-    "stats": [],
-    "teamHDifficulty": 2,
-    "teamADifficulty": 3,
-    "pulseId": 125088
-  },
-  {
     "code": 2562193,
     "event": 30,
     "finished": false,
@@ -94917,7 +94898,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125089
   },
   {
@@ -94936,7 +94917,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125084
   },
   {
@@ -94954,7 +94935,7 @@
     "teamH": 1,
     "teamHScore": null,
     "stats": [],
-    "teamHDifficulty": 2,
+    "teamHDifficulty": 3,
     "teamADifficulty": 5,
     "pulseId": 125081
   },
@@ -94974,8 +94955,27 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125087
+  },
+  {
+    "code": 2562192,
+    "event": 30,
+    "finished": false,
+    "finishedProvisional": false,
+    "id": 298,
+    "kickoffTime": "2026-03-15T14:00:00Z",
+    "minutes": 0,
+    "provisionalStartTime": false,
+    "started": false,
+    "teamA": 10,
+    "teamAScore": null,
+    "teamH": 16,
+    "teamHScore": null,
+    "stats": [],
+    "teamHDifficulty": 2,
+    "teamADifficulty": 3,
+    "pulseId": 125088
   },
   {
     "code": 2562190,
@@ -95012,7 +95012,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125082
   },
   {
@@ -95031,7 +95031,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 3,
-    "teamADifficulty": 4,
+    "teamADifficulty": 3,
     "pulseId": 125092
   },
   {
@@ -95049,7 +95049,7 @@
     "teamH": 6,
     "teamHScore": null,
     "stats": [],
-    "teamHDifficulty": 4,
+    "teamHDifficulty": 3,
     "teamADifficulty": 3,
     "pulseId": 125093
   },
@@ -95068,7 +95068,7 @@
     "teamH": 10,
     "teamHScore": null,
     "stats": [],
-    "teamHDifficulty": 2,
+    "teamHDifficulty": 1,
     "teamADifficulty": 3,
     "pulseId": 125095
   },
@@ -95145,7 +95145,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125091
   },
   {
@@ -95201,8 +95201,8 @@
     "teamH": 5,
     "teamHScore": null,
     "stats": [],
-    "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamHDifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125102
   },
   {
@@ -95240,7 +95240,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 4,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125104
   },
   {
@@ -95297,7 +95297,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125107
   },
   {
@@ -95335,7 +95335,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125109
   },
   {
@@ -95373,7 +95373,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125111
   },
   {
@@ -95392,7 +95392,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125112
   },
   {
@@ -95411,7 +95411,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125113
   },
   {
@@ -95448,7 +95448,7 @@
     "teamH": 9,
     "teamHScore": null,
     "stats": [],
-    "teamHDifficulty": 4,
+    "teamHDifficulty": 3,
     "teamADifficulty": 3,
     "pulseId": 125115
   },
@@ -95487,7 +95487,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 4,
-    "teamADifficulty": 4,
+    "teamADifficulty": 5,
     "pulseId": 125117
   },
   {
@@ -95524,7 +95524,7 @@
     "teamH": 16,
     "teamHScore": null,
     "stats": [],
-    "teamHDifficulty": 2,
+    "teamHDifficulty": 1,
     "teamADifficulty": 3,
     "pulseId": 125119
   },
@@ -95582,7 +95582,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 2,
-    "teamADifficulty": 4,
+    "teamADifficulty": 3,
     "pulseId": 125122
   },
   {
@@ -95677,7 +95677,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125127
   },
   {
@@ -95696,7 +95696,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125128
   },
   {
@@ -95714,7 +95714,7 @@
     "teamH": 19,
     "teamHScore": null,
     "stats": [],
-    "teamHDifficulty": 2,
+    "teamHDifficulty": 3,
     "teamADifficulty": 2,
     "pulseId": 125129
   },
@@ -95772,7 +95772,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125132
   },
   {
@@ -95791,7 +95791,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 3,
-    "teamADifficulty": 4,
+    "teamADifficulty": 3,
     "pulseId": 125133
   },
   {
@@ -95810,7 +95810,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125134
   },
   {
@@ -95829,7 +95829,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125135
   },
   {
@@ -95866,7 +95866,7 @@
     "teamH": 11,
     "teamHScore": null,
     "stats": [],
-    "teamHDifficulty": 2,
+    "teamHDifficulty": 1,
     "teamADifficulty": 3,
     "pulseId": 125137
   },
@@ -95885,8 +95885,8 @@
     "teamH": 14,
     "teamHScore": null,
     "stats": [],
-    "teamHDifficulty": 4,
-    "teamADifficulty": 3,
+    "teamHDifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125138
   },
   {
@@ -95980,7 +95980,7 @@
     "teamH": 8,
     "teamHScore": null,
     "stats": [],
-    "teamHDifficulty": 2,
+    "teamHDifficulty": 3,
     "teamADifficulty": 3,
     "pulseId": 125143
   },
@@ -96038,7 +96038,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 3,
-    "teamADifficulty": 4,
+    "teamADifficulty": 5,
     "pulseId": 125146
   },
   {
@@ -96095,7 +96095,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125148
   },
   {
@@ -96132,7 +96132,7 @@
     "teamH": 1,
     "teamHScore": null,
     "stats": [],
-    "teamHDifficulty": 2,
+    "teamHDifficulty": 1,
     "teamADifficulty": 5,
     "pulseId": 125151
   },
@@ -96151,8 +96151,8 @@
     "teamH": 2,
     "teamHScore": null,
     "stats": [],
-    "teamHDifficulty": 4,
-    "teamADifficulty": 3,
+    "teamHDifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125152
   },
   {
@@ -96171,7 +96171,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 4,
-    "teamADifficulty": 4,
+    "teamADifficulty": 3,
     "pulseId": 125153
   },
   {
@@ -96190,7 +96190,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125154
   },
   {
@@ -96209,7 +96209,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125155
   },
   {
@@ -96266,7 +96266,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 2,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125158
   },
   {
@@ -96418,7 +96418,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 3,
-    "teamADifficulty": 4,
+    "teamADifficulty": 5,
     "pulseId": 125166
   },
   {
@@ -96455,7 +96455,7 @@
     "teamH": 18,
     "teamHScore": null,
     "stats": [],
-    "teamHDifficulty": 2,
+    "teamHDifficulty": 3,
     "teamADifficulty": 3,
     "pulseId": 125169
   },
@@ -96475,7 +96475,7 @@
     "teamHScore": null,
     "stats": [],
     "teamHDifficulty": 3,
-    "teamADifficulty": 3,
+    "teamADifficulty": 4,
     "pulseId": 125168
   },
   {

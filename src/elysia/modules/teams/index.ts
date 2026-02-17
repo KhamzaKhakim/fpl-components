@@ -6,6 +6,7 @@ import { TeamsModel } from "./model";
 import { getPlayerById } from "../../shared/store/playersStore";
 import { getTeamById } from "../../shared/store/teamsStore";
 import { LiveService } from "../live/service";
+import { FplService } from "../../shared/service/fpl/service";
 
 export const teams = new Elysia({ prefix: "/teams" })
   .get("/", () => file("./public/teams.json"))
@@ -19,12 +20,13 @@ export const teams = new Elysia({ prefix: "/teams" })
       params: TeamsModel.PointsBodySchema,
     },
   )
+  //TODO: create new service
   .get(
     "/:id/transfers",
     async ({ params: { id } }) => {
       const gameweek = await getCurrentGameweekId();
 
-      const ans = await fplFetch(`/${id}/event/${gameweek}/picks/`);
+      const ans = await FplService.getPicks({ id, gw: gameweek });
 
       let picks = ans.picks.map((p: any) => {
         const player = getPlayerById(p?.element);
@@ -39,9 +41,9 @@ export const teams = new Elysia({ prefix: "/teams" })
       });
 
       return { ...ans, picks } as {
-        active_chip: any;
-        automatic_subs: any[];
-        entry_history: object;
+        activeChip: any;
+        automaticSubs: any[];
+        entryHistory: object;
         picks: any[];
       };
     },

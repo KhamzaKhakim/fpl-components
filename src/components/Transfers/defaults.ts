@@ -1,16 +1,4 @@
-export interface Player {
-  id: number;
-  name: string;
-  team: number;
-  // teamName: string;
-  teamShortName: string;
-  position: Position;
-  gwPoints: number;
-}
-
-export type Position = "GK" | "DEF" | "MID" | "FWD";
-
-export type Squad = Player[];
+import { Squad } from "./types";
 
 export const DEFAULT_TRANSFERS_SQUAD: Squad = [
   {

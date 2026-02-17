@@ -1644,7 +1644,7 @@
     "name": "Adli",
     "team": 4,
     "teamCode": 91,
-    "selectedByPercent": "0.3",
+    "selectedByPercent": "0.4",
     "gwPoints": 10,
     "totalPoints": 55,
     "price": 54
@@ -1844,7 +1844,7 @@
     "name": "Kayode",
     "team": 5,
     "teamCode": 94,
-    "selectedByPercent": "0.6",
+    "selectedByPercent": "0.7",
     "gwPoints": 2,
     "totalPoints": 73,
     "price": 45
@@ -1944,7 +1944,7 @@
     "name": "Damsgaard",
     "team": 5,
     "teamCode": 94,
-    "selectedByPercent": "0.5",
+    "selectedByPercent": "0.4",
     "gwPoints": 1,
     "totalPoints": 63,
     "price": 56
@@ -2144,7 +2144,7 @@
     "name": "Verbruggen",
     "team": 6,
     "teamCode": 36,
-    "selectedByPercent": "5.6",
+    "selectedByPercent": "5.5",
     "gwPoints": 2,
     "totalPoints": 79,
     "price": 45
@@ -2644,7 +2644,7 @@
     "name": "Cucurella",
     "team": 7,
     "teamCode": 8,
-    "selectedByPercent": "17.0",
+    "selectedByPercent": "16.9",
     "gwPoints": 1,
     "totalPoints": 90,
     "price": 61
@@ -2904,7 +2904,7 @@
     "name": "Marc Guiu",
     "team": 7,
     "teamCode": 8,
-    "selectedByPercent": "6.0",
+    "selectedByPercent": "5.9",
     "gwPoints": 0,
     "totalPoints": 12,
     "price": 42
@@ -3694,7 +3694,7 @@
     "name": "Grealish",
     "team": 9,
     "teamCode": 11,
-    "selectedByPercent": "6.2",
+    "selectedByPercent": "6.1",
     "gwPoints": 0,
     "totalPoints": 79,
     "price": 63
@@ -4594,7 +4594,7 @@
     "name": "M.Salah",
     "team": 12,
     "teamCode": 14,
-    "selectedByPercent": "14.1",
+    "selectedByPercent": "14.2",
     "gwPoints": 6,
     "totalPoints": 82,
     "price": 140
@@ -4654,7 +4654,7 @@
     "name": "Szoboszlai",
     "team": 12,
     "teamCode": 14,
-    "selectedByPercent": "5.5",
+    "selectedByPercent": "5.6",
     "gwPoints": 0,
     "totalPoints": 97,
     "price": 67
@@ -5114,7 +5114,7 @@
     "name": "Haaland",
     "team": 13,
     "teamCode": 43,
-    "selectedByPercent": "68.5",
+    "selectedByPercent": "68.4",
     "gwPoints": 5,
     "totalPoints": 187,
     "price": 149
@@ -5194,7 +5194,7 @@
     "name": "Mbeumo",
     "team": 14,
     "teamCode": 1,
-    "selectedByPercent": "22.5",
+    "selectedByPercent": "22.6",
     "gwPoints": 6,
     "totalPoints": 109,
     "price": 86
@@ -5394,7 +5394,7 @@
     "name": "Cunha",
     "team": 14,
     "teamCode": 1,
-    "selectedByPercent": "8.6",
+    "selectedByPercent": "8.5",
     "gwPoints": 2,
     "totalPoints": 93,
     "price": 81
@@ -5824,7 +5824,7 @@
     "name": "Bruno G.",
     "team": 15,
     "teamCode": 4,
-    "selectedByPercent": "11.5",
+    "selectedByPercent": "11.4",
     "gwPoints": 3,
     "totalPoints": 134,
     "price": 70
@@ -6814,7 +6814,7 @@
     "name": "Mukiele",
     "team": 17,
     "teamCode": 56,
-    "selectedByPercent": "13.7",
+    "selectedByPercent": "13.8",
     "gwPoints": 2,
     "totalPoints": 114,
     "price": 46
@@ -7897,7 +7897,7 @@
     "selectedByPercent": "0.1",
     "gwPoints": 0,
     "totalPoints": 53,
-    "price": 53
+    "price": 52
   },
   {
     "id": 644,

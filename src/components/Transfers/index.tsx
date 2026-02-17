@@ -5,9 +5,10 @@ import { mapCoordinates } from "@/src/utils/mapCoordinates";
 import { createScaler } from "@/src/utils/scaler";
 import { useEffect, useState } from "react";
 import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
-import { Player } from "./types";
+import { Player, Squad } from "./types";
 import { canDrop } from "./utils";
 import { isNumber, isPlayer } from "@/src/utils/validatations";
+import { DEFAULT_TRANSFERS_SQUAD } from "./defaults";
 
 //TODO:
 // - They need to be draggable to make substitutions (key functionality)
@@ -21,131 +22,6 @@ interface TransfersProps {
   data: any;
   isLoading: boolean;
 }
-
-type Squad = Player[];
-
-const defaultValue: Squad = [
-  {
-    name: "",
-    price: "45",
-    team: "",
-    teamShortName: "",
-    position: "GK",
-    gwPoints: 0,
-  },
-  {
-    name: "",
-    price: "45",
-    team: "",
-    teamShortName: "",
-    position: "DEF",
-    gwPoints: 0,
-  },
-  {
-    name: "",
-    price: "45",
-    team: "",
-    teamShortName: "",
-    position: "DEF",
-    gwPoints: 0,
-  },
-  {
-    name: "",
-    price: "45",
-    team: "",
-    teamShortName: "",
-    position: "DEF",
-    gwPoints: 0,
-  },
-  {
-    name: "",
-    price: "45",
-    team: "",
-    teamShortName: "",
-    position: "DEF",
-    gwPoints: 0,
-  },
-  {
-    name: "",
-    price: "45",
-    team: "",
-    teamShortName: "",
-    position: "MID",
-    gwPoints: 0,
-  },
-  {
-    name: "",
-    price: "45",
-    team: "",
-    teamShortName: "",
-    position: "MID",
-    gwPoints: 0,
-  },
-  {
-    name: "",
-    price: "45",
-    team: "",
-    teamShortName: "",
-    position: "MID",
-    gwPoints: 0,
-  },
-  {
-    name: "",
-    price: "45",
-    team: "",
-    teamShortName: "",
-    position: "FWD",
-    gwPoints: 0,
-  },
-  {
-    name: "",
-    price: "45",
-    team: "",
-    teamShortName: "",
-    position: "FWD",
-    gwPoints: 0,
-  },
-  {
-    name: "",
-    price: "45",
-    team: "",
-    teamShortName: "",
-    position: "FWD",
-    gwPoints: 0,
-  },
-  {
-    name: "",
-    price: "45",
-    team: "",
-    teamShortName: "",
-    position: "GK",
-    gwPoints: 0,
-  },
-  {
-    name: "",
-    price: "45",
-    team: "",
-    teamShortName: "",
-    position: "DEF",
-    gwPoints: 0,
-  },
-  {
-    name: "",
-    price: "45",
-    team: "",
-    teamShortName: "",
-    position: "MID",
-    gwPoints: 0,
-  },
-  {
-    name: "",
-    price: "45",
-    team: "",
-    teamShortName: "",
-    position: "MID",
-    gwPoints: 0,
-  },
-];
 
 export default function Transfers({
   size = 600,
@@ -164,7 +40,9 @@ export default function Transfers({
 
   const s = createScaler(size);
 
-  const [squad, setSquad] = useState<Squad>(data?.picks || defaultValue);
+  const [squad, setSquad] = useState<Squad>(
+    data?.picks || DEFAULT_TRANSFERS_SQUAD,
+  );
   const [selectedPlayer, setSelectedPlayer] = useState<number | null>(null);
 
   useEffect(() => {
