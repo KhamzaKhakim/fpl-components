@@ -9,7 +9,7 @@ export default function PlannerPage() {
   const user = useUser();
 
   const { data: response, isLoading } = useQuery({
-    queryKey: ["squad"],
+    queryKey: ["squad"], //add gw
     queryFn: () =>
       client
         .teams({

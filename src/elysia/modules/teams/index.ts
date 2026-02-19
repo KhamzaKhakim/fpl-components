@@ -3,10 +3,10 @@ import { getCurrentGameweekId } from "../utils/gameweekUtils";
 import { positionById } from "@/src/utils/mapApi";
 import { fplFetch } from "../../fplClient";
 import { TeamsModel } from "./model";
-import { getPlayerById } from "../../shared/store/playersStore";
 import { getTeamById } from "../../shared/store/teamsStore";
 import { LiveService } from "../live/service";
 import { FplService } from "../../shared/service/fpl/service";
+import { getPlayerById } from "../../shared/store/playerStoreRedis";
 
 export const teams = new Elysia({ prefix: "/teams" })
   .get("/", () => file("./public/teams.json"))
@@ -19,7 +19,7 @@ export const teams = new Elysia({ prefix: "/teams" })
       const ans = await FplService.getPicks({ id, gw: gameweek });
 
       let picks = ans.picks.map((p: any) => {
-        const player = getPlayerById(p?.element);
+        const player = await getPlayerById(p?.element);
         const team = getTeamById(player?.team!);
         return {
           ...p,

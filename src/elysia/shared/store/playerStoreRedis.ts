@@ -90,7 +90,7 @@ function startPeriodicUpdates(): void {
 
 startPeriodicUpdates();
 
-export async function getPlayerById({ id }: { id: number }) {
+export async function getPlayerById(id: number) {
   const playersString = await redis.get(`player-${id}`);
 
   if (!playersString) throw new Error(`Player not found for id: ${id}`);
