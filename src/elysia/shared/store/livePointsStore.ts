@@ -8,9 +8,7 @@ import { redis } from "bun";
 
 const UPDATE_INTERVAL_MS = 60 * 60 * 1000; // 1 hour
 
-let livePointsById = new Map<number, LiveModel.LiveType>();
 let isUpdating = false;
-let lastUpdateTime = 0;
 
 export type FplPlayerStat = {
   id: number;
@@ -74,11 +72,13 @@ async function fetchLivePoints(): Promise<LiveModel.LiveType[]> {
       throw new Error(`API returned ${response.status}`);
     }
 
-    let liveResponse = (await response.json()) as LiveResponse;
+    let liveResponse = await response.json();
 
     let liveElements = liveResponse.elements;
 
-    const camelCaseliveElements = camelcaseKeys(liveElements, { deep: true });
+    const camelCaseliveElements = camelcaseKeys(liveElements, {
+      deep: true,
+    }) as FplPlayerStat[];
 
     const fixedLivePoints = camelCaseliveElements
       .map((element) => {
