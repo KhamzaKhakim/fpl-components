@@ -1,10 +1,10 @@
 import camelcaseKeys from "camelcase-keys";
 import { getCurrentGameweekId } from "../../modules/utils/gameweekUtils";
 import { getFixtureById } from "./fixturesStore";
-import { getPlayerById } from "./playersStore";
 import { getTeamById } from "./teamsStore";
 import { LiveModel } from "../../modules/live/model";
 import { redis } from "bun";
+import { getPlayerById } from "./playerStoreRedis";
 
 const UPDATE_INTERVAL_MS = 60 * 60 * 1000; // 1 hour
 
@@ -80,9 +80,9 @@ async function fetchLivePoints(): Promise<LiveModel.LiveType[]> {
       deep: true,
     }) as FplPlayerStat[];
 
-    const fixedLivePoints = camelCaseliveElements
-      .map((element) => {
-        const player = getPlayerById(element.id);
+    const fixedLivePoints = await Promise.all(
+      camelCaseliveElements.map(async (element) => {
+        const player = await getPlayerById(element.id);
         if (!player) return null;
 
         const team = getTeamById(player.team);
@@ -118,8 +118,8 @@ async function fetchLivePoints(): Promise<LiveModel.LiveType[]> {
           fixtures,
           fixturesFinished,
         } satisfies LiveModel.LiveType;
-      })
-      .filter((p) => p != null);
+      }),
+    ).then((v) => v.filter((v) => v != null));
 
     return fixedLivePoints;
   } catch (error) {

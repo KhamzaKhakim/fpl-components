@@ -10,10 +10,11 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { createPortal } from "react-dom";
 import { Player } from "../Transfers/types";
+import { TeamsModel } from "@/src/elysia/modules/teams/model";
 
 interface PlayerCardProps {
   size: number;
-  player: Player;
+  player: TeamsModel.PickType;
   index: number;
   isLoading: boolean;
   canDrop: boolean;
@@ -146,7 +147,7 @@ export default function PlayerCard({
           {player.name}
         </p>
         <p className="text-center bg-gray-200" style={{ fontSize: fs }}>
-          £{Number(player.price) / 10}m
+          £{Number(player.nowCost) / 10}m
         </p>
       </div>
       {dragging &&
@@ -170,7 +171,13 @@ export default function PlayerCard({
   );
 }
 
-function Preview({ player, size }: { player: Player; size: number }) {
+function Preview({
+  player,
+  size,
+}: {
+  player: TeamsModel.PickType;
+  size: number;
+}) {
   const s = createScaler(size);
   const fs = s(10);
   const src =
@@ -206,7 +213,7 @@ function Preview({ player, size }: { player: Player; size: number }) {
           {player.name}
         </p>
         <p className="text-center bg-gray-200" style={{ fontSize: fs }}>
-          £{Number(player.price) / 10}m
+          £{Number(player.nowCost) / 10}m
         </p>
       </div>
     </div>

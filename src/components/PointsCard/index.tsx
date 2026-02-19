@@ -6,7 +6,7 @@ import { LiveModel } from "@/src/elysia/modules/live/model";
 
 interface PointsCardProps {
   size: number;
-  player: TeamsModel.PickType | LiveModel.LivePickType;
+  player: LiveModel.LivePickType;
   isLoading: boolean;
 }
 
@@ -37,18 +37,14 @@ export default function PointsCard({
   let display: string | number;
   let finished = true;
 
-  if ("fixtures" in player) {
-    if (player.fixturesFinished.every(Boolean)) {
-      display = player.gwPoints * player.multiplier;
-    } else if (player.minutes.every((m) => m === 0)) {
-      display = player.fixtures.join(", ");
-      finished = false;
-    } else {
-      display = `${player.gwPoints * player.multiplier}, ${player.fixtures[1]}`;
-      finished = false;
-    }
+  if (player.fixturesFinished.every(Boolean)) {
+    display = player.gwPoints * player.multiplier;
+  } else if (player.minutes.every((m) => m === 0)) {
+    display = player.fixtures.join(", ");
+    finished = false;
   } else {
-    display = player.gwPoints;
+    display = `${player.gwPoints * player.multiplier}, ${player.fixtures[1]}`;
+    finished = false;
   }
 
   return (

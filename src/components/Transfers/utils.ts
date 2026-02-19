@@ -1,9 +1,9 @@
-import { Player } from "./types";
+import { TeamsModel } from "@/src/elysia/modules/teams/model";
 
 export function canDrop(
   dragIndex: number | null,
   dropIndex: number,
-  squad: Player[],
+  squad: TeamsModel.PickType[],
 ) {
   if (dragIndex == null) return true;
 

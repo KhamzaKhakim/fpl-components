@@ -38,11 +38,11 @@ export namespace TeamsModel {
     name: t.String(),
     team: t.Number(),
     teamShortName: t.String(),
-    gwPoints: t.Number(),
     position: PositionEnum,
     isCaptain: t.Boolean(),
     isViceCaptain: t.Boolean(),
     multiplier: t.Number(),
+    nowCost: t.Number(),
   });
 
   export const PointsResponseSchema = t.Object({

@@ -1,7 +1,7 @@
 import { EventType } from "@/src/elysia/modules/events/types";
 import { LiveModel } from "@/src/elysia/modules/live/model";
 import { getFixtureById } from "@/src/elysia/shared/store/fixturesStore";
-import { getPlayerById } from "@/src/elysia/shared/store/playersStore";
+import { getPlayerById } from "@/src/elysia/shared/store/playerStoreRedis";
 import { getTeamById } from "@/src/elysia/shared/store/teamsStore";
 import { redis } from "bun";
 import camelcaseKeys from "camelcase-keys";
@@ -78,9 +78,9 @@ async function fetchLivePoints() {
 
       const camelCaseliveElements = camelcaseKeys(liveElements, { deep: true });
 
-      const fixedLivePoints = camelCaseliveElements
-        .map((element) => {
-          const player = getPlayerById(element.id);
+      const fixedLivePoints = await Promise.all(
+        camelCaseliveElements.map(async (element) => {
+          const player = await getPlayerById(element.id);
           if (!player) return null;
 
           const team = getTeamById(player.team);
@@ -116,8 +116,8 @@ async function fetchLivePoints() {
             fixtures,
             fixturesFinished,
           } satisfies LiveModel.LiveType;
-        })
-        .filter((p) => p != null);
+        }),
+      ).then((v) => v.filter((p) => p != null));
 
       redis.hset(
         `gw-${events[i].id}`,

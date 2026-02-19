@@ -1,3 +1,5 @@
+import { TeamsModel } from "@/src/elysia/modules/teams/model";
+
 export interface Player {
   id: number;
   name: string;
@@ -10,4 +12,4 @@ export interface Player {
 
 export type Position = "GK" | "DEF" | "MID" | "FWD";
 
-export type Squad = Player[];
+export type Squad = TeamsModel.PickType[];
