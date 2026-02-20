@@ -3,7 +3,6 @@ import { getCurrentGameweekId } from "../../modules/utils/gameweekUtils";
 import { getFixtureById } from "./fixturesStore";
 import { getTeamById } from "./teamsStore";
 import { LiveModel } from "../../modules/live/model";
-import { redis } from "bun";
 import { getPlayerById } from "./playerStoreRedis";
 
 const UPDATE_INTERVAL_MS = 60 * 60 * 1000; // 1 hour
@@ -54,9 +53,10 @@ export type FplPlayerStat = {
   modified: boolean;
 };
 
-type LiveResponse = {
-  elements: FplPlayerStat[];
-};
+// Map structure: gameweek -> (player id -> live points)
+let livePointsByGameweek = new Map<number, Map<number, LiveModel.LiveType>>();
+let lastUpdateTime = 0;
+let currentGameweek = 0;
 
 async function fetchLivePoints(): Promise<LiveModel.LiveType[]> {
   try {
@@ -141,37 +141,119 @@ async function updateLivePoints(): Promise<void> {
 
     if (!gw) throw new Error("Current gameweek not found");
 
-    console.log("Updating livePoints...");
+    // Check if gameweek changed
+    if (gw !== currentGameweek) {
+      console.log(`Gameweek changed from ${currentGameweek} to ${gw}`);
+      currentGameweek = gw;
+    }
+
+    console.log("Updating livePoints for gw: " + gw);
     const livePoints = await fetchLivePoints();
-    redis.hset(
-      `gw-${gw}`,
-      Object.fromEntries(
-        livePoints.map((p) => [p.id.toString(), JSON.stringify(p)]),
-      ),
+
+    // Update file
+    await Bun.write(
+      `./public/fpl/gameweek-points/gw-${gw}.json`,
+      JSON.stringify(livePoints),
     );
-    console.log("Finished gw: " + gw);
+
+    // Build new inner map completely before replacing (atomic operation)
+    const newGwPointsMap = new Map<number, LiveModel.LiveType>();
+    for (const point of livePoints) {
+      newGwPointsMap.set(point.id, point);
+    }
+
+    // Atomic update of this gameweek's map
+    livePointsByGameweek.set(gw, newGwPointsMap);
+
+    lastUpdateTime = Date.now();
+    console.log("Finished updating gw: " + gw);
   } catch (error) {
     console.error("Failed to update livePoints:", error);
-    // Map remains unchanged on error
+    // Maps remain unchanged on error
   } finally {
     isUpdating = false;
   }
 }
 
-function startPeriodicUpdates(): void {
-  // Update immediately on start
-  updateLivePoints().catch(console.error);
+async function initializeLivePoints(): Promise<void> {
+  try {
+    const gw = await getCurrentGameweekId();
 
-  // Then set interval
+    if (!gw) throw new Error("Current gameweek not found");
+
+    currentGameweek = gw;
+
+    // Load all available gameweek files (1 to current) without stale checks
+    for (let i = 1; i <= gw; i++) {
+      try {
+        const livePointsFile = Bun.file(
+          `./public/fpl/gameweek-points/gw-${i}.json`,
+        );
+
+        // Load from file
+        const livePoints =
+          (await livePointsFile.json()) as LiveModel.LiveType[];
+
+        // Create map for this gameweek
+        const gwPointsMap = new Map<number, LiveModel.LiveType>();
+        for (const point of livePoints) {
+          gwPointsMap.set(point.id, point);
+        }
+
+        livePointsByGameweek.set(i, gwPointsMap);
+        console.log(
+          `Loaded ${livePoints.length} live points for gameweek ${i}`,
+        );
+      } catch (fileError) {
+        console.log("Error");
+        // File doesn't exist for this gameweek, skip silently
+        // This handles cases where current gameweek just changed but file doesn't exist yet
+      }
+    }
+
+    lastUpdateTime = Date.now();
+
+    // Check if current gameweek is loaded, and if so, check for staleness
+    if (livePointsByGameweek.has(gw)) {
+      try {
+        const livePointsFile = Bun.file(
+          `./public/fpl/gameweek-points/gw-${gw}.json`,
+        );
+        const fileStats = await livePointsFile.stat();
+        const fileLastModified = fileStats.mtime.getTime();
+        const now = Date.now();
+        const isStale = now - fileLastModified > UPDATE_INTERVAL_MS;
+
+        if (isStale) {
+          console.log(`Current gameweek ${gw} cache is stale, updating...`);
+          await updateLivePoints();
+        }
+      } catch (error) {
+        console.warn(`Failed to check staleness for gameweek ${gw}`);
+      }
+    } else {
+      // Current gameweek not loaded, fetch immediately
+      console.log(`Current gameweek ${gw} not found, fetching fresh data...`);
+      await updateLivePoints();
+    }
+  } catch (error) {
+    console.error("Failed to initialize livePoints:", error);
+    throw error;
+  }
+}
+
+function startPeriodicUpdates(): void {
+  // Set interval for periodic updates (initialization handles the first load)
   setInterval(() => {
     updateLivePoints().catch(console.error);
   }, UPDATE_INTERVAL_MS);
 
   console.log(
-    `Periodic fixture updates started (interval: ${UPDATE_INTERVAL_MS}ms)`,
+    `Periodic live points updates started (interval: ${UPDATE_INTERVAL_MS}ms)`,
   );
 }
 
+await initializeLivePoints();
 startPeriodicUpdates();
 
 export async function getLivePoint({
@@ -180,13 +262,16 @@ export async function getLivePoint({
 }: {
   gw: number;
   player: number;
-}) {
-  const livePointString = await redis.hget(`gw-${gw}`, player.toString());
+}): Promise<LiveModel.LiveType> {
+  const gwPointsMap = livePointsByGameweek.get(gw);
 
-  if (!livePointString)
+  if (!gwPointsMap) throw new Error(`Gameweek ${gw} not found in cache`);
+
+  const livePoint = gwPointsMap.get(player);
+
+  if (livePoint == null) {
     throw new Error(`Live point not found for gw: ${gw}, player: ${player}`);
-
-  const livePoint = JSON.parse(livePointString) as LiveModel.LiveType;
+  }
 
   return livePoint;
 }

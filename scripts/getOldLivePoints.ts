@@ -3,7 +3,6 @@ import { LiveModel } from "@/src/elysia/modules/live/model";
 import { getFixtureById } from "@/src/elysia/shared/store/fixturesStore";
 import { getPlayerById } from "@/src/elysia/shared/store/playerStoreRedis";
 import { getTeamById } from "@/src/elysia/shared/store/teamsStore";
-import { redis } from "bun";
 import camelcaseKeys from "camelcase-keys";
 
 export type FplPlayerStat = {
@@ -121,15 +120,8 @@ async function fetchLivePoints() {
 
       Bun.write(
         `./public/fpl/gameweek-points/gw-${events[i].id}.json`,
-        JSON.stringify(JSON.stringify(fixedLivePoints)),
+        JSON.stringify(fixedLivePoints),
       );
-
-      // redis.hset(
-      //   `gw-${events[i].id}`,
-      //   Object.fromEntries(
-      //     fixedLivePoints.map((p) => [p.id.toString(), JSON.stringify(p)]),
-      //   ),
-      // );
       console.log("Finished gw: " + events[i].id);
     }
   } catch (error) {

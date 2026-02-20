@@ -1,7 +1,7 @@
 import { TeamType } from "../../modules/teams/types";
 
 const TEAMS_FILE = "./public/teams.json";
-const UPDATE_INTERVAL_MS = 60 * 60 * 1000; // 1 hour
+const UPDATE_INTERVAL_MS = 60 * 60 * 1000;
 
 let teamsById = new Map<number, TeamType>();
 let isUpdating = false;
