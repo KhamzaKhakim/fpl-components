@@ -1,37 +1,21 @@
-import { TeamType } from "../../modules/teams/types";
+import camelcaseKeys from "camelcase-keys";
 
-const TEAMS_FILE = "./public/teams.json";
+const TEAMS_FILE = "./public/fpl/teams.json";
 const UPDATE_INTERVAL_MS = 60 * 60 * 1000;
 
-let teamsById = new Map<number, TeamType>();
-let isUpdating = false;
-let lastUpdateTime = 0;
-
 type Team = {
-  code: number;
-  draw: number;
-  form: string | null;
   id: number;
-  loss: number;
+  code: number;
   name: string;
-  played: number;
-  points: number;
-  position: number;
-  short_name: string;
+  shortName: string;
   strength: number;
-  team_division: number | null;
-  unavailable: boolean;
-  win: number;
-  strength_overall_home: number;
-  strength_overall_away: number;
-  strength_attack_home: number;
-  strength_attack_away: number;
-  strength_defence_home: number;
-  strength_defence_away: number;
-  pulse_id: number;
+  position: number;
 };
 
-async function fetchTeams(): Promise<TeamType[]> {
+let teamsById = new Map<number, Team>();
+let isUpdating = false;
+
+async function fetchTeams(): Promise<Team[]> {
   try {
     const response = await fetch(
       "https://fantasy.premierleague.com/api/bootstrap-static/",
@@ -42,25 +26,13 @@ async function fetchTeams(): Promise<TeamType[]> {
     }
 
     const json = await response.json();
-    const teams: Team[] = json?.["teams"];
+    const teams = json?.["teams"];
 
-    const teamsMapped = teams.map(
-      (t) =>
-        ({
-          id: t.id,
-          code: t.code,
-          name: t.name,
-          shortName: t.short_name,
-          strengthOverallHome: t.strength_overall_home,
-          strengtHoverallAway: t.strength_overall_away,
-          strengthAttackHome: t.strength_attack_home,
-          strengthAttackAway: t.strength_attack_away,
-          strengthDefenceHome: t.strength_defence_home,
-          strengthDefenceAway: t.strength_defence_away,
-        }) as TeamType,
-    );
+    const camelCaseliveTeams = camelcaseKeys(teams, {
+      deep: true,
+    }) as Team[];
 
-    return teamsMapped;
+    return camelCaseliveTeams;
   } catch (error) {
     console.error("Failed to fetch teams:", error);
     throw error;
@@ -80,21 +52,15 @@ async function updateTeams(): Promise<void> {
     console.log("Updating teams...");
     const teams = await fetchTeams();
 
-    // Write to temp file first, then move (atomic operation)
-    const tempFile = `${TEAMS_FILE}.tmp`;
-    await Bun.write(tempFile, JSON.stringify(teams, null, 2));
-
     // Move temp to actual file (atomic on most filesystems)
-    await Bun.write(TEAMS_FILE, await Bun.file(tempFile).text());
+    await Bun.write(TEAMS_FILE, JSON.stringify(teams));
 
     // Update in-memory Map
-    const newMap = new Map<number, TeamType>();
+    const newTeamsById = new Map<number, Team>();
     for (const team of teams) {
-      newMap.set(team.id, team);
+      newTeamsById.set(team.id, team);
     }
-    teamsById = newMap;
-
-    lastUpdateTime = Date.now();
+    teamsById = newTeamsById;
     console.log(`Teams updated successfully at ${new Date().toISOString()}`);
   } catch (error) {
     console.error("Failed to update teams:", error);
@@ -104,61 +70,63 @@ async function updateTeams(): Promise<void> {
   }
 }
 
-// Load teams on startup
 async function initializeTeams(): Promise<void> {
   try {
     const teamsFile = Bun.file(TEAMS_FILE);
-    const teams = (await teamsFile.json()) as TeamType[];
 
-    for (const fixture of teams) {
-      teamsById.set(fixture.id, fixture);
+    // Check if file exists and if cache is stale
+    try {
+      const fileStats = await teamsFile.stat();
+      const fileLastModified = fileStats.mtime.getTime();
+      const now = Date.now();
+      const isStale = now - fileLastModified > UPDATE_INTERVAL_MS;
+
+      if (isStale) {
+        console.log("teams cache is stale, updating immediately...");
+        await updateTeams();
+        return;
+      }
+
+      // Load from file if fresh
+      const teams = (await teamsFile.json()) as Team[];
+
+      // Sync to in-memory cache
+      const newTeamsById = new Map<number, Team>();
+      for (const p of teams) {
+        newTeamsById.set(p.id, p);
+      }
+      teamsById = newTeamsById;
+
+      console.log(`Loaded ${teams.length} teams from file`);
+    } catch (fileError) {
+      // File doesn't exist, fetch immediately
+      console.warn("teams cache file not found, fetching fresh data...");
+      await updateTeams();
     }
-
-    console.log(`Loaded ${teamsById.size} teams from file`);
-    lastUpdateTime = Date.now();
   } catch (error) {
-    console.warn(
-      "Could not load teams from file, starting with empty map:",
-      error,
-    );
-    // Try to fetch immediately if file doesn't exist
-    await updateTeams();
+    console.error("Failed to initialize teams:", error);
+    throw error;
   }
 }
 
-// Start periodic updates
-function startPeriodicUpdates(): void {
-  // Update immediately on start
-  updateTeams().catch(console.error);
-
-  // Then set interval
+function startPeriodicTeamUpdates(): void {
+  // Set interval for periodic updates (initialization handles the first load)
   setInterval(() => {
     updateTeams().catch(console.error);
   }, UPDATE_INTERVAL_MS);
 
   console.log(
-    `Periodic fixture updates started (interval: ${UPDATE_INTERVAL_MS}ms)`,
+    `Periodic Team updates started (interval: ${UPDATE_INTERVAL_MS}ms)`,
   );
 }
 
-// Initialize and start
-await initializeTeams();
-startPeriodicUpdates();
+await updateTeams();
+startPeriodicTeamUpdates();
 
-// Export getter function instead of raw Map
-export function getTeamById(id: number): TeamType | undefined {
-  return teamsById.get(id);
-}
+export function getTeamById(id: number) {
+  const team = teamsById.get(id);
 
-export function getAllTeams(): TeamType[] {
-  return Array.from(teamsById.values());
-}
+  if (!team) throw new Error(`Team not found for id: ${id}`);
 
-export function getLastUpdateTime(): number {
-  return lastUpdateTime;
-}
-
-// For debugging
-export function forceUpdate(): Promise<void> {
-  return updateTeams();
+  return team;
 }

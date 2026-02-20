@@ -5,10 +5,6 @@ import { getTeamById } from "./teamsStore";
 import { LiveModel } from "../../modules/live/model";
 import { getPlayerById } from "./playerStoreRedis";
 
-const UPDATE_INTERVAL_MS = 60 * 60 * 1000; // 1 hour
-
-let isUpdating = false;
-
 export type FplPlayerStat = {
   id: number;
   stats: {
@@ -53,9 +49,10 @@ export type FplPlayerStat = {
   modified: boolean;
 };
 
+const UPDATE_INTERVAL_MS = 60 * 60 * 1000; // 1 hour
+let isUpdating = false;
 // Map structure: gameweek -> (player id -> live points)
 let livePointsByGameweek = new Map<number, Map<number, LiveModel.LiveType>>();
-let lastUpdateTime = 0;
 let currentGameweek = 0;
 
 async function fetchLivePoints(): Promise<LiveModel.LiveType[]> {
@@ -164,8 +161,6 @@ async function updateLivePoints(): Promise<void> {
 
     // Atomic update of this gameweek's map
     livePointsByGameweek.set(gw, newGwPointsMap);
-
-    lastUpdateTime = Date.now();
     console.log("Finished updating gw: " + gw);
   } catch (error) {
     console.error("Failed to update livePoints:", error);
@@ -211,8 +206,6 @@ async function initializeLivePoints(): Promise<void> {
       }
     }
 
-    lastUpdateTime = Date.now();
-
     // Check if current gameweek is loaded, and if so, check for staleness
     if (livePointsByGameweek.has(gw)) {
       try {
@@ -256,13 +249,13 @@ function startPeriodicUpdates(): void {
 await initializeLivePoints();
 startPeriodicUpdates();
 
-export async function getLivePoint({
+export function getLivePoint({
   gw,
   player,
 }: {
   gw: number;
   player: number;
-}): Promise<LiveModel.LiveType> {
+}): LiveModel.LiveType {
   const gwPointsMap = livePointsByGameweek.get(gw);
 
   if (!gwPointsMap) throw new Error(`Gameweek ${gw} not found in cache`);
