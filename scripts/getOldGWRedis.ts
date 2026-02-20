@@ -119,12 +119,17 @@ async function fetchLivePoints() {
         }),
       ).then((v) => v.filter((p) => p != null));
 
-      redis.hset(
-        `gw-${events[i].id}`,
-        Object.fromEntries(
-          fixedLivePoints.map((p) => [p.id.toString(), JSON.stringify(p)]),
-        ),
+      Bun.write(
+        `./public/fpl/gameweek-points/gw-${events[i].id}`,
+        JSON.stringify(JSON.stringify(fixedLivePoints)),
       );
+
+      // redis.hset(
+      //   `gw-${events[i].id}`,
+      //   Object.fromEntries(
+      //     fixedLivePoints.map((p) => [p.id.toString(), JSON.stringify(p)]),
+      //   ),
+      // );
       console.log("Finished gw: " + events[i].id);
     }
   } catch (error) {
