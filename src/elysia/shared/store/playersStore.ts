@@ -4,15 +4,15 @@ type Player = {
   id: number;
   webName: string;
   team: number;
-  selectedByPercent: number;
+  selectedByPercent: string;
   totalPoints: number;
   nowCost: number;
   elementType: number;
   canSelect: boolean;
   epNext: string;
   epThis: string;
-  chanceOfPlayingNextRound: null;
-  chanceOfPlayingThisRound: null;
+  chanceOfPlayingNextRound: number | null;
+  chanceOfPlayingThisRound: number | null;
   form: string;
   transfersIn: number;
   transfersInEvent: number;
@@ -20,6 +20,29 @@ type Player = {
   transfersOutEvent: number;
   optaCode: string;
 };
+
+function mapPlayer(p: any): Player {
+  return {
+    id: p.id,
+    webName: p.web_name,
+    team: p.team,
+    selectedByPercent: p.selected_by_percent,
+    totalPoints: p.total_points,
+    nowCost: p.now_cost,
+    elementType: p.element_type,
+    canSelect: p.can_select,
+    epNext: p.ep_next,
+    epThis: p.ep_this,
+    chanceOfPlayingNextRound: p.chance_of_playing_next_round ?? null,
+    chanceOfPlayingThisRound: p.chance_of_playing_this_round ?? null,
+    form: p.form,
+    transfersIn: p.transfers_in,
+    transfersInEvent: p.transfers_in_event,
+    transfersOut: p.transfers_out,
+    transfersOutEvent: p.transfers_out_event,
+    optaCode: p.opta_code,
+  };
+}
 
 const UPDATE_INTERVAL_MS = 60 * 60 * 1000; // 1 hour
 let isUpdating = false;
@@ -36,14 +59,9 @@ async function fetchPlayers(): Promise<Player[]> {
     }
 
     const json = await response.json();
-    const players = json?.["elements"];
+    const players: any[] = json?.["elements"];
 
-    //Optimize this part
-    const camelCaselivePlayers = camelcaseKeys(players, {
-      deep: true,
-    }) as Player[];
-
-    return camelCaselivePlayers;
+    return players.map(mapPlayer);
   } catch (error) {
     console.error("Failed to fetch players:", error);
     throw error;

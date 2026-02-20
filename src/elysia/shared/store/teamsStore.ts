@@ -1,5 +1,3 @@
-import camelcaseKeys from "camelcase-keys";
-
 const TEAMS_FILE = "./public/fpl/teams.json";
 const UPDATE_INTERVAL_MS = 60 * 60 * 1000;
 
@@ -11,6 +9,17 @@ type Team = {
   strength: number;
   position: number;
 };
+
+function mapTeams(t: any): Team {
+  return {
+    id: t.id,
+    code: t.code,
+    name: t.name,
+    shortName: t.short_name,
+    strength: t.strength,
+    position: t.position,
+  };
+}
 
 let teamsById = new Map<number, Team>();
 let isUpdating = false;
@@ -26,13 +35,9 @@ async function fetchTeams(): Promise<Team[]> {
     }
 
     const json = await response.json();
-    const teams = json?.["teams"];
+    const teams: any[] = json?.["teams"];
 
-    const camelCaseliveTeams = camelcaseKeys(teams, {
-      deep: true,
-    }) as Team[];
-
-    return camelCaseliveTeams;
+    return teams.map(mapTeams);
   } catch (error) {
     console.error("Failed to fetch teams:", error);
     throw error;

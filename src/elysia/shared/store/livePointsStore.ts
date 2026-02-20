@@ -49,7 +49,7 @@ export type FplPlayerStat = {
   modified: boolean;
 };
 
-const UPDATE_INTERVAL_MS = 60 * 60 * 1000; // 1 hour
+const UPDATE_INTERVAL_MS = 60 * 1000; // 1 hour
 let isUpdating = false;
 // Map structure: gameweek -> (player id -> live points)
 let livePointsByGameweek = new Map<number, Map<number, LiveModel.LiveType>>();
@@ -71,14 +71,15 @@ async function fetchLivePoints(): Promise<LiveModel.LiveType[]> {
 
     let liveResponse = await response.json();
 
-    let liveElements = liveResponse.elements;
+    let liveElements: any[] = liveResponse.elements;
 
-    const camelCaseliveElements = camelcaseKeys(liveElements, {
-      deep: true,
-    }) as FplPlayerStat[];
+    //change to map
+    // const camelCaseliveElements = camelcaseKeys(liveElements, {
+    //   deep: true,
+    // }) as FplPlayerStat[];
 
     const fixedLivePoints = await Promise.all(
-      camelCaseliveElements.map(async (element) => {
+      liveElements.map(async (element) => {
         const player = await getPlayerById(element.id);
         if (!player) return null;
 
@@ -109,7 +110,7 @@ async function fetchLivePoints(): Promise<LiveModel.LiveType[]> {
 
         return {
           id: element.id,
-          gwPoints: element.stats.totalPoints,
+          gwPoints: element.stats.total_points,
           minutes,
           fixtureIds,
           fixtures,
@@ -220,6 +221,8 @@ async function initializeLivePoints(): Promise<void> {
         if (isStale) {
           console.log(`Current gameweek ${gw} cache is stale, updating...`);
           await updateLivePoints();
+        } else {
+          console.log(`Current gameweek ${gw} cache is fresh`);
         }
       } catch (error) {
         console.warn(`Failed to check staleness for gameweek ${gw}`);
