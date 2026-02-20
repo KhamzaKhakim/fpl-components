@@ -120,7 +120,7 @@ async function fetchLivePoints() {
       ).then((v) => v.filter((p) => p != null));
 
       Bun.write(
-        `./public/fpl/gameweek-points/gw-${events[i].id}`,
+        `./public/fpl/gameweek-points/gw-${events[i].id}.json`,
         JSON.stringify(JSON.stringify(fixedLivePoints)),
       );
 
