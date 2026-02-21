@@ -3,6 +3,7 @@ import { players } from "./modules/players";
 import { teams } from "./modules/teams";
 import { live } from "./modules/live";
 import { dns } from "bun";
+import { manager } from "./modules/manager";
 
 dns.prefetch("https://fantasy.premierleague.com");
 
@@ -29,6 +30,7 @@ export const app = new Elysia({ prefix: "/api" })
   .use(players)
   .use(teams)
   .use(live)
-  .get("/", () => "Hello");
+  .use(manager)
+  .get("/", () => "Hello world!");
 
 export type TApp = typeof app;

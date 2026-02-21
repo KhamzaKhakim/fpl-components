@@ -1,5 +1,3 @@
-import camelcaseKeys from "camelcase-keys";
-
 const API_BASE = "https://fantasy.premierleague.com/api";
 
 export async function fplFetch(path: string, options?: RequestInit) {
@@ -17,5 +15,5 @@ export async function fplFetch(path: string, options?: RequestInit) {
 
   const data = await res.json();
 
-  return camelcaseKeys(data, { deep: true });
+  return data;
 }

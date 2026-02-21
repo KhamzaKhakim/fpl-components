@@ -6,7 +6,7 @@ export function isPlayer(obj: unknown): obj is Player {
     typeof obj === "object" &&
     obj !== null &&
     typeof (obj as any).name === "string" &&
-    typeof (obj as any).teamName === "string"
+    typeof (obj as any).teamShortName === "string"
   );
 }
 

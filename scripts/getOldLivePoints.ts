@@ -3,39 +3,38 @@ import { LiveModel } from "@/src/elysia/modules/live/model";
 import { getFixtureById } from "@/src/elysia/shared/store/fixturesStore";
 import { getPlayerById } from "@/src/elysia/shared/store/playersStore";
 import { getTeamById } from "@/src/elysia/shared/store/teamsStore";
-import camelcaseKeys from "camelcase-keys";
 
 export type FplPlayerStat = {
   id: number;
   stats: {
     minutes: number;
-    goalsScored: number;
+    goals_scored: number;
     assists: number;
-    cleanSheets: number;
-    goalsConceded: number;
-    ownGoals: number;
-    penaltiesSaved: number;
-    penaltiesMissed: number;
-    yellowCards: number;
-    redCards: number;
+    clean_sheets: number;
+    goals_conceded: number;
+    own_goals: number;
+    penalties_saved: number;
+    penalties_missed: number;
+    yellow_cards: number;
+    red_cards: number;
     saves: number;
     bonus: number;
     bps: number;
     influence: string;
     creativity: string;
     threat: string;
-    ictIndex: string;
-    clearancesBlocksInterceptions: number;
+    ict_index: string;
+    clearances_blocks_interceptions: number;
     recoveries: number;
     tackles: number;
-    defensiveContribution: number;
+    defensive_contribution: number;
     starts: number;
-    expectedGoals: string;
-    expectedAssists: string;
-    expectedGoalInvolvements: string;
-    expectedGoalsConceded: string;
-    totalPoints: number;
-    inDreamTeam: boolean;
+    expected_goals: string;
+    expected_assists: string;
+    expected_goalInvolvements: string;
+    expected_goals_conceded: string;
+    total_points: number;
+    in_dream_team: boolean;
   };
   explain: {
     fixture: number;
@@ -43,7 +42,7 @@ export type FplPlayerStat = {
       identifier: string;
       points: number;
       value: number;
-      pointsModification: number;
+      points_modification: number;
     }[];
   }[];
   modified: boolean;
@@ -75,10 +74,8 @@ async function fetchLivePoints() {
 
       let liveElements = liveResponse.elements;
 
-      const camelCaseliveElements = camelcaseKeys(liveElements, { deep: true });
-
       const fixedLivePoints = await Promise.all(
-        camelCaseliveElements.map(async (element) => {
+        liveElements.map(async (element) => {
           const player = getPlayerById(element.id);
           if (!player) return null;
 
@@ -109,7 +106,7 @@ async function fetchLivePoints() {
 
           return {
             id: element.id,
-            gwPoints: element.stats.totalPoints,
+            gwPoints: element.stats.total_points,
             minutes,
             fixtureIds,
             fixtures,

@@ -1,5 +1,5 @@
 import { t } from "elysia";
-import { FplModel } from "../../shared/service/fpl/model";
+import { PicksModel } from "../../shared/service/fpl/model";
 
 export namespace LiveModel {
   export const PointsBodySchema = t.Object({
@@ -26,7 +26,7 @@ export namespace LiveModel {
     team: t.Number(),
     teamShortName: t.String(),
     gwPoints: t.Number(),
-    position: FplModel.PositionEnum,
+    position: PicksModel.PositionEnum,
     isCaptain: t.Boolean(),
     isViceCaptain: t.Boolean(),
     multiplier: t.Number(),
@@ -37,7 +37,7 @@ export namespace LiveModel {
   });
 
   export const LivePointsResponseSchema = t.Object({
-    activeChip: t.Nullable(FplModel.ChipEnum),
+    activeChip: t.Nullable(PicksModel.ChipEnum),
     totalPoints: t.Number(),
     picks: t.Array(LivePickSchema),
   });

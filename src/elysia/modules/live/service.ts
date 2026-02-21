@@ -36,9 +36,9 @@ export abstract class LiveService {
         team: player.team,
         teamShortName: team.shortName,
         gwPoints: livePoint.gwPoints,
-        position: positionById[p.elementType],
-        isCaptain: p.isCaptain,
-        isViceCaptain: p.isViceCaptain,
+        position: positionById[p.element_type],
+        isCaptain: p.is_captain,
+        isViceCaptain: p.is_vice_captain,
         multiplier: p.multiplier,
         fixtureIds: livePoint.fixtureIds,
         fixtures: livePoint.fixtures,
@@ -50,8 +50,8 @@ export abstract class LiveService {
     }
 
     return {
-      activeChip: res.activeChip,
-      totalPoints: res.entryHistory.points,
+      activeChip: res.active_chip,
+      totalPoints: res.entry_history.points,
       picks,
     };
   }

@@ -11,9 +11,9 @@ import { isNumber, isPlayer } from "@/src/utils/validatations";
 import { DEFAULT_TRANSFERS_SQUAD } from "./defaults";
 
 //TODO:
-// - They need to be draggable to make substitutions (key functionality)
+// ✅ They need to be draggable to make substitutions (key functionality)
 // - Bin to remove a player.
-// - Should take a list of 15 players (with their team, name, price)
+// ✅ Should take a list of 15 players (with their team, name, price)
 
 interface TransfersProps {
   size?: number;
@@ -47,7 +47,6 @@ export default function Transfers({
 
   useEffect(() => {
     if (data?.picks) {
-      console.log(data.picks);
       setSquad(data.picks);
     }
   }, [data]);
@@ -116,7 +115,7 @@ export default function Transfers({
               .filter((p, i) => p.player.position == "GK" && p.idx < 11)
               .map((p, i) => (
                 <PlayerCard
-                  key={`${i}-GK`}
+                  key={`${p.player.id}-${p.idx}-GK`}
                   player={p.player}
                   size={size}
                   index={p.idx}
@@ -133,7 +132,7 @@ export default function Transfers({
               .filter((p, i) => p.player.position == "DEF" && p.idx < 11)
               .map((p, i) => (
                 <PlayerCard
-                  key={`${i}-DEF`}
+                  key={`${p.player.id}-${p.idx}-DEF`}
                   player={p.player}
                   size={size}
                   index={p.idx}
@@ -150,7 +149,7 @@ export default function Transfers({
               .filter((p, i) => p.player.position == "MID" && p.idx < 11)
               .map((p, i) => (
                 <PlayerCard
-                  key={`${i}-MID`}
+                  key={`${p.player.id}-${p.idx}-MID`}
                   player={p.player}
                   size={size}
                   index={p.idx}
@@ -167,7 +166,7 @@ export default function Transfers({
               .filter((p, i) => p.player.position == "FWD" && p.idx < 11)
               .map((p, i) => (
                 <PlayerCard
-                  key={`${i}-FWD`}
+                  key={`${p.player.id}-${p.idx}-FWD`}
                   player={p.player}
                   size={size}
                   index={p.idx}
@@ -194,7 +193,7 @@ export default function Transfers({
             .filter((_, i) => i > 10)
             .map((p, i) => (
               <PlayerCard
-                key={`${i}-SUB`}
+                key={`${p.player.id}-${p.idx}-SUB`}
                 player={p.player}
                 size={size}
                 index={p.idx}

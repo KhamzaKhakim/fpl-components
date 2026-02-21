@@ -3,7 +3,7 @@ import { positionById } from "@/src/utils/mapApi";
 import { TeamsModel } from "./model";
 import { getTeamById } from "../../shared/store/teamsStore";
 import { FplService } from "../../shared/service/fpl/service";
-import { FplModel } from "../../shared/service/fpl/model";
+import { PicksModel } from "../../shared/service/fpl/model";
 import { getCurrentGameweekId } from "../../shared/store/eventsStore";
 import { getPlayerById } from "../../shared/store/playersStore";
 
@@ -17,33 +17,31 @@ export const teams = new Elysia({ prefix: "/teams" })
 
       const ans = await FplService.getPicks({ id, gw: gameweek });
 
-      let picks = await Promise.all(
-        ans.picks.map(async (p: FplModel.FplPicksType) => {
-          const player = getPlayerById(p.element);
+      let picks = ans.picks.map((p: PicksModel.FplPicksType) => {
+        const player = getPlayerById(p.element);
 
-          if (!player) throw new Error(`Player by id ${p.element} not found`);
+        if (!player) throw new Error(`Player by id ${p.element} not found`);
 
-          const team = getTeamById(player.team);
+        const team = getTeamById(player.team);
 
-          if (!team) throw new Error(`Team by id ${player.team} not found`);
+        if (!team) throw new Error(`Team by id ${player.team} not found`);
 
-          const pick: TeamsModel.PickType = {
-            id: p.element,
-            name: player.webName,
-            team: player.team,
-            teamShortName: team.shortName,
-            position: positionById[p.elementType],
-            isCaptain: p.isCaptain,
-            isViceCaptain: p.isViceCaptain,
-            multiplier: p.multiplier,
-            nowCost: player.nowCost,
-          };
+        const pick: TeamsModel.PickType = {
+          id: p.element,
+          name: player.webName,
+          team: player.team,
+          teamShortName: team.shortName,
+          position: positionById[p.element_type],
+          isCaptain: p.is_captain,
+          isViceCaptain: p.is_vice_captain,
+          multiplier: p.multiplier,
+          nowCost: player.nowCost,
+        };
 
-          return pick;
-        }),
-      );
+        return pick;
+      });
 
-      return { ...ans, picks } as {
+      return { activeChip: ans.active_chip, picks } as {
         activeChip: any;
         automaticSubs: any[];
         entryHistory: object;
