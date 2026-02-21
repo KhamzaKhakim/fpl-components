@@ -1,4 +1,4 @@
-import camelcaseKeys from "camelcase-keys";
+const PLAYERS_FILE = "./public/fpl/players.json";
 
 type Player = {
   id: number;
@@ -80,7 +80,7 @@ async function updatePlayers(): Promise<void> {
     console.log("Updating players...");
     const players = await fetchPlayers();
 
-    await Bun.write(`./public/fpl/players.json`, JSON.stringify(players));
+    await Bun.write(PLAYERS_FILE, JSON.stringify(players));
 
     const newPlayersById = new Map<number, Player>();
     for (const p of players) {
@@ -99,7 +99,7 @@ async function updatePlayers(): Promise<void> {
 
 async function initializePlayers(): Promise<void> {
   try {
-    const playersFile = Bun.file("./public/fpl/players.json");
+    const playersFile = Bun.file(PLAYERS_FILE);
 
     // Check if file exists and if cache is stale
     try {

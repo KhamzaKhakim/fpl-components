@@ -1,14 +1,55 @@
-import camelcaseKeys from "camelcase-keys";
-import { FixtureType } from "../../modules/fixtures/types";
+type Fixture = {
+  code: number;
+  event: number | null;
+  finished: boolean;
+  // finishedProvisional: boolean;
+  id: number;
+  kickoffTime: string | null;
+  minutes: number;
+  // provisionalStartTime: boolean;
+  started: boolean | null;
+  teamA: number;
+  teamAScore: number | null;
+  teamH: number;
+  teamHScore: number | null;
+  // stats: {
+  //   identifier: string;
+  //   a: {
+  //     value: number;
+  //     element: number;
+  //   }[];
+  //   h: {
+  //     value: number;
+  //     element: number;
+  //   }[];
+  // }[];
+};
 
-const FIXTURES_FILE = "./public/fixtures.json";
+function mapFixtures(f: any): Fixture {
+  return {
+    code: f.code,
+    event: f.event ?? null,
+    finished: f.finished,
+    // finishedProvisional: f.finished_provisional,
+    id: f.id,
+    kickoffTime: f.kickoff_time ?? null,
+    minutes: f.minutes,
+    // provisionalStartTime: f.provisional_start_time,
+    started: f.started ?? null,
+    teamA: f.team_a,
+    teamAScore: f.team_a_score ?? null,
+    teamH: f.team_h,
+    teamHScore: f.team_h_score ?? null,
+  };
+}
+
+const FIXTURES_FILE = "./public/fpl/fixtures.json";
 const UPDATE_INTERVAL_MS = 60 * 60 * 1000; // 1 hour
 
-let fixturesById = new Map<number, FixtureType>();
+let fixturesById = new Map<number, Fixture>();
 let isUpdating = false;
-let lastUpdateTime = 0;
 
-async function fetchFixtures(): Promise<FixtureType[]> {
+async function fetchFixtures(): Promise<Fixture[]> {
   try {
     const response = await fetch(
       `https://fantasy.premierleague.com/api/fixtures/`,
@@ -18,10 +59,9 @@ async function fetchFixtures(): Promise<FixtureType[]> {
       throw new Error(`API returned ${response.status}`);
     }
 
-    const fixturesJson = await response.json();
-    const camelCaseFixturesJson = camelcaseKeys(fixturesJson, { deep: true });
+    const fixturesJson: any[] = await response.json();
 
-    return camelCaseFixturesJson;
+    return fixturesJson.map(mapFixtures);
   } catch (error) {
     console.error("Failed to fetch fixtures:", error);
     throw error;
@@ -41,21 +81,16 @@ async function updateFixtures(): Promise<void> {
     console.log("Updating fixtures...");
     const fixtures = await fetchFixtures();
 
-    // Write to temp file first, then move (atomic operation)
-    const tempFile = `${FIXTURES_FILE}.tmp`;
-    await Bun.write(tempFile, JSON.stringify(fixtures, null, 2));
-
     // Move temp to actual file (atomic on most filesystems)
-    await Bun.write(FIXTURES_FILE, await Bun.file(tempFile).text());
+    await Bun.write(FIXTURES_FILE, JSON.stringify(fixtures));
 
     // Update in-memory Map
-    const newMap = new Map<number, FixtureType>();
+    const newFixturesById = new Map<number, Fixture>();
     for (const fixture of fixtures) {
-      newMap.set(fixture.id, fixture);
+      newFixturesById.set(fixture.id, fixture);
     }
-    fixturesById = newMap;
+    fixturesById = newFixturesById;
 
-    lastUpdateTime = Date.now();
     console.log(`Fixtures updated successfully at ${new Date().toISOString()}`);
   } catch (error) {
     console.error("Failed to update fixtures:", error);
@@ -65,61 +100,64 @@ async function updateFixtures(): Promise<void> {
   }
 }
 
-// Load fixtures on startup
 async function initializeFixtures(): Promise<void> {
   try {
     const fixturesFile = Bun.file(FIXTURES_FILE);
-    const fixtures = (await fixturesFile.json()) as FixtureType[];
 
-    for (const fixture of fixtures) {
-      fixturesById.set(fixture.id, fixture);
+    // Check if file exists and if cache is stale
+    try {
+      const fileStats = await fixturesFile.stat();
+      const fileLastModified = fileStats.mtime.getTime();
+      const now = Date.now();
+      const isStale = now - fileLastModified > UPDATE_INTERVAL_MS;
+
+      if (isStale) {
+        console.log("Fixtures cache is stale, updating immediately...");
+        await updateFixtures();
+        return;
+      }
+
+      // Load from file if fresh
+      const fixtures = (await fixturesFile.json()) as Fixture[];
+
+      // Sync to in-memory cache
+      const newFixturesById = new Map<number, Fixture>();
+      for (const f of fixtures) {
+        newFixturesById.set(f.id, f);
+      }
+      fixturesById = newFixturesById;
+
+      console.log(`Loaded ${fixtures.length} fixtures from file`);
+    } catch (fileError) {
+      // File doesn't exist, fetch immediately
+      console.warn("Fixtures cache file not found, fetching fresh data...");
+      await updateFixtures();
     }
-
-    console.log(`Loaded ${fixturesById.size} fixtures from file`);
-    lastUpdateTime = Date.now();
   } catch (error) {
-    console.warn(
-      "Could not load fixtures from file, starting with empty map:",
-      error,
-    );
-    // Try to fetch immediately if file doesn't exist
-    await updateFixtures();
+    console.error("Failed to initialize fixtures:", error);
+    throw error;
   }
 }
 
-// Start periodic updates
-function startPeriodicUpdates(): void {
-  // Update immediately on start
-  updateFixtures().catch(console.error);
-
-  // Then set interval
+function startPeriodicFixtureUpdates(): void {
+  // Set interval for periodic updates (initialization handles the first load)
   setInterval(() => {
     updateFixtures().catch(console.error);
   }, UPDATE_INTERVAL_MS);
 
   console.log(
-    `Periodic fixture updates started (interval: ${UPDATE_INTERVAL_MS}ms)`,
+    `Periodic Team updates started (interval: ${UPDATE_INTERVAL_MS}ms)`,
   );
 }
 
-// Initialize and start
 await initializeFixtures();
-startPeriodicUpdates();
+startPeriodicFixtureUpdates();
 
 // Export getter function instead of raw Map
-export function getFixtureById(id: number): FixtureType | undefined {
+export function getFixtureById(id: number): Fixture | undefined {
   return fixturesById.get(id);
 }
 
-export function getAllFixtures(): FixtureType[] {
+export function getAllFixtures(): Fixture[] {
   return Array.from(fixturesById.values());
-}
-
-export function getLastUpdateTime(): number {
-  return lastUpdateTime;
-}
-
-// For debugging
-export function forceUpdate(): Promise<void> {
-  return updateFixtures();
 }

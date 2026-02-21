@@ -125,7 +125,7 @@ function startPeriodicTeamUpdates(): void {
   );
 }
 
-await updateTeams();
+await initializeTeams();
 startPeriodicTeamUpdates();
 
 export function getTeamById(id: number) {
@@ -134,4 +134,8 @@ export function getTeamById(id: number) {
   if (!team) throw new Error(`Team not found for id: ${id}`);
 
   return team;
+}
+
+export function getAllTeams(): Team[] {
+  return Array.from(teamsById.values());
 }

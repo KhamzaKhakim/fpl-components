@@ -1,9 +1,11 @@
-import camelcaseKeys from "camelcase-keys";
 import { getCurrentGameweekId } from "../../modules/utils/gameweekUtils";
 import { getFixtureById } from "./fixturesStore";
 import { getTeamById } from "./teamsStore";
 import { LiveModel } from "../../modules/live/model";
 import { getPlayerById } from "./playerStoreRedis";
+
+const getLivePointsFile = (gw: number) =>
+  `./public/fpl/gameweek-points/gw-${gw}.json`;
 
 export type FplPlayerStat = {
   id: number;
@@ -149,10 +151,7 @@ async function updateLivePoints(): Promise<void> {
     const livePoints = await fetchLivePoints();
 
     // Update file
-    await Bun.write(
-      `./public/fpl/gameweek-points/gw-${gw}.json`,
-      JSON.stringify(livePoints),
-    );
+    await Bun.write(getLivePointsFile(gw), JSON.stringify(livePoints));
 
     // Build new inner map completely before replacing (atomic operation)
     const newGwPointsMap = new Map<number, LiveModel.LiveType>();
@@ -182,9 +181,7 @@ async function initializeLivePoints(): Promise<void> {
     // Load all available gameweek files (1 to current) without stale checks
     for (let i = 1; i <= gw; i++) {
       try {
-        const livePointsFile = Bun.file(
-          `./public/fpl/gameweek-points/gw-${i}.json`,
-        );
+        const livePointsFile = Bun.file(getLivePointsFile(i));
 
         // Load from file
         const livePoints =
@@ -210,9 +207,7 @@ async function initializeLivePoints(): Promise<void> {
     // Check if current gameweek is loaded, and if so, check for staleness
     if (livePointsByGameweek.has(gw)) {
       try {
-        const livePointsFile = Bun.file(
-          `./public/fpl/gameweek-points/gw-${gw}.json`,
-        );
+        const livePointsFile = Bun.file(getLivePointsFile(gw));
         const fileStats = await livePointsFile.stat();
         const fileLastModified = fileStats.mtime.getTime();
         const now = Date.now();
