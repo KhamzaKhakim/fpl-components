@@ -25,7 +25,7 @@ export namespace ManagerModel {
     summaryOverallPoints: t.Number(),
     summaryOverallRank: t.Number(),
     summaryEventPoints: t.Number(),
-    summaryEventRank: t.Number(),
+    summaryEventRank: t.Nullable(t.Number()),
     name: t.String(),
     lastDeadlineBank: t.Number(),
     lastDeadlineValue: t.Number(),

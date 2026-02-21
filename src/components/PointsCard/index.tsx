@@ -1,7 +1,6 @@
 "use client";
 import { createScaler } from "@/src/utils/scaler";
 import { Skeleton } from "@/components/ui/skeleton";
-import { TeamsModel } from "@/src/elysia/modules/teams/model";
 import { LiveModel } from "@/src/elysia/modules/live/model";
 
 interface PointsCardProps {
@@ -43,7 +42,8 @@ export default function PointsCard({
     display = player.fixtures.join(", ");
     finished = false;
   } else {
-    display = `${player.gwPoints * player.multiplier}, ${player.fixtures[1]}`;
+    display = `${player.gwPoints * player.multiplier}`;
+    if (player.fixtures[1]) display += `, ${player.fixtures[1]}`;
     finished = false;
   }
 
@@ -77,7 +77,13 @@ export default function PointsCard({
           {player.name}
         </p>
         <p
-          className={`flex justify-center items-center text-center ${finished ? "bg-gray-800 text-white" : "bg-gray-200"}`}
+          className={`flex justify-center items-center text-center ${
+            finished
+              ? "bg-gray-800 text-white"
+              : player.minutes.some((s) => s !== 90 && s > 0)
+                ? "bg-red-600  text-white"
+                : "bg-gray-200"
+          }`}
           style={{ fontSize: fsPoints, height: "50%" }}
         >
           {display}

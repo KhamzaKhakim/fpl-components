@@ -4,6 +4,7 @@ import { teams } from "./modules/teams";
 import { live } from "./modules/live";
 import { dns } from "bun";
 import { manager } from "./modules/manager";
+import { transfers } from "./modules/transfers";
 
 dns.prefetch("https://fantasy.premierleague.com");
 
@@ -30,6 +31,7 @@ export const app = new Elysia({ prefix: "/api" })
   .use(players)
   .use(teams)
   .use(live)
+  .use(transfers)
   .use(manager)
   .get("/", () => "Hello world!");
 

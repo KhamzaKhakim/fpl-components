@@ -12,10 +12,10 @@ export default function PlannerPage() {
     queryKey: ["squad"], //add gw
     queryFn: () =>
       client
-        .teams({
+        .transfers({
           id: user.id!,
         })
-        .transfers.get(),
+        .get(),
     enabled: !!user.id,
   });
 

@@ -44,7 +44,7 @@ function mapFixtures(f: any): Fixture {
 }
 
 const FIXTURES_FILE = "./public/fpl/fixtures.json";
-const UPDATE_INTERVAL_MS = 60 * 60 * 1000; // 1 hour
+const UPDATE_INTERVAL_MS = 60 * 1000; // 1 hour
 
 let fixturesById = new Map<number, Fixture>();
 let isUpdating = false;
