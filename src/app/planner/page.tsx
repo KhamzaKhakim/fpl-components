@@ -19,6 +19,19 @@ export default function PlannerPage() {
     enabled: !!user.id,
   });
 
+  const { data: managerData, isLoading: managerDataLoading } = useQuery({
+    queryKey: ["manager"],
+    queryFn: () =>
+      client
+        .manager({
+          id: user.id!,
+        })
+        .get(),
+    enabled: !!user.id,
+  });
+
+  console.log(managerData);
+
   return (
     <div className="flex justify-center">
       <Transfers

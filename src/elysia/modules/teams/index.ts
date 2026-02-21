@@ -10,6 +10,7 @@ import { getPlayerById } from "../../shared/store/playersStore";
 export const teams = new Elysia({ prefix: "/teams" })
   .get("/", () => file("./public/teams.json"))
   // TODO: add typing
+  // move to transfers
   .get(
     "/:id/transfers",
     async ({ params: { id } }) => {
