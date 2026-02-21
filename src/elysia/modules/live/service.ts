@@ -3,7 +3,7 @@ import { FplService } from "../../shared/service/fpl/service";
 import { getTeamById } from "../../shared/store/teamsStore";
 import { LiveModel } from "./model";
 import { getLivePoint } from "../../shared/store/livePointsStore";
-import { getPlayerById } from "../../shared/store/playerStoreRedis";
+import { getPlayerById } from "../../shared/store/playersStore";
 
 export abstract class LiveService {
   static async getPoints({
@@ -17,7 +17,7 @@ export abstract class LiveService {
     for (let i = 0; i < res.picks.length; i++) {
       const p = res.picks[i];
 
-      const player = await getPlayerById(p.element);
+      const player = getPlayerById(p.element);
 
       if (!player) throw new Error(`Player by id ${p.element} not found`);
 

@@ -140,10 +140,10 @@ export function getAllEvents(): Event[] {
   return Array.from(eventsById.values());
 }
 
-export function getCurrentGameweek() {
+export function getCurrentGameweekId() {
   const event = Array.from(eventsById.values()).filter((e) => e.isCurrent);
 
   if (!event.length) throw new Error(`Current event not found`);
 
-  return event[0];
+  return event[0].id;
 }

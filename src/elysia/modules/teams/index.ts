@@ -1,13 +1,11 @@
 import { Elysia, file, t } from "elysia";
-import { getCurrentGameweekId } from "../utils/gameweekUtils";
 import { positionById } from "@/src/utils/mapApi";
-import { fplFetch } from "../../fplClient";
 import { TeamsModel } from "./model";
 import { getTeamById } from "../../shared/store/teamsStore";
-import { LiveService } from "../live/service";
 import { FplService } from "../../shared/service/fpl/service";
-import { getPlayerById } from "../../shared/store/playerStoreRedis";
 import { FplModel } from "../../shared/service/fpl/model";
+import { getCurrentGameweekId } from "../../shared/store/eventsStore";
+import { getPlayerById } from "../../shared/store/playersStore";
 
 export const teams = new Elysia({ prefix: "/teams" })
   .get("/", () => file("./public/teams.json"))
@@ -15,13 +13,13 @@ export const teams = new Elysia({ prefix: "/teams" })
   .get(
     "/:id/transfers",
     async ({ params: { id } }) => {
-      const gameweek = await getCurrentGameweekId();
+      const gameweek = getCurrentGameweekId();
 
       const ans = await FplService.getPicks({ id, gw: gameweek });
 
       let picks = await Promise.all(
         ans.picks.map(async (p: FplModel.FplPicksType) => {
-          const player = await getPlayerById(p.element);
+          const player = getPlayerById(p.element);
 
           if (!player) throw new Error(`Player by id ${p.element} not found`);
 

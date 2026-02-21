@@ -1,8 +1,8 @@
-import { getCurrentGameweekId } from "../../modules/utils/gameweekUtils";
 import { getFixtureById } from "./fixturesStore";
 import { getTeamById } from "./teamsStore";
 import { LiveModel } from "../../modules/live/model";
-import { getPlayerById } from "./playerStoreRedis";
+import { getPlayerById } from "./playersStore";
+import { getCurrentGameweekId } from "./eventsStore";
 
 const getLivePointsFile = (gw: number) =>
   `./public/fpl/gameweek-points/gw-${gw}.json`;
@@ -59,7 +59,7 @@ let currentGameweek = 0;
 
 async function fetchLivePoints(): Promise<LiveModel.LiveType[]> {
   try {
-    const gw = await getCurrentGameweekId();
+    const gw = getCurrentGameweekId();
 
     if (!gw) throw new Error("Current gameweek not found");
 
@@ -75,14 +75,9 @@ async function fetchLivePoints(): Promise<LiveModel.LiveType[]> {
 
     let liveElements: any[] = liveResponse.elements;
 
-    //change to map
-    // const camelCaseliveElements = camelcaseKeys(liveElements, {
-    //   deep: true,
-    // }) as FplPlayerStat[];
-
-    const fixedLivePoints = await Promise.all(
-      liveElements.map(async (element) => {
-        const player = await getPlayerById(element.id);
+    const fixedLivePoints = liveElements
+      .map((element) => {
+        const player = getPlayerById(element.id);
         if (!player) return null;
 
         const team = getTeamById(player.team);
@@ -118,8 +113,8 @@ async function fetchLivePoints(): Promise<LiveModel.LiveType[]> {
           fixtures,
           fixturesFinished,
         } satisfies LiveModel.LiveType;
-      }),
-    ).then((v) => v.filter((v) => v != null));
+      })
+      .filter((v) => v != null);
 
     return fixedLivePoints;
   } catch (error) {
@@ -137,7 +132,7 @@ async function updateLivePoints(): Promise<void> {
   isUpdating = true;
 
   try {
-    const gw = await getCurrentGameweekId();
+    const gw = getCurrentGameweekId();
 
     if (!gw) throw new Error("Current gameweek not found");
 
@@ -172,7 +167,7 @@ async function updateLivePoints(): Promise<void> {
 
 async function initializeLivePoints(): Promise<void> {
   try {
-    const gw = await getCurrentGameweekId();
+    const gw = getCurrentGameweekId();
 
     if (!gw) throw new Error("Current gameweek not found");
 

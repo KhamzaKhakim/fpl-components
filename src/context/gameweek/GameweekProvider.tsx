@@ -27,7 +27,7 @@ export function GameweekProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const load = async () => {
-      const res = await fetch("/events.json");
+      const res = await fetch("/fpl/events.json");
       const events = (await res.json()) as GwType[];
 
       const current = events.find((e) => e.isCurrent) ?? null;

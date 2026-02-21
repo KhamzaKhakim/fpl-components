@@ -3,7 +3,7 @@ import { TeamsModel } from "./model";
 import { FplService } from "../../shared/service/fpl/service";
 import { getTeamById } from "../../shared/store/teamsStore";
 import { FplModel } from "../../shared/service/fpl/model";
-import { getPlayerById } from "../../shared/store/playerStoreRedis";
+import { getPlayerById } from "../../shared/store/playersStore";
 
 export abstract class TeamsService {
   static async getPoints({
@@ -14,7 +14,7 @@ export abstract class TeamsService {
 
     let picks: TeamsModel.PickType[] = await Promise.all(
       res.picks.map(async (p: FplModel.FplPicksType) => {
-        const player = await getPlayerById(p.element);
+        const player = getPlayerById(p.element);
 
         if (!player) throw new Error(`Player by id ${p.element} not found`);
 

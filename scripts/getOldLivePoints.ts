@@ -1,7 +1,7 @@
 import { EventType } from "@/src/elysia/modules/events/types";
 import { LiveModel } from "@/src/elysia/modules/live/model";
 import { getFixtureById } from "@/src/elysia/shared/store/fixturesStore";
-import { getPlayerById } from "@/src/elysia/shared/store/playerStoreRedis";
+import { getPlayerById } from "@/src/elysia/shared/store/playersStore";
 import { getTeamById } from "@/src/elysia/shared/store/teamsStore";
 import camelcaseKeys from "camelcase-keys";
 
@@ -55,7 +55,7 @@ type LiveResponse = {
 
 async function fetchLivePoints() {
   try {
-    const eventsFile = Bun.file("./public/events.json");
+    const eventsFile = Bun.file("./public/fpl/events.json");
     const events = (await eventsFile.json()) as EventType[];
 
     if (!events) throw new Error("Gameweeks not found");
@@ -79,7 +79,7 @@ async function fetchLivePoints() {
 
       const fixedLivePoints = await Promise.all(
         camelCaseliveElements.map(async (element) => {
-          const player = await getPlayerById(element.id);
+          const player = getPlayerById(element.id);
           if (!player) return null;
 
           const team = getTeamById(player.team);
