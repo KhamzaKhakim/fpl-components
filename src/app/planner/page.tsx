@@ -30,8 +30,6 @@ export default function PlannerPage() {
     enabled: !!user.id,
   });
 
-  console.log(managerData);
-
   return (
     <div className="flex justify-center">
       <Transfers

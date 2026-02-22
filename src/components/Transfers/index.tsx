@@ -211,7 +211,7 @@ export default function Transfers({
           }}
         >
           <Image
-            src="field.svg"
+            src="/field.svg"
             alt="Football field"
             width={size}
             height={size}

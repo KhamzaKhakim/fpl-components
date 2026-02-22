@@ -16,7 +16,7 @@ interface PointsProps {
   isLoading: boolean;
   currGameweek?: number;
   gameweek: number | null;
-  setGameweek: React.Dispatch<React.SetStateAction<number | null>>;
+  setGameweek: (gw: number) => void;
 }
 
 export default function Points({
@@ -49,7 +49,9 @@ export default function Points({
     if (data?.picks) {
       setSquad(data.picks);
       setPoints(
-        data.picks.slice(0, 11).reduce((acc, curr) => acc + curr.gwPoints, 0),
+        data.picks
+          .slice(0, 11)
+          .reduce((acc, curr) => acc + curr.gwPoints * curr.multiplier, 0),
       );
     }
   }, [data]);
@@ -60,7 +62,7 @@ export default function Points({
         <button
           aria-label="Previous gameweek"
           disabled={!gameweek || !currGameweek || gameweek === 1}
-          onClick={() => setGameweek((g) => g! - 1)}
+          onClick={() => setGameweek(gameweek! - 1)}
           className={`
           p-2 rounded-lg transition 
           ${
@@ -70,7 +72,7 @@ export default function Points({
           }
           `}
         >
-          <img src="./icons/arrow-left.svg" alt="Prev" className="w-5 h-5" />
+          <img src="/icons/arrow-left.svg" alt="Next" className="w-5 h-5" />
         </button>
 
         <div
@@ -85,7 +87,7 @@ export default function Points({
         <button
           aria-label="Next gameweek"
           disabled={!gameweek || !currGameweek || gameweek === currGameweek}
-          onClick={() => setGameweek((g) => g! + 1)}
+          onClick={() => setGameweek(gameweek! + 1)}
           className={`
             p-2 rounded-lg transition
             ${
@@ -95,7 +97,7 @@ export default function Points({
             }
           `}
         >
-          <img src="./icons/arrow-right.svg" alt="Next" className="w-5 h-5" />
+          <img src="/icons/arrow-right.svg" alt="Next" className="w-5 h-5" />
         </button>
       </div>
       <div
@@ -209,7 +211,7 @@ export default function Points({
           }}
         >
           <Image
-            src="field.svg"
+            src="/field.svg"
             alt="Football field"
             width={size}
             height={size}
