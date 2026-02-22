@@ -15,8 +15,7 @@ type Props = {
 export default function Page({ params }: Props) {
   const router = useRouter();
 
-  const { id } = use(params);
-  const gameweek = Number(id);
+  const { id: gameweek } = use(params);
 
   const { id: userId } = useUser();
   const { gw } = useGameweek();
@@ -33,7 +32,7 @@ export default function Page({ params }: Props) {
           id: userId!,
         })
         .points({
-          gw: gameweek,
+          gw: +gameweek || gw?.id!,
         })
         .get(),
     enabled: !!userId && !!gameweek,
@@ -43,7 +42,7 @@ export default function Page({ params }: Props) {
     <div className="flex justify-center">
       <Points
         size={600}
-        gameweek={gameweek}
+        gameweek={+gameweek}
         setGameweek={changeGameweek}
         currGameweek={gw?.id}
         // TODO: fix this part
