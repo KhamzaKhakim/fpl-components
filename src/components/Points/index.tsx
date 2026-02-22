@@ -48,7 +48,9 @@ export default function Points({
   useEffect(() => {
     if (data?.picks) {
       setSquad(data.picks);
-      setPoints(data.totalPoints);
+      setPoints(
+        data.picks.slice(0, 11).reduce((acc, curr) => acc + curr.gwPoints, 0),
+      );
     }
   }, [data]);
 

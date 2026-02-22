@@ -37,7 +37,7 @@ export default function PointsCard({
   let finished = true;
 
   if (player.fixturesFinished.every(Boolean)) {
-    display = player.gwPoints * player.multiplier;
+    display = player.gwPoints * (player.multiplier ?? 1);
   } else if (player.minutes.every((m) => m === 0)) {
     display = player.fixtures.join(", ");
     finished = false;
