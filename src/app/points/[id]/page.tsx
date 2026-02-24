@@ -5,7 +5,7 @@ import { useGameweek } from "@/src/context/gameweek/useGameweek";
 import { useUser } from "@/src/context/user/useUser";
 import { client } from "@/src/elysia/client";
 import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import { use } from "react";
 
 type Props = {
@@ -18,7 +18,12 @@ export default function Page({ params }: Props) {
   const { id: gameweek } = use(params);
 
   const { id: userId } = useUser();
+
   const { gw } = useGameweek();
+
+  if (isNaN(+gameweek) || +gameweek < 1 || +gameweek > (gw?.id || 38)) {
+    notFound();
+  }
 
   const changeGameweek = (newGw: number) => {
     router.push(`/points/${newGw}`);
@@ -32,7 +37,7 @@ export default function Page({ params }: Props) {
           id: userId!,
         })
         .points({
-          gw: +gameweek || gw?.id!,
+          gw: Number(gameweek),
         })
         .get(),
     enabled: !!userId && !!gameweek,
