@@ -3,6 +3,7 @@ import { LiveModel } from "@/src/elysia/modules/live/model";
 import { getFixtureById } from "@/src/elysia/shared/store/fixturesStore";
 import { getPlayerById } from "@/src/elysia/shared/store/playersStore";
 import { getTeamById } from "@/src/elysia/shared/store/teamsStore";
+import { redis } from "bun";
 
 export type FplPlayerStat = {
   id: number;
@@ -54,10 +55,7 @@ type LiveResponse = {
 
 async function fetchLivePoints() {
   try {
-    const eventsFile = Bun.file("./public/fpl/events.json");
-    const events = (await eventsFile.json()) as EventType[];
-
-    if (!events) throw new Error("Gameweeks not found");
+    //get current gameweek
 
     for (let i = 0; i < events.length; i++) {
       if (events[i].finished == true || events[i].isCurrent == true) return;

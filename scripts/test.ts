@@ -1,10 +1,12 @@
-import { getLivePoint } from "@/src/elysia/shared/store/livePointsStore";
+import {
+  getAllGameweeks,
+  getGameweekById,
+} from "@/src/elysia/modules/gameweeks/cache";
 
-const oriley26 = await getLivePoint({ gw: 26, player: 411 });
-console.log(oriley26);
+const a = await getGameweekById(27);
 
-const oriley25 = await getLivePoint({ gw: 25, player: 411 });
-console.log(oriley25);
+console.log(a);
 
-const oriley24 = await getLivePoint({ gw: 24, player: 411 });
-console.log(oriley24);
+const all = await getAllGameweeks();
+
+console.log(all);
