@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
 import { use } from "react";
 
-import { getCurrentGameweekId } from "@/src/elysia/modules/gameweeks/cache";
+import { useGameweek } from "@/src/context/gameweek/useGameweek";
 
 export default function Page() {
-  const gw = use(getCurrentGameweekId());
+  const gw = use(useGameweek());
   redirect(`/points/${gw}`);
 }
