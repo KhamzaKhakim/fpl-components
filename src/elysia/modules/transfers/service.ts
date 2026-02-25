@@ -1,10 +1,11 @@
 import { positionById } from "@/src/utils/mapApi";
-import { TransfersModel } from "./model";
-import { FplService } from "../../shared/service/fpl/service";
-import { getTeamById } from "../../shared/store/teamsStore";
+
 import { PicksModel } from "../../shared/service/fpl/model";
-import { getPlayerById } from "../../shared/store/playersStore";
+import { FplService } from "../../shared/service/fpl/service";
 import { getCurrentGameweekId } from "../../shared/store/eventsStore";
+import { getPlayerById } from "../../shared/store/playersStore";
+import { getTeamById } from "../../shared/store/teamsStore";
+import { TransfersModel } from "./model";
 
 export abstract class TransfersService {
   static async getTransfers({
@@ -13,7 +14,7 @@ export abstract class TransfersService {
     const gw = getCurrentGameweekId();
     const res = await FplService.getPicks({ id, gw });
 
-    let picks: TransfersModel.PickType[] = await Promise.all(
+    const picks: TransfersModel.PickType[] = await Promise.all(
       res.picks.map(async (p: PicksModel.FplPicksType) => {
         const player = getPlayerById(p.element);
 

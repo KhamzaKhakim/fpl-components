@@ -1,9 +1,10 @@
 import { positionById } from "@/src/utils/mapApi";
-import { TeamsModel } from "./model";
-import { FplService } from "../../shared/service/fpl/service";
-import { getTeamById } from "../../shared/store/teamsStore";
+
 import { PicksModel } from "../../shared/service/fpl/model";
+import { FplService } from "../../shared/service/fpl/service";
 import { getPlayerById } from "../../shared/store/playersStore";
+import { getTeamById } from "../../shared/store/teamsStore";
+import { TeamsModel } from "./model";
 
 export abstract class TeamsService {
   static async getPoints({
@@ -12,7 +13,7 @@ export abstract class TeamsService {
   }: TeamsModel.PointsBody): Promise<TeamsModel.PointsResponse> {
     const res = await FplService.getPicks({ id, gw });
 
-    let picks: TeamsModel.PickType[] = await Promise.all(
+    const picks: TeamsModel.PickType[] = await Promise.all(
       res.picks.map(async (p: PicksModel.FplPicksType) => {
         const player = getPlayerById(p.element);
 

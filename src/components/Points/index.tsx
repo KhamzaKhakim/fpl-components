@@ -1,12 +1,14 @@
 "use client";
 import Image from "next/image";
-import PointsCard from "../PointsCard";
+import { useEffect, useState } from "react";
+
+import { LiveModel } from "@/src/elysia/modules/live/model";
 import { mapCoordinates } from "@/src/utils/mapCoordinates";
 import { createScaler } from "@/src/utils/scaler";
-import { useEffect, useState } from "react";
-import { LiveModel } from "@/src/elysia/modules/live/model";
-import { Squad } from "./types";
+
+import PointsCard from "../PointsCard";
 import { DEFAULT_POINTS_SQUAD } from "./defaults";
+import { Squad } from "./types";
 
 interface PointsProps {
   size?: number;

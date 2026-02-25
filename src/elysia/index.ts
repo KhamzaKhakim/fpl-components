@@ -1,11 +1,12 @@
-import { Elysia, t } from "elysia";
+import { dns } from "bun";
+import { Elysia } from "elysia";
+
+import { gameweeks } from "./modules/gameweeks";
+import { live } from "./modules/live";
+import { manager } from "./modules/manager";
 import { players } from "./modules/players";
 import { teams } from "./modules/teams";
-import { live } from "./modules/live";
-import { dns } from "bun";
-import { manager } from "./modules/manager";
 import { transfers } from "./modules/transfers";
-import { gameweeks } from "./modules/gameweeks";
 
 dns.prefetch("https://fantasy.premierleague.com");
 

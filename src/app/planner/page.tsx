@@ -1,9 +1,10 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
+
 import Transfers from "@/src/components/Transfers";
 import { useUser } from "@/src/context/user/useUser";
 import { client } from "@/src/elysia/client";
-import { useQuery } from "@tanstack/react-query";
 
 export default function PlannerPage() {
   const user = useUser();

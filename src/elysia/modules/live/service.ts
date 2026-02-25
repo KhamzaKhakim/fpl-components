@@ -1,18 +1,16 @@
 import { positionById } from "@/src/utils/mapApi";
+
 import { FplService } from "../../shared/service/fpl/service";
-import { getTeamById } from "../../shared/store/teamsStore";
-import { LiveModel } from "./model";
 import { getLivePoint } from "../../shared/store/livePointsStore";
 import { getPlayerById } from "../../shared/store/playersStore";
+import { getTeamById } from "../../shared/store/teamsStore";
+import { LivePickType, LivePointsResponse, PointsBody } from "./model";
 
 export abstract class LiveService {
-  static async getPoints({
-    id,
-    gw,
-  }: LiveModel.PointsBody): Promise<LiveModel.LivePointsResponse> {
+  static async getPoints({ id, gw }: PointsBody): Promise<LivePointsResponse> {
     const res = await FplService.getPicks({ id, gw });
 
-    let picks: LiveModel.LivePickType[] = [];
+    const picks: LivePickType[] = [];
 
     for (let i = 0; i < res.picks.length; i++) {
       const p = res.picks[i];
@@ -30,7 +28,7 @@ export abstract class LiveService {
       if (!livePoint)
         throw new Error(`Live point for player with id ${p.element} not found`);
 
-      const pick: LiveModel.LivePickType = {
+      const pick: LivePickType = {
         id: p.element,
         name: player.webName,
         team: player.team,

@@ -1,6 +1,7 @@
-import { redis } from "bun";
-import { GameweekSchema, GameweekType } from "./model";
 import { Value } from "@sinclair/typebox/value";
+import { redis } from "bun";
+
+import { GameweekSchema, GameweekType } from "./model";
 
 export async function getGameweekById(id: number) {
   const gameweek = await redis.hget("gameweeks", `gw:${id}`);
@@ -20,8 +21,8 @@ export async function getAllGameweeks() {
 
   if (!gameweeks) throw new Error("Gameweeks not found");
 
-  const fixedGameweeks = Object.entries(gameweeks).map(
-    ([_, val]) => JSON.parse(val) as GameweekType,
+  const fixedGameweeks = Object.values(gameweeks).map(
+    (val) => JSON.parse(val) as GameweekType,
   );
 
   if (!fixedGameweeks.length) throw new Error("Gameweeks are empty");

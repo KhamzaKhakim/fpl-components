@@ -1,16 +1,18 @@
 "use client";
-import { createScaler } from "@/src/utils/scaler";
-import { useEffect, useRef, useState } from "react";
-import { disableNativeDragPreview } from "@atlaskit/pragmatic-drag-and-drop/element/disable-native-drag-preview";
-import { preventUnhandled } from "@atlaskit/pragmatic-drag-and-drop/prevent-unhandled";
 import {
   draggable,
   dropTargetForElements,
 } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
-import { Skeleton } from "@/components/ui/skeleton";
+import { disableNativeDragPreview } from "@atlaskit/pragmatic-drag-and-drop/element/disable-native-drag-preview";
+import { preventUnhandled } from "@atlaskit/pragmatic-drag-and-drop/prevent-unhandled";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Player } from "../Transfers/types";
+
+import { Skeleton } from "@/components/ui/skeleton";
 import { TeamsModel } from "@/src/elysia/modules/teams/model";
+import { createScaler } from "@/src/utils/scaler";
+
+import { Player } from "../Transfers/types";
 
 interface PlayerCardProps {
   size: number;

@@ -1,14 +1,16 @@
 "use client";
+import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import Image from "next/image";
-import PlayerCard from "../PlayerCard";
+import { useEffect, useState } from "react";
+
 import { mapCoordinates } from "@/src/utils/mapCoordinates";
 import { createScaler } from "@/src/utils/scaler";
-import { useEffect, useState } from "react";
-import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import { isNumber, isPlayer } from "@/src/utils/validatations";
+
+import PlayerCard from "../PlayerCard";
+import { DEFAULT_TRANSFERS_SQUAD } from "./defaults";
 import { Player, Squad } from "./types";
 import { canDrop } from "./utils";
-import { isNumber, isPlayer } from "@/src/utils/validatations";
-import { DEFAULT_TRANSFERS_SQUAD } from "./defaults";
 
 //TODO:
 // ✅ They need to be draggable to make substitutions (key functionality)

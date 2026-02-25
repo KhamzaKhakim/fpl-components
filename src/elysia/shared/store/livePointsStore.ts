@@ -1,8 +1,8 @@
-import { getFixtureById } from "./fixturesStore";
-import { getTeamById } from "./teamsStore";
 import { LiveModel } from "../../modules/live/model";
-import { getPlayerById } from "./playersStore";
 import { getCurrentGameweekId } from "./eventsStore";
+import { getFixtureById } from "./fixturesStore";
+import { getPlayerById } from "./playersStore";
+import { getTeamById } from "./teamsStore";
 
 const getLivePointsFile = (gw: number) =>
   `./public/fpl/gameweek-points/gw-${gw}.json`;
@@ -54,7 +54,7 @@ export type FplPlayerStat = {
 const UPDATE_INTERVAL_MS = 60 * 1000; // 1 hour
 let isUpdating = false;
 // Map structure: gameweek -> (player id -> live points)
-let livePointsByGameweek = new Map<number, Map<number, LiveModel.LiveType>>();
+const livePointsByGameweek = new Map<number, Map<number, LiveModel.LiveType>>();
 let currentGameweek = 0;
 
 async function fetchLivePoints(): Promise<LiveModel.LiveType[]> {
@@ -71,9 +71,9 @@ async function fetchLivePoints(): Promise<LiveModel.LiveType[]> {
       throw new Error(`API returned ${response.status}`);
     }
 
-    let liveResponse = await response.json();
+    const liveResponse = await response.json();
 
-    let liveElements: any[] = liveResponse.elements;
+    const liveElements: any[] = liveResponse.elements;
 
     const fixedLivePoints = liveElements
       .map((element) => {

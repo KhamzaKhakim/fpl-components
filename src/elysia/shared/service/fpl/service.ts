@@ -1,4 +1,5 @@
 import { fplFetch } from "@/src/elysia/fplClient";
+
 import { ManagerModel, PicksModel } from "./model";
 
 export abstract class FplService {

@@ -1,6 +1,5 @@
-import { Elysia, t } from "elysia";
+import { Elysia } from "elysia";
 
-export const players = new Elysia({ prefix: "/players" }).get(
-  "/",
-  () => "Players",
-);
+export const players = new Elysia({ prefix: "/players" })
+  .get("/", () => "Players")
+  .get("/:id", ({ params: { id } }) => {});

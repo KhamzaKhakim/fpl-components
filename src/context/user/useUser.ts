@@ -1,4 +1,5 @@
 import { useContext } from "react";
+
 import { UserContext, UserType } from "./UserProvider";
 
 export function useUser(): UserType {

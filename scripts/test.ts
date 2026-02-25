@@ -1,12 +1,17 @@
 import {
-  getAllGameweeks,
+  getCurrentGameweekId,
   getGameweekById,
 } from "@/src/elysia/modules/gameweeks/cache";
+import { getPlayerById } from "@/src/elysia/modules/players/cache";
 
 const a = await getGameweekById(27);
 
 console.log(a);
 
-const all = await getAllGameweeks();
+const curr = await getCurrentGameweekId();
 
-console.log(all);
+console.log(curr);
+
+const raya = await getPlayerById(1);
+
+console.log(raya);

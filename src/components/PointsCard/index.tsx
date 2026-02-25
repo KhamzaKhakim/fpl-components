@@ -1,7 +1,7 @@
 "use client";
-import { createScaler } from "@/src/utils/scaler";
 import { Skeleton } from "@/components/ui/skeleton";
 import { LiveModel } from "@/src/elysia/modules/live/model";
+import { createScaler } from "@/src/utils/scaler";
 
 interface PointsCardProps {
   size: number;

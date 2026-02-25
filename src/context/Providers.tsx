@@ -3,8 +3,9 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ReactNode } from "react";
-import { UserProvider } from "./user/UserProvider";
+
 import { GameweekProvider } from "./gameweek/GameweekProvider";
+import { UserProvider } from "./user/UserProvider";
 
 const queryClient = new QueryClient();
 

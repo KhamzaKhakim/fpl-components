@@ -1,12 +1,13 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
+import { notFound, useRouter } from "next/navigation";
+import { use } from "react";
+
 import Points from "@/src/components/Points";
 import { useGameweek } from "@/src/context/gameweek/useGameweek";
 import { useUser } from "@/src/context/user/useUser";
 import { client } from "@/src/elysia/client";
-import { useQuery } from "@tanstack/react-query";
-import { notFound, useRouter } from "next/navigation";
-import { use } from "react";
 
 type Props = {
   params: Promise<{ id: string }>;

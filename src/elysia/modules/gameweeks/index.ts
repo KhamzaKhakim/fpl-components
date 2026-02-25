@@ -1,6 +1,6 @@
 import { Elysia } from "elysia";
 
-import { GameweekByIdBodySchema } from "./model";
+import { GetByIdRequestSchema } from "../../shared/model";
 import * as GameweeksService from "./service";
 
 export const gameweeks = new Elysia({ prefix: "/gameweeks" })
@@ -11,6 +11,6 @@ export const gameweeks = new Elysia({ prefix: "/gameweeks" })
       return GameweeksService.getGameweekById(id);
     },
     {
-      params: GameweekByIdBodySchema,
+      params: GetByIdRequestSchema,
     },
   );

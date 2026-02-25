@@ -1,5 +1,7 @@
-import { GameweekType } from "@/src/elysia/modules/gameweeks/model";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { redis } from "bun";
+
+import { GameweekType } from "@/src/elysia/modules/gameweeks/model";
 
 const UPDATE_INTERVAL_MS = 60 * 1000;
 
@@ -58,7 +60,7 @@ export async function updateGameweeks(): Promise<void> {
 }
 
 function startPeriodicGameweekUpdates(): void {
-  // Set interval for periodic updates (initialization handles the first load)
+  updateGameweeks().catch(console.error);
   setInterval(() => {
     updateGameweeks().catch(console.error);
   }, UPDATE_INTERVAL_MS);

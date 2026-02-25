@@ -1,6 +1,6 @@
 import Elysia from "elysia";
 
-import { LiveModel } from "./model";
+import { PointsBodySchema } from "./model";
 import { LiveService } from "./service";
 
 export const live = new Elysia({ prefix: "/live" }).get(
@@ -9,6 +9,6 @@ export const live = new Elysia({ prefix: "/live" }).get(
     return LiveService.getPoints({ id, gw });
   },
   {
-    params: LiveModel.PointsBodySchema,
+    params: PointsBodySchema,
   },
 );
