@@ -1,11 +1,11 @@
-export const dynamic = "force-dynamic";
+import { useContext } from "react";
 
-import { redirect } from "next/navigation";
+import { GameweekContext, GwContextType } from "./GameweekProvider";
 
-import { getCurrentGameweekId } from "@/src/elysia/modules/gameweeks/cache";
-
-//TODO: find better way get current gw
-export default async function Page() {
-  const gw = await getCurrentGameweekId();
-  redirect(`/points/${gw}`);
+export function useGameweek(): GwContextType {
+  const context = useContext(GameweekContext);
+  if (!context) {
+    throw new Error("useGameweek must be used within a GameweekProvider");
+  }
+  return context;
 }

@@ -1,9 +1,10 @@
+export const dynamic = "force-dynamic";
+
 import { redirect } from "next/navigation";
-import { use } from "react";
 
-import { useGameweek } from "@/src/context/gameweek/useGameweek";
+import { getCurrentGameweekId } from "@/src/elysia/modules/gameweeks/cache";
 
-export default function Page() {
-  const gw = use(useGameweek());
+export default async function Page() {
+  const gw = await getCurrentGameweekId();
   redirect(`/points/${gw}`);
 }
