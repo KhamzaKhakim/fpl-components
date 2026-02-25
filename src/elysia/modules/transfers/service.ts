@@ -1,21 +1,19 @@
 import { positionById } from "@/src/utils/mapApi";
 
-import { PicksModel } from "../../shared/service/fpl/model";
-import { FplService } from "../../shared/service/fpl/service";
+import { FplPicksType } from "../../shared/service/fpl/model";
+import { getPicks } from "../../shared/service/fpl/service";
 import { getCurrentGameweekId } from "../gameweeks/cache";
 import { getPlayerById } from "../players/cache";
 import { getTeamById } from "../teams/cache";
-import { TransfersModel } from "./model";
+import { PickType, TransfersBody, TransfersResponse } from "./model";
 
 export abstract class TransfersService {
-  static async getTransfers({
-    id,
-  }: TransfersModel.TransfersBody): Promise<TransfersModel.TransfersResponse> {
+  static async getTransfers({ id }: TransfersBody): Promise<TransfersResponse> {
     const gw = await getCurrentGameweekId();
-    const res = await FplService.getPicks({ id, gw });
+    const res = await getPicks({ id, gw });
 
-    const picks: TransfersModel.PickType[] = await Promise.all(
-      res.picks.map(async (p: PicksModel.FplPicksType) => {
+    const picks: PickType[] = await Promise.all(
+      res.picks.map(async (p: FplPicksType) => {
         const player = await getPlayerById(p.element);
 
         if (!player) throw new Error(`Player by id ${p.element} not found`);
@@ -24,7 +22,7 @@ export abstract class TransfersService {
 
         if (!team) throw new Error(`Team by id ${player.team} not found`);
 
-        const pick: TransfersModel.PickType = {
+        const pick: PickType = {
           id: p.element,
           name: player.webName,
           team: player.team,

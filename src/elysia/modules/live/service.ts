@@ -1,6 +1,6 @@
 import { positionById } from "@/src/utils/mapApi";
 
-import { FplService } from "../../shared/service/fpl/service";
+import { getPicks } from "../../shared/service/fpl/service";
 import { getPlayerById } from "../players/cache";
 import { getTeamById } from "../teams/cache";
 import * as LiveCache from "./cache";
@@ -10,7 +10,7 @@ export async function getLivePoints(
   id: number,
   gw: number,
 ): Promise<LivePointsResponse> {
-  const res = await FplService.getPicks({ id, gw });
+  const res = await getPicks({ id, gw });
 
   const picks: LivePickType[] = [];
 

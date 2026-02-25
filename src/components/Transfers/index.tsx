@@ -3,6 +3,7 @@ import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/ad
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
+import { TransfersResponse } from "@/src/elysia/modules/transfers/model";
 import { mapCoordinates } from "@/src/utils/mapCoordinates";
 import { createScaler } from "@/src/utils/scaler";
 import { isNumber, isPlayer } from "@/src/utils/validatations";
@@ -21,7 +22,7 @@ interface TransfersProps {
   size?: number;
   perspective?: number;
   rotation?: number;
-  data: any;
+  data?: TransfersResponse | null;
   isLoading: boolean;
 }
 
@@ -49,6 +50,7 @@ export default function Transfers({
 
   useEffect(() => {
     if (data?.picks) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSquad(data.picks);
     }
   }, [data]);
@@ -114,8 +116,8 @@ export default function Transfers({
           <div className="flex justify-center">
             {squad
               .map((p, i) => ({ player: p, idx: i }))
-              .filter((p, i) => p.player.position == "GK" && p.idx < 11)
-              .map((p, i) => (
+              .filter((p) => p.player.position == "GK" && p.idx < 11)
+              .map((p) => (
                 <PlayerCard
                   key={`${p.player.id}-${p.idx}-GK`}
                   player={p.player}
@@ -131,8 +133,8 @@ export default function Transfers({
           <div className="flex justify-around" style={{ paddingInline: s(16) }}>
             {squad
               .map((p, i) => ({ player: p, idx: i }))
-              .filter((p, i) => p.player.position == "DEF" && p.idx < 11)
-              .map((p, i) => (
+              .filter((p) => p.player.position == "DEF" && p.idx < 11)
+              .map((p) => (
                 <PlayerCard
                   key={`${p.player.id}-${p.idx}-DEF`}
                   player={p.player}
@@ -148,8 +150,8 @@ export default function Transfers({
           <div className="flex justify-around">
             {squad
               .map((p, i) => ({ player: p, idx: i }))
-              .filter((p, i) => p.player.position == "MID" && p.idx < 11)
-              .map((p, i) => (
+              .filter((p) => p.player.position == "MID" && p.idx < 11)
+              .map((p) => (
                 <PlayerCard
                   key={`${p.player.id}-${p.idx}-MID`}
                   player={p.player}
@@ -165,8 +167,8 @@ export default function Transfers({
           <div className="flex justify-around" style={{ paddingInline: s(64) }}>
             {squad
               .map((p, i) => ({ player: p, idx: i }))
-              .filter((p, i) => p.player.position == "FWD" && p.idx < 11)
-              .map((p, i) => (
+              .filter((p) => p.player.position == "FWD" && p.idx < 11)
+              .map((p) => (
                 <PlayerCard
                   key={`${p.player.id}-${p.idx}-FWD`}
                   player={p.player}
@@ -193,7 +195,7 @@ export default function Transfers({
           {squad
             .map((p, i) => ({ player: p, idx: i }))
             .filter((_, i) => i > 10)
-            .map((p, i) => (
+            .map((p) => (
               <PlayerCard
                 key={`${p.player.id}-${p.idx}-SUB`}
                 player={p.player}

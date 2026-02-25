@@ -1,4 +1,4 @@
-import { TeamsModel } from "@/src/elysia/modules/teams/model";
+import { PickType } from "@/src/elysia/modules/transfers/model";
 
 export interface Player {
   id: number;
@@ -12,4 +12,4 @@ export interface Player {
 
 export type Position = "GK" | "DEF" | "MID" | "FWD";
 
-export type Squad = TeamsModel.PickType[];
+export type Squad = PickType[];

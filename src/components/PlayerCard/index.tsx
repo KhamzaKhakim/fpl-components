@@ -5,15 +5,17 @@ import {
 } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { disableNativeDragPreview } from "@atlaskit/pragmatic-drag-and-drop/element/disable-native-drag-preview";
 import { preventUnhandled } from "@atlaskit/pragmatic-drag-and-drop/prevent-unhandled";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 import { Skeleton } from "@/components/ui/skeleton";
+import { PickType } from "@/src/elysia/modules/transfers/model";
 import { createScaler } from "@/src/utils/scaler";
 
 interface PlayerCardProps {
   size: number;
-  player: TeamsModel.PickType;
+  player: PickType;
   index: number;
   isLoading: boolean;
   canDrop: boolean;
@@ -128,11 +130,12 @@ export default function PlayerCard({
       key={`${player.name}-${player.team}`}
     >
       <div className="relative w-full h-full">
-        <img
+        <Image
           src={src}
           alt={player.teamShortName}
           draggable={false}
-          className="object-contain w-full h-full"
+          height={s(96)}
+          width={s(72)}
           style={{
             padding: s(4),
           }}
@@ -187,11 +190,12 @@ function Preview({ player, size }: { player: PickType; size: number }) {
       }}
     >
       <div className="relative w-full h-full">
-        <img
+        <Image
           src={src}
           alt={player.teamShortName}
           draggable={false}
-          className="object-contain w-full h-full"
+          height={s(96)}
+          width={s(72)}
           decoding="sync"
           style={{
             padding: s(4),
