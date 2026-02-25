@@ -1,5 +1,9 @@
 import { t } from "elysia";
 
+export const GameweekByIdBodySchema = t.Object({
+  id: t.Number(),
+});
+
 export const GameweekSchema = t.Object({
   id: t.Number(),
   name: t.String(),

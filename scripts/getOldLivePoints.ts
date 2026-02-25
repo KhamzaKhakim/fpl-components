@@ -1,130 +1,131 @@
-import { EventType } from "@/src/elysia/modules/events/types";
-import { LiveModel } from "@/src/elysia/modules/live/model";
-import { getFixtureById } from "@/src/elysia/shared/store/fixturesStore";
-import { getPlayerById } from "@/src/elysia/shared/store/playersStore";
-import { getTeamById } from "@/src/elysia/shared/store/teamsStore";
-import { redis } from "bun";
+// import { redis } from "bun";
 
-export type FplPlayerStat = {
-  id: number;
-  stats: {
-    minutes: number;
-    goals_scored: number;
-    assists: number;
-    clean_sheets: number;
-    goals_conceded: number;
-    own_goals: number;
-    penalties_saved: number;
-    penalties_missed: number;
-    yellow_cards: number;
-    red_cards: number;
-    saves: number;
-    bonus: number;
-    bps: number;
-    influence: string;
-    creativity: string;
-    threat: string;
-    ict_index: string;
-    clearances_blocks_interceptions: number;
-    recoveries: number;
-    tackles: number;
-    defensive_contribution: number;
-    starts: number;
-    expected_goals: string;
-    expected_assists: string;
-    expected_goalInvolvements: string;
-    expected_goals_conceded: string;
-    total_points: number;
-    in_dream_team: boolean;
-  };
-  explain: {
-    fixture: number;
-    stats: {
-      identifier: string;
-      points: number;
-      value: number;
-      points_modification: number;
-    }[];
-  }[];
-  modified: boolean;
-};
+// import { EventType } from "@/src/elysia/modules/events/types";
+// import { LiveModel } from "@/src/elysia/modules/live/model";
+// import { getFixtureById } from "@/src/elysia/shared/store/fixturesStore";
+// import { getPlayerById } from "@/src/elysia/shared/store/playersStore";
+// import { getTeamById } from "@/src/elysia/shared/store/teamsStore";
 
-type LiveResponse = {
-  elements: FplPlayerStat[];
-};
+// export type FplPlayerStat = {
+//   id: number;
+//   stats: {
+//     minutes: number;
+//     goals_scored: number;
+//     assists: number;
+//     clean_sheets: number;
+//     goals_conceded: number;
+//     own_goals: number;
+//     penalties_saved: number;
+//     penalties_missed: number;
+//     yellow_cards: number;
+//     red_cards: number;
+//     saves: number;
+//     bonus: number;
+//     bps: number;
+//     influence: string;
+//     creativity: string;
+//     threat: string;
+//     ict_index: string;
+//     clearances_blocks_interceptions: number;
+//     recoveries: number;
+//     tackles: number;
+//     defensive_contribution: number;
+//     starts: number;
+//     expected_goals: string;
+//     expected_assists: string;
+//     expected_goalInvolvements: string;
+//     expected_goals_conceded: string;
+//     total_points: number;
+//     in_dream_team: boolean;
+//   };
+//   explain: {
+//     fixture: number;
+//     stats: {
+//       identifier: string;
+//       points: number;
+//       value: number;
+//       points_modification: number;
+//     }[];
+//   }[];
+//   modified: boolean;
+// };
 
-async function fetchLivePoints() {
-  try {
-    //get current gameweek
+// type LiveResponse = {
+//   elements: FplPlayerStat[];
+// };
 
-    for (let i = 0; i < events.length; i++) {
-      if (events[i].finished == true || events[i].isCurrent == true) return;
+// async function fetchLivePoints() {
+//   try {
+//     //get current gameweek
 
-      const response = await fetch(
-        `https://fantasy.premierleague.com/api/event/${events[i].id}/live/`,
-      );
+//     for (let i = 0; i < events.length; i++) {
+//       if (events[i].finished == true || events[i].isCurrent == true) return;
 
-      if (!response.ok) {
-        throw new Error(`API returned ${response.status}`);
-      }
+//       const response = await fetch(
+//         `https://fantasy.premierleague.com/api/event/${events[i].id}/live/`,
+//       );
 
-      let liveResponse = (await response.json()) as LiveResponse;
+//       if (!response.ok) {
+//         throw new Error(`API returned ${response.status}`);
+//       }
 
-      let liveElements = liveResponse.elements;
+//       const liveResponse = (await response.json()) as LiveResponse;
 
-      const fixedLivePoints = await Promise.all(
-        liveElements.map(async (element) => {
-          const player = getPlayerById(element.id);
-          if (!player) return null;
+//       const liveElements = liveResponse.elements;
 
-          const team = getTeamById(player.team);
-          if (!team) return null;
+//       const fixedLivePoints = await Promise.all(
+//         liveElements.map(async (element) => {
+//           const player = getPlayerById(element.id);
+//           if (!player) return null;
 
-          const fixtureIds: number[] = [];
-          const fixtures: string[] = [];
-          const fixturesFinished: boolean[] = [];
-          const minutes: number[] = [];
+//           const team = getTeamById(player.team);
+//           if (!team) return null;
 
-          for (const explain of element.explain) {
-            const fixture = getFixtureById(explain.fixture);
-            if (!fixture) continue;
+//           const fixtureIds: number[] = [];
+//           const fixtures: string[] = [];
+//           const fixturesFinished: boolean[] = [];
+//           const minutes: number[] = [];
 
-            fixtureIds.push(fixture.id);
-            fixturesFinished.push(fixture.finished);
-            minutes.push(fixture.minutes);
+//           for (const explain of element.explain) {
+//             const fixture = getFixtureById(explain.fixture);
+//             if (!fixture) continue;
 
-            const isHome = fixture.teamH === team.id;
-            const opponentId = isHome ? fixture.teamA : fixture.teamH;
-            const opponent = getTeamById(opponentId);
+//             fixtureIds.push(fixture.id);
+//             fixturesFinished.push(fixture.finished);
+//             minutes.push(fixture.minutes);
 
-            fixtures.push(
-              `${opponent?.shortName ?? "UNK"}(${isHome ? "H" : "A"})`,
-            );
-          }
+//             const isHome = fixture.teamH === team.id;
+//             const opponentId = isHome ? fixture.teamA : fixture.teamH;
+//             const opponent = getTeamById(opponentId);
 
-          return {
-            id: element.id,
-            gwPoints: element.stats.total_points,
-            minutes,
-            fixtureIds,
-            fixtures,
-            fixturesFinished,
-          } satisfies LiveModel.LiveType;
-        }),
-      ).then((v) => v.filter((p) => p != null));
+//             fixtures.push(
+//               `${opponent?.shortName ?? "UNK"}(${isHome ? "H" : "A"})`,
+//             );
+//           }
 
-      Bun.write(
-        `./public/fpl/gameweek-points/gw-${events[i].id}.json`,
-        JSON.stringify(fixedLivePoints),
-      );
-      console.log("Finished gw: " + events[i].id);
-    }
-  } catch (error) {
-    console.error("Failed to fetch livePoints:", error);
-    throw error;
-  }
-}
+//           return {
+//             id: element.id,
+//             gwPoints: element.stats.total_points,
+//             minutes,
+//             fixtureIds,
+//             fixtures,
+//             fixturesFinished,
+//           } satisfies LiveModel.LiveType;
+//         }),
+//       ).then((v) => v.filter((p) => p != null));
 
-console.log("Started live points");
-await fetchLivePoints();
-console.log("Finished live points");
+//       Bun.write(
+//         `./public/fpl/gameweek-points/gw-${events[i].id}.json`,
+//         JSON.stringify(fixedLivePoints),
+//       );
+//       console.log("Finished gw: " + events[i].id);
+//     }
+//   } catch (error) {
+//     console.error("Failed to fetch livePoints:", error);
+//     throw error;
+//   }
+// }
+
+// console.log("Started live points");
+// await fetchLivePoints();
+// console.log("Finished live points");
