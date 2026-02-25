@@ -4,7 +4,7 @@ import { redis } from "bun";
 import { FixtureSchema, FixtureType } from "./model";
 
 export async function getFixtureById(id: number) {
-  const fixture = await redis.get(`fixture:${id}`);
+  const fixture = await redis.hget("fixtures", `fixture:${id}`);
 
   if (!fixture) throw new Error(`Fixture not found for id:${id}`);
 

@@ -12,6 +12,7 @@ function mapGameweeks(t: any): GameweekType {
     deadlineTime: t.deadline_time,
     deadlineTimeEpoch: t.deadline_time_epoch,
     isCurrent: t.is_current,
+    finished: t.finished,
     highestScore: t.highest_score,
   };
 }
@@ -27,7 +28,7 @@ async function fetchGameweeks(): Promise<GameweekType[]> {
     }
 
     const json = await response.json();
-    const gameweeks: any[] = json?.["gameweeks"];
+    const gameweeks: any[] = json?.["events"];
 
     return gameweeks.map(mapGameweeks);
   } catch (error) {

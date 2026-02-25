@@ -1,22 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { redis } from "bun";
 
+import { getFixtureById } from "@/src/elysia/modules/fixtures/cache";
+import { getCurrentGameweekId } from "@/src/elysia/modules/gameweeks/cache";
 import { LiveType } from "@/src/elysia/modules/live/model";
-import { setLivePointsForGameweek } from "@/src/elysia/modules/live/service";
-import { getCurrentGameweekId } from "@/src/elysia/shared/store/eventsStore";
-import { getFixtureById } from "@/src/elysia/shared/store/fixturesStore";
-import { getPlayerById } from "@/src/elysia/shared/store/playersStore";
-import { getTeamById } from "@/src/elysia/shared/store/teamsStore";
+import { getPlayerById } from "@/src/elysia/modules/players/cache";
+import { getTeamById } from "@/src/elysia/modules/teams/cache";
 
-function enrichLivePoint(element: any): LiveType | null {
+async function enrichLivePoint(element: any): Promise<LiveType | null> {
   try {
-    const player = getPlayerById(element.id);
+    const player = await getPlayerById(element.id);
     if (!player) {
       console.warn(`Player not found for id: ${element.id}`);
       return null;
     }
 
-    const team = getTeamById(player.team);
+    const team = await getTeamById(player.team);
     if (!team) {
       console.warn(`Team not found for id: ${player.team}`);
       return null;
@@ -29,7 +28,7 @@ function enrichLivePoint(element: any): LiveType | null {
 
     for (const explain of element.explain || []) {
       try {
-        const fixture = getFixtureById(explain.fixture);
+        const fixture = await getFixtureById(explain.fixture);
         if (!fixture) continue;
 
         fixtureIds.push(fixture.id);
@@ -38,7 +37,7 @@ function enrichLivePoint(element: any): LiveType | null {
 
         const isHome = fixture.teamH === team.id;
         const opponentId = isHome ? fixture.teamA : fixture.teamH;
-        const opponent = getTeamById(opponentId);
+        const opponent = await getTeamById(opponentId);
 
         fixtures.push(`${opponent?.shortName ?? "UNK"}(${isHome ? "H" : "A"})`);
       } catch (error) {
@@ -68,7 +67,7 @@ const UPDATE_INTERVAL_MS = 60 * 1000; // 1 minute
 
 async function fetchLivePoints(): Promise<LiveType[]> {
   try {
-    const gw = getCurrentGameweekId();
+    const gw = await getCurrentGameweekId();
 
     if (!gw) {
       throw new Error("Current gameweek not found");
@@ -88,7 +87,7 @@ async function fetchLivePoints(): Promise<LiveType[]> {
     const enrichedPoints: LiveType[] = [];
 
     for (const element of liveElements) {
-      const enriched = enrichLivePoint(element);
+      const enriched = await enrichLivePoint(element);
       if (enriched) {
         enrichedPoints.push(enriched);
       }
@@ -103,7 +102,7 @@ async function fetchLivePoints(): Promise<LiveType[]> {
 
 async function updateLivePoints(): Promise<void> {
   try {
-    const gw = getCurrentGameweekId();
+    const gw = await getCurrentGameweekId();
 
     if (!gw) {
       throw new Error("Current gameweek not found");
@@ -112,8 +111,15 @@ async function updateLivePoints(): Promise<void> {
     console.log(`Updating live points for gameweek: ${gw}`);
     const livePoints = await fetchLivePoints();
 
-    // Store in Redis
-    await setLivePointsForGameweek(gw, livePoints);
+    const record: Record<string, string> = livePoints.reduce(
+      (acc, livePoint) => {
+        acc[`player:${livePoint.id}`] = JSON.stringify(livePoint);
+        return acc;
+      },
+      {} as Record<string, string>,
+    );
+
+    await redis.hset(`live:${gw}`, record);
 
     console.log(
       `Finished updating live points for gameweek ${gw}. Total points: ${livePoints.length}`,

@@ -7,8 +7,7 @@ export async function getLivePointByPlayerAndGameweek(
   gameweek: number,
   playerId: number,
 ): Promise<LiveType> {
-  const key = `live:${gameweek}:${playerId}`;
-  const livePoint = await redis.get(key);
+  const livePoint = await redis.hget(`live:${gameweek}`, `${playerId}`);
 
   if (!livePoint) {
     throw new Error(
@@ -30,22 +29,18 @@ export async function getLivePointByPlayerAndGameweek(
 export async function getLivePointsByGameweek(
   gameweek: number,
 ): Promise<LiveType[]> {
-  const pattern = `live:${gameweek}:*`;
-  const keys = await redis.keys(pattern);
+  const livePointsHash = await redis.hgetall(`live:${gameweek}`);
 
-  if (!keys || keys.length === 0) {
+  if (!livePointsHash || Object.keys(livePointsHash).length === 0) {
     throw new Error(`No live points found for gameweek:${gameweek}`);
   }
 
   const livePoints: LiveType[] = [];
 
-  for (const key of keys) {
-    const value = await redis.get(key);
-    if (!value) continue;
-
-    const parsed: LiveType = JSON.parse(value);
+  for (const value of Object.values(livePointsHash)) {
+    const parsed: LiveType = JSON.parse(value as string);
     if (!Value.Check(LiveSchema, parsed)) {
-      console.warn(`Invalid live point data for key:${key}`);
+      console.warn(`Invalid live point data`);
       continue;
     }
 
@@ -62,7 +57,7 @@ export async function setLivePointsForGameweek(
   const keys: Record<string, string> = {};
 
   for (const livePoint of livePoints) {
-    keys[`live:${gameweek}:${livePoint.id}`] = JSON.stringify(livePoint);
+    keys[`${livePoint.id}`] = JSON.stringify(livePoint);
   }
 
   if (Object.keys(keys).length > 0) {

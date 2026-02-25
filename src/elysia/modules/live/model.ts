@@ -2,12 +2,26 @@ import { t } from "elysia";
 
 import { PicksModel } from "../../shared/service/fpl/model";
 
-export const PointsBodySchema = t.Object({
+export const LiveRequestSchema = t.Object({
   id: t.Number(),
   gw: t.Number(),
 });
 
-export type PointsBody = typeof PointsBodySchema.static;
+export type LiveRequestType = typeof LiveRequestSchema.static;
+
+export const LivePlayerGwRequestSchema = t.Object({
+  id: t.Number(),
+  gw: t.Number(),
+});
+
+export type LivePlayerGwRequestType = typeof LivePlayerGwRequestSchema.static;
+
+export const LiveGwSchema = t.Object({
+  id: t.Number(),
+  gw: t.Number(),
+});
+
+export type LiveGwType = typeof LiveGwSchema.static;
 
 export const LiveSchema = t.Object({
   id: t.Number(),

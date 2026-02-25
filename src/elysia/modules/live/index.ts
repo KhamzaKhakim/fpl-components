@@ -1,48 +1,37 @@
 import Elysia from "elysia";
-import { t } from "elysia";
 
-import { GetByIdRequestSchema } from "../../shared/model";
-import { PointsBodySchema } from "./model";
 import {
-  getLivePointByPlayerAndGameweek,
-  getLivePointsByGameweek,
-  LiveService,
-} from "./service";
-
-const LivePointsParamsSchema = t.Object({
-  gameweek: t.Number(),
-  playerId: t.Number(),
-});
-
-const GameweekParamsSchema = t.Object({
-  gameweek: t.Number(),
-});
+  LiveGwSchema,
+  LivePlayerGwRequestSchema,
+  LiveRequestSchema,
+} from "./model";
+import { getLivePoints } from "./service";
 
 export const live = new Elysia({ prefix: "/live" })
   .get(
     "/:id/points/:gw",
     ({ params: { id, gw } }) => {
-      return LiveService.getPoints({ id, gw });
+      return getLivePoints(id, gw);
     },
     {
-      params: PointsBodySchema,
+      params: LiveRequestSchema,
     },
   )
   .get(
-    "/points/:gameweek/:playerId",
-    ({ params: { gameweek, playerId } }) => {
-      return getLivePointByPlayerAndGameweek(gameweek, playerId);
+    "/points/:gw/:id",
+    ({ params: { gw, id } }) => {
+      return getLivePointByPlayerAndGameweek(gw, id);
     },
     {
-      params: LivePointsParamsSchema,
+      params: LivePlayerGwRequestSchema,
     },
   )
   .get(
-    "/points/:gameweek",
-    ({ params: { gameweek } }) => {
-      return getLivePointsByGameweek(gameweek);
+    "/points/:gw",
+    ({ params: { gw } }) => {
+      return getLivePointsByGameweek(gw);
     },
     {
-      params: GameweekParamsSchema,
+      params: LiveGwSchema,
     },
   );
