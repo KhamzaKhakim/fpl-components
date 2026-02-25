@@ -4,7 +4,13 @@ import { FplService } from "../../shared/service/fpl/service";
 import { getLivePoint } from "../../shared/store/livePointsStore";
 import { getPlayerById } from "../../shared/store/playersStore";
 import { getTeamById } from "../../shared/store/teamsStore";
-import { LivePickType, LivePointsResponse, PointsBody } from "./model";
+import * as LiveCache from "./cache";
+import {
+  LivePickType,
+  LivePointsResponse,
+  LiveType,
+  PointsBody,
+} from "./model";
 
 export abstract class LiveService {
   static async getPoints({ id, gw }: PointsBody): Promise<LivePointsResponse> {
@@ -53,4 +59,23 @@ export abstract class LiveService {
       picks,
     };
   }
+}
+
+// Cache layer functions
+export function getLivePointByPlayerAndGameweek(
+  gameweek: number,
+  playerId: number,
+) {
+  return LiveCache.getLivePointByPlayerAndGameweek(gameweek, playerId);
+}
+
+export function getLivePointsByGameweek(gameweek: number) {
+  return LiveCache.getLivePointsByGameweek(gameweek);
+}
+
+export function setLivePointsForGameweek(
+  gameweek: number,
+  livePoints: LiveType[],
+) {
+  return LiveCache.setLivePointsForGameweek(gameweek, livePoints);
 }

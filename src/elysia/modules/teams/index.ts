@@ -1,6 +1,9 @@
-import { Elysia, file, t } from "elysia";
+import { Elysia } from "elysia";
 
-export const teams = new Elysia({ prefix: "/teams" }).get("/", () =>
-  file("./public/teams.json"),
-);
-// TODO: add typing
+import { GetByIdRequestSchema } from "../../shared/model";
+import { getTeamById } from "./service";
+export const teams = new Elysia({ prefix: "/teams" })
+  .get("/", () => "Teams")
+  .get("/:id", ({ params: { id } }) => getTeamById(id), {
+    params: GetByIdRequestSchema,
+  });

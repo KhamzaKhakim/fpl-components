@@ -53,9 +53,15 @@ async function updatePlayers(): Promise<void> {
     console.log("Updating players...");
     const players = await fetchPlayers();
 
-    await Promise.all(
-      players.map((p) => redis.set(`player:${p.id}`, JSON.stringify(p))),
+    const record: Record<string, string> = players.reduce(
+      (acc, player) => {
+        acc[`player:${player.id}`] = JSON.stringify(player);
+        return acc;
+      },
+      {} as Record<string, string>,
     );
+
+    redis.hset("players", record);
 
     console.log("Finished players updating players");
   } catch (error) {

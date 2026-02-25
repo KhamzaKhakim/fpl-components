@@ -1,13 +1,13 @@
-import * as GameweekCahce from "./cache";
+import * as GameweekCache from "./cache";
 
 export async function getGameweekById(id: number) {
-  return GameweekCahce.getGameweekById(id);
+  return GameweekCache.getGameweekById(id);
 }
 
 export async function getAllGameweeks() {
-  return GameweekCahce.getAllGameweeks();
+  return GameweekCache.getAllGameweeks();
 }
 
 export async function getCurrentGameweekId() {
-  return GameweekCahce.getCurrentGameweekId();
+  return GameweekCache.getCurrentGameweekId();
 }
