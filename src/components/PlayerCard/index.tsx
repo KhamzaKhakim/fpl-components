@@ -9,10 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { TeamsModel } from "@/src/elysia/modules/teams/model";
 import { createScaler } from "@/src/utils/scaler";
-
-import { Player } from "../Transfers/types";
 
 interface PlayerCardProps {
   size: number;
@@ -173,13 +170,7 @@ export default function PlayerCard({
   );
 }
 
-function Preview({
-  player,
-  size,
-}: {
-  player: TeamsModel.PickType;
-  size: number;
-}) {
+function Preview({ player, size }: { player: PickType; size: number }) {
   const s = createScaler(size);
   const fs = s(10);
   const src =

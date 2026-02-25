@@ -10,7 +10,7 @@ export default function PlannerPage() {
   const user = useUser();
 
   const { data: response, isLoading } = useQuery({
-    queryKey: ["squad"], //add gw
+    queryKey: ["squad", user.id],
     queryFn: () =>
       client
         .transfers({
@@ -20,16 +20,16 @@ export default function PlannerPage() {
     enabled: !!user.id,
   });
 
-  const { data: managerData, isLoading: managerDataLoading } = useQuery({
-    queryKey: ["manager"],
-    queryFn: () =>
-      client
-        .manager({
-          id: user.id!,
-        })
-        .get(),
-    enabled: !!user.id,
-  });
+  // const { data: managerData, isLoading: managerDataLoading } = useQuery({
+  //   queryKey: ["manager"],
+  //   queryFn: () =>
+  //     client
+  //       .manager({
+  //         id: user.id!,
+  //       })
+  //       .get(),
+  //   enabled: !!user.id,
+  // });
 
   return (
     <div className="flex justify-center">

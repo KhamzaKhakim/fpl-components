@@ -4,17 +4,12 @@ import { FplService } from "../../shared/service/fpl/service";
 import { getPlayerById } from "../../shared/store/playersStore";
 import { getTeamById } from "../../shared/store/teamsStore";
 import * as LiveCache from "./cache";
-import {
-  LivePickType,
-  LivePointsResponse,
-  LiveRequestType,
-  LiveType,
-} from "./model";
+import { LivePickType, LivePointsResponse, LiveType } from "./model";
 
-export async function getLivePoints({
-  id,
-  gw,
-}: LiveRequestType): Promise<LivePointsResponse> {
+export async function getLivePoints(
+  id: number,
+  gw: number,
+): Promise<LivePointsResponse> {
   const res = await FplService.getPicks({ id, gw });
 
   const picks: LivePickType[] = [];

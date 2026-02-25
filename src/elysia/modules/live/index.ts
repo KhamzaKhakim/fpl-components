@@ -5,7 +5,11 @@ import {
   LivePlayerGwRequestSchema,
   LiveRequestSchema,
 } from "./model";
-import { getLivePoints } from "./service";
+import {
+  getLivePointByPlayerAndGameweek,
+  getLivePoints,
+  getLivePointsByGameweek,
+} from "./service";
 
 export const live = new Elysia({ prefix: "/live" })
   .get(

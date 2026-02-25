@@ -124,14 +124,14 @@ async function getOldLivePoints(): Promise<void> {
     for (const gw of finishedGameweeks) {
       try {
         // Check if live points already exist in cache
-        const existingLivePoints = await redis.hgetall(`live:${gw.id}`);
+        // const existingLivePoints = await redis.hgetall(`live:${gw.id}`);
 
-        if (existingLivePoints && Object.keys(existingLivePoints).length > 0) {
-          console.log(
-            `Live points for gameweek ${gw.id} already cached, skipping`,
-          );
-          continue;
-        }
+        // if (existingLivePoints && Object.keys(existingLivePoints).length > 0) {
+        //   console.log(
+        //     `Live points for gameweek ${gw.id} already cached, skipping`,
+        //   );
+        //   continue;
+        // }
 
         console.log(`Fetching live points for gameweek ${gw.id}...`);
         const livePoints = await fetchLivePointsForGameweek(gw.id);

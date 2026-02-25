@@ -113,7 +113,7 @@ async function updateLivePoints(): Promise<void> {
 
     const record: Record<string, string> = livePoints.reduce(
       (acc, livePoint) => {
-        acc[`player:${livePoint.id}`] = JSON.stringify(livePoint);
+        acc[`${livePoint.id}`] = JSON.stringify(livePoint);
         return acc;
       },
       {} as Record<string, string>,

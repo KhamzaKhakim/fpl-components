@@ -49,18 +49,3 @@ export async function getLivePointsByGameweek(
 
   return livePoints;
 }
-
-export async function setLivePointsForGameweek(
-  gameweek: number,
-  livePoints: LiveType[],
-): Promise<void> {
-  const keys: Record<string, string> = {};
-
-  for (const livePoint of livePoints) {
-    keys[`${livePoint.id}`] = JSON.stringify(livePoint);
-  }
-
-  if (Object.keys(keys).length > 0) {
-    await redis.hset(`live:${gameweek}`, keys);
-  }
-}
