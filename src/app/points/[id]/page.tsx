@@ -31,7 +31,7 @@ export default function Page({ params }: Props) {
   };
 
   const { data: response, isLoading } = useQuery({
-    queryKey: ["live", gameweek],
+    queryKey: ["live", gameweek, userId],
     queryFn: () =>
       client
         .live({

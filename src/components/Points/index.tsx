@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-import { LiveModel } from "@/src/elysia/modules/live/model";
+import { LivePointsResponse } from "@/src/elysia/modules/live/model";
 import { mapCoordinates } from "@/src/utils/mapCoordinates";
 import { createScaler } from "@/src/utils/scaler";
 
@@ -14,7 +14,7 @@ interface PointsProps {
   size?: number;
   perspective?: number;
   rotation?: number;
-  data?: LiveModel.LivePointsResponse | null;
+  data?: LivePointsResponse | null;
   isLoading: boolean;
   currGameweek?: number;
   gameweek: number | null;
@@ -49,6 +49,7 @@ export default function Points({
 
   useEffect(() => {
     if (data?.picks) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSquad(data.picks);
       setPoints(
         data.picks
@@ -74,7 +75,12 @@ export default function Points({
           }
           `}
         >
-          <img src="/icons/arrow-left.svg" alt="Next" className="w-5 h-5" />
+          <Image
+            src="/icons/arrow-left.svg"
+            alt="Prev"
+            width={s(16)}
+            height={s(16)}
+          />
         </button>
 
         <div
@@ -99,7 +105,12 @@ export default function Points({
             }
           `}
         >
-          <img src="/icons/arrow-right.svg" alt="Next" className="w-5 h-5" />
+          <Image
+            src="/icons/arrow-right.svg"
+            alt="Next"
+            width={s(16)}
+            height={s(16)}
+          />
         </button>
       </div>
       <div
@@ -124,7 +135,7 @@ export default function Points({
           <div className="flex justify-center">
             {squad
               .map((p, i) => ({ player: p, idx: i }))
-              .filter((p, i) => p.player.position == "GK" && p.idx < 11)
+              .filter((p) => p.player.position == "GK" && p.idx < 11)
               .map((p, i) => (
                 <PointsCard
                   key={`${i}-GK`}
@@ -139,7 +150,7 @@ export default function Points({
           <div className="flex justify-around" style={{ paddingInline: s(16) }}>
             {squad
               .map((p, i) => ({ player: p, idx: i }))
-              .filter((p, i) => p.player.position == "DEF" && p.idx < 11)
+              .filter((p) => p.player.position == "DEF" && p.idx < 11)
               .map((p, i) => (
                 <PointsCard
                   key={`${i}-DEF`}
@@ -154,7 +165,7 @@ export default function Points({
           <div className="flex justify-around">
             {squad
               .map((p, i) => ({ player: p, idx: i }))
-              .filter((p, i) => p.player.position == "MID" && p.idx < 11)
+              .filter((p) => p.player.position == "MID" && p.idx < 11)
               .map((p, i) => (
                 <PointsCard
                   key={`${i}-MID`}
@@ -169,7 +180,7 @@ export default function Points({
           <div className="flex justify-around" style={{ paddingInline: s(64) }}>
             {squad
               .map((p, i) => ({ player: p, idx: i }))
-              .filter((p, i) => p.player.position == "FWD" && p.idx < 11)
+              .filter((p) => p.player.position == "FWD" && p.idx < 11)
               .map((p, i) => (
                 <PointsCard
                   key={`${i}-FWD`}

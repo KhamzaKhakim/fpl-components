@@ -1,8 +1,8 @@
 import { positionById } from "@/src/utils/mapApi";
 
 import { FplService } from "../../shared/service/fpl/service";
-import { getPlayerById } from "../../shared/store/playersStore";
-import { getTeamById } from "../../shared/store/teamsStore";
+import { getPlayerById } from "../players/cache";
+import { getTeamById } from "../teams/cache";
 import * as LiveCache from "./cache";
 import { LivePickType, LivePointsResponse, LiveType } from "./model";
 
@@ -17,11 +17,11 @@ export async function getLivePoints(
   for (let i = 0; i < res.picks.length; i++) {
     const p = res.picks[i];
 
-    const player = getPlayerById(p.element);
+    const player = await getPlayerById(p.element);
 
     if (!player) throw new Error(`Player by id ${p.element} not found`);
 
-    const team = getTeamById(player.team);
+    const team = await getTeamById(player.team);
 
     if (!team) throw new Error(`Team by id ${player.team} not found`);
 

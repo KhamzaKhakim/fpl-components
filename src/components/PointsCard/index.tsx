@@ -1,11 +1,13 @@
 "use client";
+import Image from "next/image";
+
 import { Skeleton } from "@/components/ui/skeleton";
-import { LiveModel } from "@/src/elysia/modules/live/model";
+import { LivePickType } from "@/src/elysia/modules/live/model";
 import { createScaler } from "@/src/utils/scaler";
 
 interface PointsCardProps {
   size: number;
-  player: LiveModel.LivePickType;
+  player: LivePickType;
   isLoading: boolean;
 }
 
@@ -59,11 +61,12 @@ export default function PointsCard({
       {player.isCaptain && <CaptainBadge s={s} />}
       {player.isViceCaptain && <ViceCaptainBadge s={s} />}
       <div className="relative w-full h-full">
-        <img
+        <Image
           src={src}
           alt={player.teamShortName}
           draggable={false}
-          className="object-contain w-full h-full"
+          height={s(96)}
+          width={s(72)}
           style={{
             padding: s(4),
           }}
