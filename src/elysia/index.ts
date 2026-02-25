@@ -5,6 +5,7 @@ import { live } from "./modules/live";
 import { dns } from "bun";
 import { manager } from "./modules/manager";
 import { transfers } from "./modules/transfers";
+import { gameweeks } from "./modules/gameweeks";
 
 dns.prefetch("https://fantasy.premierleague.com");
 
@@ -28,6 +29,7 @@ export const app = new Elysia({ prefix: "/api" })
       message: (error as Readonly<Error>).message,
     };
   })
+  .use(gameweeks)
   .use(players)
   .use(teams)
   .use(live)
