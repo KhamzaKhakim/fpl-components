@@ -1,5 +1,11 @@
-import { getAllGameweeks } from "@/src/elysia/modules/gameweeks/cache";
+// import { getAllGameweeks } from "@/src/elysia/modules/gameweeks/cache";
 
-const a = await getAllGameweeks();
+// import { getUsedChips } from "@/src/elysia/modules/transfers/service";
 
-console.log(a);
+// const a = await getAllGameweeks();
+
+// console.log(a);
+
+// const chips = await getUsedChips(9456136);
+
+// console.log(chips);
