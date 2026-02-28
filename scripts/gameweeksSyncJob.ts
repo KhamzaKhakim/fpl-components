@@ -60,7 +60,7 @@ export async function updateGameweeks(): Promise<void> {
   }
 }
 
-function startPeriodicGameweekUpdates(): void {
+export function startPeriodicGameweekUpdates(): void {
   updateGameweeks().catch(console.error);
   setInterval(() => {
     updateGameweeks().catch(console.error);
@@ -71,4 +71,4 @@ function startPeriodicGameweekUpdates(): void {
   );
 }
 
-startPeriodicGameweekUpdates();
+// startPeriodicGameweekUpdates();

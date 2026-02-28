@@ -129,7 +129,7 @@ async function updateLivePoints(): Promise<void> {
   }
 }
 
-function startPeriodicLivePointsUpdates(): void {
+export function startPeriodicLivePointsUpdates(): void {
   updateLivePoints().catch(console.error);
   setInterval(() => {
     updateLivePoints().catch(console.error);
@@ -140,4 +140,4 @@ function startPeriodicLivePointsUpdates(): void {
   );
 }
 
-startPeriodicLivePointsUpdates();
+// startPeriodicLivePointsUpdates();

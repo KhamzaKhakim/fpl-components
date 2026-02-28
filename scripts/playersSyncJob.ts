@@ -69,7 +69,7 @@ async function updatePlayers(): Promise<void> {
   }
 }
 
-function startPeriodicPlayerUpdates(): void {
+export function startPeriodicPlayerUpdates(): void {
   updatePlayers().catch(console.error);
   setInterval(() => {
     updatePlayers().catch(console.error);
@@ -80,4 +80,4 @@ function startPeriodicPlayerUpdates(): void {
   );
 }
 
-startPeriodicPlayerUpdates();
+// startPeriodicPlayerUpdates();

@@ -67,7 +67,7 @@ async function updateFixtures(): Promise<void> {
   }
 }
 
-function startPeriodicFixtureUpdates(): void {
+export function startPeriodicFixtureUpdates(): void {
   updateFixtures().catch(console.error);
   setInterval(() => {
     updateFixtures().catch(console.error);
@@ -78,4 +78,4 @@ function startPeriodicFixtureUpdates(): void {
   );
 }
 
-startPeriodicFixtureUpdates();
+// startPeriodicFixtureUpdates();

@@ -57,7 +57,7 @@ async function updateTeams(): Promise<void> {
   }
 }
 
-function startPeriodicTeamUpdates(): void {
+export function startPeriodicTeamUpdates(): void {
   updateTeams().catch(console.error);
   setInterval(() => {
     updateTeams().catch(console.error);
@@ -68,4 +68,4 @@ function startPeriodicTeamUpdates(): void {
   );
 }
 
-startPeriodicTeamUpdates();
+// startPeriodicTeamUpdates();

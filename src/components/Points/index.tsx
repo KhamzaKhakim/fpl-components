@@ -61,7 +61,7 @@ export default function Points({
 
   return (
     <div className="pt-6">
-      <div className="flex justify-center items-center gap-4">
+      <div className="flex justify-center items-center gap-2">
         <button
           aria-label="Previous gameweek"
           disabled={!gameweek || !currGameweek || gameweek === 1}

@@ -2,9 +2,11 @@
 
 import { createContext, ReactNode, useEffect, useState } from "react";
 
+import { getAllGameweeks } from "@/src/elysia/modules/gameweeks/cache";
+
 export type GwType = {
   id: number;
-  deadlinetime: string;
+  deadlineTime: string;
   deadlineTimeEpoch: number;
   name: string;
   isCurrent: boolean;
@@ -21,8 +23,8 @@ export function GameweekProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const load = async () => {
-      const res = await fetch("/fpl/events.json");
-      const events = (await res.json()) as GwType[];
+      const res = await fetch("/api/gameweeks");
+      const events: GwType[] = await res.json();
 
       const current = events.find((e) => e.isCurrent) ?? null;
       setGw(current);
