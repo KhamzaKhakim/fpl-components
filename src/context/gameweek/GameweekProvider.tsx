@@ -2,8 +2,6 @@
 
 import { createContext, ReactNode, useEffect, useState } from "react";
 
-import { getAllGameweeks } from "@/src/elysia/modules/gameweeks/cache";
-
 export type GwType = {
   id: number;
   deadlineTime: string;

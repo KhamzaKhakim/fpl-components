@@ -44,7 +44,7 @@ export default function PointsCard({
     display = player.fixtures.join(", ");
     finished = false;
   } else {
-    display = `${player.gwPoints * player.multiplier}`;
+    display = `${player.gwPoints * (player.multiplier || 1)}`;
     if (player.fixtures[1]) display += `, ${player.fixtures[1]}`;
     finished = false;
   }
