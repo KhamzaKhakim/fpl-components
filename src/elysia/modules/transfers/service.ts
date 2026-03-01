@@ -13,14 +13,11 @@ import {
   HistorySchema,
   HistoryType,
   PickType,
-  TransfersBody,
   TransfersResponse,
   TransfersSchema,
 } from "./model";
 
-export async function getTransfers({
-  id,
-}: TransfersBody): Promise<TransfersResponse> {
+export async function getTransfers(id: number): Promise<TransfersResponse> {
   const gw = await getCurrentGameweekId();
   const res = await getPicks({ id, gw });
 
@@ -61,6 +58,14 @@ export async function getAvailableTransfers(id: number) {
   const chips = await getUsedChips(id);
   const firstGameweek = (await getGameweeksHistory(id))[0];
   const transfers = await getFplTransfers(id);
+  const fts = calculateFts(transfers, firstGameweek.event, 29, chips);
+
+  return {
+    chips,
+    firstGameweek,
+    transfers,
+    limit: fts,
+  };
 }
 
 export async function getUsedChips(id: number) {
@@ -122,4 +127,44 @@ export async function getFplTransfers(id: number) {
     event: t.event,
     time: t.time,
   }));
+}
+
+const AFCON_GW = 16;
+
+function calculateFts(
+  transfers: { event: number }[],
+  firstGw: number,
+  nextGw: number,
+  chips: Awaited<ReturnType<typeof getUsedChips>>,
+): number {
+  const freehitGws = chips["freehit"].map((v) => v.event);
+  const wildcardGws = chips["wildcard"].map((v) => v.event);
+
+  const nTransfers: Record<number, number> = {};
+  for (let i = 2; i < nextGw; i++) nTransfers[i] = 0;
+  for (const t of transfers) {
+    nTransfers[t.event] += 1;
+  }
+
+  const fts: Record<number, number> = {};
+  for (let i = firstGw + 1; i <= nextGw; i++) fts[i] = 0;
+  fts[firstGw + 1] = 1;
+
+  for (let i = firstGw + 2; i <= nextGw; i++) {
+    if (i === AFCON_GW) {
+      fts[i] = 5;
+      continue;
+    }
+    if (freehitGws.includes(i - 1) || wildcardGws.includes(i - 1)) {
+      fts[i] = fts[i - 1];
+      continue;
+    }
+    fts[i] = fts[i - 1];
+    fts[i] -= nTransfers[i - 1];
+    fts[i] = Math.max(fts[i], 0);
+    fts[i] += 1;
+    fts[i] = Math.min(fts[i], 5);
+  }
+
+  return fts[nextGw];
 }
