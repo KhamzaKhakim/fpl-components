@@ -17,7 +17,7 @@ export const transfers = new Elysia({ prefix: "/transfers" })
   .get(
     "/:id/test",
     async ({ params: { id } }) => {
-      return TransfersService.getAvailableTransfers(id);
+      return TransfersService.getTransferInfo(id);
     },
     {
       params: t.Object({

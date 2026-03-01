@@ -9,5 +9,21 @@ export async function getAllGameweeks() {
 }
 
 export async function getCurrentGameweekId() {
-  return GameweekCache.getCurrentGameweekId();
+  const currentGw = (await GameweekCache.getAllGameweeks()).find(
+    (gw) => gw.isCurrent,
+  );
+
+  if (!currentGw) throw new Error(`Current gameweek not found`);
+
+  return currentGw.id;
+}
+
+export async function getNextGameweekId() {
+  const currentGw = (await GameweekCache.getAllGameweeks()).find(
+    (gw) => gw.isNext,
+  );
+
+  if (!currentGw) throw new Error(`Current gameweek not found`);
+
+  return currentGw.id;
 }

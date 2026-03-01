@@ -12,6 +12,7 @@ function mapGameweeks(t: any): GameweekType {
     deadlineTime: t.deadline_time,
     deadlineTimeEpoch: t.deadline_time_epoch,
     isCurrent: t.is_current,
+    isNext: t.is_next,
     finished: t.finished,
     highestScore: t.highest_score,
   };

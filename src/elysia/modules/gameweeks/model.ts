@@ -6,6 +6,7 @@ export const GameweekSchema = t.Object({
   deadlineTime: t.String({ format: "date-time" }),
   deadlineTimeEpoch: t.Number(),
   isCurrent: t.Boolean(),
+  isNext: t.Boolean(),
   finished: t.Boolean(),
   highestScore: t.Nullable(t.Number()),
 });

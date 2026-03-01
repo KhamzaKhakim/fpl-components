@@ -1,7 +1,7 @@
 import Elysia from "elysia";
 
 import { ManagerModel } from "./model";
-import { ManagerService } from "./service";
+import * as ManagerService from "./service";
 
 export const manager = new Elysia({ prefix: "/manager" })
   //   .get("/", () => file("./public/teams.json"))
@@ -9,7 +9,7 @@ export const manager = new Elysia({ prefix: "/manager" })
   .get(
     "/:id",
     async ({ params: { id } }) => {
-      return ManagerService.getInfo({ id });
+      return ManagerService.getInfo(id);
     },
     {
       params: ManagerModel.InfoBodySchema,

@@ -6,6 +6,8 @@ import { fplFetch } from "../../fplClient";
 import { FplPicksType } from "../../shared/service/fpl/model";
 import { getPicks } from "../../shared/service/fpl/service";
 import { getCurrentGameweekId } from "../gameweeks/cache";
+import { getNextGameweekId } from "../gameweeks/service";
+import { getInfo } from "../manager/service";
 import { getPlayerById } from "../players/cache";
 import { getTeamById } from "../teams/cache";
 import { ChipType } from "../teams/types";
@@ -54,21 +56,22 @@ export async function getTransfers(id: number): Promise<TransfersResponse> {
   };
 }
 
-export async function getAvailableTransfers(id: number) {
+export async function getTransferInfo(id: number) {
   const chips = await getUsedChips(id);
   const firstGameweek = (await getGameweeksHistory(id))[0];
+  const nextGw = await getNextGameweekId();
   const transfers = await getFplTransfers(id);
-  const fts = calculateFts(transfers, firstGameweek.event, 29, chips);
+  const fts = calculateFts(transfers, firstGameweek.event, nextGw, chips);
+  const info = await getInfo(id);
 
   return {
-    chips,
-    firstGameweek,
-    transfers,
+    bank: info.lastDeadlineBank,
+    value: info.lastDeadlineValue,
     limit: fts,
   };
 }
 
-export async function getUsedChips(id: number) {
+async function getUsedChips(id: number) {
   const history = await fplFetch(`/entry/${id}/history`);
 
   if (!Value.Check(HistorySchema, history))
@@ -90,7 +93,7 @@ export async function getUsedChips(id: number) {
   return res;
 }
 
-export async function getGameweeksHistory(id: number) {
+async function getGameweeksHistory(id: number) {
   const history = await fplFetch(`/entry/${id}/history`);
 
   if (!Value.Check(HistorySchema, history))
@@ -112,7 +115,7 @@ export async function getGameweeksHistory(id: number) {
   }));
 }
 
-export async function getFplTransfers(id: number) {
+async function getFplTransfers(id: number) {
   const transfers = await fplFetch(`/entry/${id}/transfers`);
 
   if (!Value.Check(TransfersSchema, transfers))
