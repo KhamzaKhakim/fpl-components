@@ -3,7 +3,7 @@ import { Value } from "@sinclair/typebox/value";
 import { positionById } from "@/src/utils/mapApi";
 
 import { fplFetch } from "../../fplClient";
-import { FplPicksType } from "../../shared/service/fpl/model";
+import { ChipEnum, FplPicksType } from "../../shared/service/fpl/model";
 import { getPicks } from "../../shared/service/fpl/service";
 import { getCurrentGameweekId } from "../gameweeks/cache";
 import { getNextGameweekId } from "../gameweeks/service";
@@ -52,10 +52,12 @@ export async function getTransfers(id: number): Promise<TransfersResponse> {
     }),
   );
 
+  const { limit, bank } = await getTransferInfo(id);
+
   return {
-    activeChip: res.active_chip,
-    totalPoints: res.entry_history.points,
     picks,
+    limit,
+    bank,
   };
 }
 
@@ -67,7 +69,27 @@ export async function getTransferInfo(
   const firstGw = (await getGameweeksHistory(id))[0];
   const nextGw = await getNextGameweekId();
 
+  const history = await fplFetch(`/entry/${id}/history`);
+
+  if (!Value.Check(HistorySchema, history))
+    throw new Error(`Invalid history response for id: ${id}`);
+
   const transfers = await getFplTransfers(id);
+
+  const a = Object.values(ChipEnum);
+
+  const availableChips =
+    nextGw > 19
+      ? ["wildcard", "freehit", "bboost", "3xc"].filter(
+          (c) =>
+            !history.chips
+              .filter((c) => c.event > 19)
+              .map((c) => c.name)
+              .includes(c),
+        )
+      : ["wildcard", "freehit", "bboost", "3xc"].filter(
+          (c) => !history.chips.map((c) => c.name).includes(c),
+        );
 
   const fts = calculateFts({
     transfers,
@@ -86,6 +108,7 @@ export async function getTransferInfo(
   return {
     bank,
     limit: fts,
+    availableChips,
   };
 }
 
