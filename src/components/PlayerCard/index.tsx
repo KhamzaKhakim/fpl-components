@@ -149,7 +149,7 @@ export default function PlayerCard({
           {player.name}
         </p>
         <p className="text-center bg-gray-200" style={{ fontSize: fs }}>
-          £{Number(player.nowCost) / 10}m
+          £{Number(player.sellCost) / 10}m
         </p>
       </div>
       {dragging &&
@@ -210,7 +210,7 @@ function Preview({ player, size }: { player: PickType; size: number }) {
           {player.name}
         </p>
         <p className="text-center bg-gray-200" style={{ fontSize: fs }}>
-          £{Number(player.nowCost) / 10}m
+          £{Number(player.sellCost) / 10}m
         </p>
       </div>
     </div>

@@ -52,12 +52,13 @@ export async function getTransfers(id: number): Promise<TransfersResponse> {
     }),
   );
 
-  const { limit, bank } = await getTransferInfo(id);
+  const { limit, bank, availableChips } = await getTransferInfo(id);
 
   return {
     picks,
     limit,
     bank,
+    chips: availableChips,
   };
 }
 
@@ -76,18 +77,16 @@ export async function getTransferInfo(
 
   const transfers = await getFplTransfers(id);
 
-  const a = Object.values(ChipEnum);
-
   const availableChips =
     nextGw > 19
-      ? ["wildcard", "freehit", "bboost", "3xc"].filter(
+      ? ChipEnum.enum.filter(
           (c) =>
             !history.chips
               .filter((c) => c.event > 19)
               .map((c) => c.name)
               .includes(c),
         )
-      : ["wildcard", "freehit", "bboost", "3xc"].filter(
+      : ChipEnum.enum.filter(
           (c) => !history.chips.map((c) => c.name).includes(c),
         );
 

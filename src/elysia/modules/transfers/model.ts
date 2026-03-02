@@ -23,8 +23,9 @@ export const PickSchema = t.Object({
 });
 
 export const TransfersResponseSchema = t.Object({
-  activeChip: t.Nullable(ChipEnum),
-  totalPoints: t.Number(),
+  chips: t.Array(ChipEnum),
+  limit: t.Number(),
+  bank: t.Number(),
   picks: t.Array(PickSchema),
 });
 

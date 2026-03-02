@@ -11,6 +11,7 @@ export const DEFAULT_TRANSFERS_SQUAD: Squad = [
     isViceCaptain: false,
     multiplier: 1,
     nowCost: 0,
+    sellCost: 0,
   },
   {
     id: 1,
@@ -22,6 +23,7 @@ export const DEFAULT_TRANSFERS_SQUAD: Squad = [
     isViceCaptain: false,
     multiplier: 1,
     nowCost: 0,
+    sellCost: 0,
   },
   {
     id: 1,
@@ -33,6 +35,7 @@ export const DEFAULT_TRANSFERS_SQUAD: Squad = [
     isViceCaptain: false,
     multiplier: 1,
     nowCost: 0,
+    sellCost: 0,
   },
   {
     id: 1,
@@ -44,6 +47,7 @@ export const DEFAULT_TRANSFERS_SQUAD: Squad = [
     isViceCaptain: false,
     multiplier: 1,
     nowCost: 0,
+    sellCost: 0,
   },
   {
     id: 1,
@@ -55,6 +59,7 @@ export const DEFAULT_TRANSFERS_SQUAD: Squad = [
     isViceCaptain: false,
     multiplier: 1,
     nowCost: 0,
+    sellCost: 0,
   },
   {
     id: 1,
@@ -66,6 +71,7 @@ export const DEFAULT_TRANSFERS_SQUAD: Squad = [
     isViceCaptain: false,
     multiplier: 1,
     nowCost: 0,
+    sellCost: 0,
   },
   {
     id: 1,
@@ -77,6 +83,7 @@ export const DEFAULT_TRANSFERS_SQUAD: Squad = [
     isViceCaptain: false,
     multiplier: 1,
     nowCost: 0,
+    sellCost: 0,
   },
   {
     id: 1,
@@ -88,6 +95,7 @@ export const DEFAULT_TRANSFERS_SQUAD: Squad = [
     isViceCaptain: false,
     multiplier: 1,
     nowCost: 0,
+    sellCost: 0,
   },
   {
     id: 1,
@@ -99,6 +107,7 @@ export const DEFAULT_TRANSFERS_SQUAD: Squad = [
     isViceCaptain: false,
     multiplier: 1,
     nowCost: 0,
+    sellCost: 0,
   },
   {
     id: 1,
@@ -110,6 +119,7 @@ export const DEFAULT_TRANSFERS_SQUAD: Squad = [
     isViceCaptain: false,
     multiplier: 1,
     nowCost: 0,
+    sellCost: 0,
   },
   {
     id: 1,
@@ -121,6 +131,7 @@ export const DEFAULT_TRANSFERS_SQUAD: Squad = [
     isViceCaptain: false,
     multiplier: 1,
     nowCost: 0,
+    sellCost: 0,
   },
   {
     id: 1,
@@ -132,6 +143,7 @@ export const DEFAULT_TRANSFERS_SQUAD: Squad = [
     isViceCaptain: false,
     multiplier: 1,
     nowCost: 0,
+    sellCost: 0,
   },
   {
     id: 1,
@@ -143,6 +155,7 @@ export const DEFAULT_TRANSFERS_SQUAD: Squad = [
     isViceCaptain: false,
     multiplier: 1,
     nowCost: 0,
+    sellCost: 0,
   },
   {
     id: 1,
@@ -154,6 +167,7 @@ export const DEFAULT_TRANSFERS_SQUAD: Squad = [
     isViceCaptain: false,
     multiplier: 1,
     nowCost: 0,
+    sellCost: 0,
   },
   {
     id: 1,
@@ -165,5 +179,6 @@ export const DEFAULT_TRANSFERS_SQUAD: Squad = [
     isViceCaptain: false,
     multiplier: 1,
     nowCost: 0,
+    sellCost: 0,
   },
 ];
