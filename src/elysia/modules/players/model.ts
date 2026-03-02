@@ -7,6 +7,7 @@ export const PlayerSchema = t.Object({
   selectedByPercent: t.String(),
   totalPoints: t.Number(),
   nowCost: t.Number(),
+  costChangeStart: t.Number(),
   elementType: t.Number(),
   canSelect: t.Boolean(),
   epNext: t.String(),

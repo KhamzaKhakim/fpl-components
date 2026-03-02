@@ -7,8 +7,8 @@ import { FplPicksType } from "../../shared/service/fpl/model";
 import { getPicks } from "../../shared/service/fpl/service";
 import { getCurrentGameweekId } from "../gameweeks/cache";
 import { getNextGameweekId } from "../gameweeks/service";
-import { getInfo } from "../manager/service";
 import { getPlayerById } from "../players/cache";
+import { PlayerType } from "../players/model";
 import { getTeamById } from "../teams/cache";
 import { ChipType } from "../teams/types";
 import {
@@ -33,6 +33,8 @@ export async function getTransfers(id: number): Promise<TransfersResponse> {
 
       if (!team) throw new Error(`Team by id ${player.team} not found`);
 
+      const transfers = await getFplTransfers(id);
+
       const pick: PickType = {
         id: p.element,
         name: player.webName,
@@ -43,6 +45,7 @@ export async function getTransfers(id: number): Promise<TransfersResponse> {
         isViceCaptain: p.is_vice_captain,
         multiplier: p.multiplier,
         nowCost: player.nowCost,
+        sellCost: calculateSellCost({ player, transfers }),
       };
 
       return pick;
@@ -56,17 +59,32 @@ export async function getTransfers(id: number): Promise<TransfersResponse> {
   };
 }
 
-export async function getTransferInfo(id: number) {
+export async function getTransferInfo(
+  id: number,
+  // picks: Awaited<ReturnType<typeof getPicks>>["picks"],
+) {
   const chips = await getUsedChips(id);
-  const firstGameweek = (await getGameweeksHistory(id))[0];
+  const firstGw = (await getGameweeksHistory(id))[0];
   const nextGw = await getNextGameweekId();
+
   const transfers = await getFplTransfers(id);
-  const fts = calculateFts(transfers, firstGameweek.event, nextGw, chips);
-  const info = await getInfo(id);
+
+  const fts = calculateFts({
+    transfers,
+    firstGw: firstGw.event,
+    nextGw,
+    chips,
+  });
+
+  const bank = await calculateBank({
+    transfers,
+    firstGw: firstGw.event,
+    chips,
+    id,
+  });
 
   return {
-    bank: info.lastDeadlineBank,
-    value: info.lastDeadlineValue,
+    bank,
     limit: fts,
   };
 }
@@ -134,12 +152,17 @@ async function getFplTransfers(id: number) {
 
 const AFCON_GW = 16;
 
-function calculateFts(
-  transfers: { event: number }[],
-  firstGw: number,
-  nextGw: number,
-  chips: Awaited<ReturnType<typeof getUsedChips>>,
-): number {
+function calculateFts({
+  transfers,
+  firstGw,
+  nextGw,
+  chips,
+}: {
+  transfers: { event: number }[];
+  firstGw: number;
+  nextGw: number;
+  chips: Awaited<ReturnType<typeof getUsedChips>>;
+}): number {
   const freehitGws = chips["freehit"].map((v) => v.event);
   const wildcardGws = chips["wildcard"].map((v) => v.event);
 
@@ -170,4 +193,59 @@ function calculateFts(
   }
 
   return fts[nextGw];
+}
+
+async function calculateBank({
+  id,
+  firstGw,
+  transfers,
+  chips,
+}: {
+  id: number;
+  firstGw: number;
+  transfers: Awaited<ReturnType<typeof getFplTransfers>>;
+  chips: Awaited<ReturnType<typeof getUsedChips>>;
+}) {
+  const transfersReversed = transfers.toReversed();
+
+  const res = await getPicks({ id, gw: firstGw });
+
+  const initialPlayerPrices = await Promise.all(
+    res.picks.map(async (p) => await getPlayerById(p.element)),
+  );
+
+  let bank =
+    1000 -
+    initialPlayerPrices.reduce(
+      (acc, curr) => acc + (curr.nowCost - curr.costChangeStart),
+      0,
+    );
+
+  for (let i = 0; i < transfersReversed.length; i++) {
+    if (chips.freehit.map((v) => v.event).includes(transfersReversed[i].event))
+      continue;
+
+    bank =
+      bank -
+      transfersReversed[i].elementInCost +
+      transfersReversed[i].elementOutCost;
+  }
+
+  return bank;
+}
+
+function calculateSellCost({
+  player,
+  transfers,
+}: {
+  player: PlayerType;
+  transfers: Awaited<ReturnType<typeof getFplTransfers>>;
+}) {
+  const inPrice =
+    transfers.find((t) => t.elementIn == player.id)?.elementInCost ??
+    player.nowCost - player.costChangeStart;
+
+  if (player.nowCost <= inPrice) return player.nowCost;
+
+  return inPrice + Math.floor((player.nowCost - inPrice) / 2);
 }

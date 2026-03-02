@@ -19,6 +19,7 @@ export const PickSchema = t.Object({
   isViceCaptain: t.Boolean(),
   multiplier: t.Number(),
   nowCost: t.Number(),
+  sellCost: t.Number(),
 });
 
 export const TransfersResponseSchema = t.Object({

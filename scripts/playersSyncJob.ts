@@ -11,6 +11,7 @@ function mapPlayer(p: any): PlayerType {
     selectedByPercent: p.selected_by_percent,
     totalPoints: p.total_points,
     nowCost: p.now_cost,
+    costChangeStart: p.cost_change_start,
     elementType: p.element_type,
     canSelect: p.can_select,
     epNext: p.ep_next,
