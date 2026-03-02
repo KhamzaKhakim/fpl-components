@@ -1,7 +1,7 @@
 import { getManagerInfo } from "../../shared/service/fpl/service";
-import { ManagerModel } from "./model";
+import { InfoResponse } from "./model";
 
-export async function getInfo(id: number): Promise<ManagerModel.InfoResponse> {
+export async function getInfo(id: number): Promise<InfoResponse> {
   const res = await getManagerInfo(id);
   return {
     id: res.id,

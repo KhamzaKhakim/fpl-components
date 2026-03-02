@@ -1,6 +1,6 @@
 import Elysia from "elysia";
 
-import { ManagerModel } from "./model";
+import { InfoBodySchema } from "./model";
 import * as ManagerService from "./service";
 
 export const manager = new Elysia({ prefix: "/manager" })
@@ -12,6 +12,6 @@ export const manager = new Elysia({ prefix: "/manager" })
       return ManagerService.getInfo(id);
     },
     {
-      params: ManagerModel.InfoBodySchema,
+      params: InfoBodySchema,
     },
   );
