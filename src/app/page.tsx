@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+
 import { useUser } from "../context/user/useUser";
 
 export default function Home() {
@@ -27,7 +29,7 @@ export default function Home() {
               type="number"
               className="border rounded-lg min-w-80 px-4 py-1 mt-2"
             />
-            <button className="m-8 border">Submit</button>
+            <Button className="m-8 border">Submit</Button>
           </div>
         </form>
       </div>
@@ -39,7 +41,7 @@ function CurrentId({ id, clearId }: { id: string; clearId: () => void }) {
   return (
     <div className="flex flex-col">
       <p>Your current id: {id}</p>
-      <button
+      <Button
         type="button"
         className="border"
         onClick={() => {
@@ -47,7 +49,7 @@ function CurrentId({ id, clearId }: { id: string; clearId: () => void }) {
         }}
       >
         remove id
-      </button>
+      </Button>
     </div>
   );
 }
