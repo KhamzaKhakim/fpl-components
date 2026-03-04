@@ -42,6 +42,9 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+
+  /* custom ones */
+  --text-xxs: 0.625rem;
 }
 /* 
 :root {
@@ -105,14 +108,14 @@
   --muted-foreground: #469d89;
 
   /* Accent — lighter teal for hover states, highlights */
-  --accent: #78c6a3;
+  --accent: #a8e0c7;
   --accent-foreground: #036666;
 
   /* Destructive — keep red, it's universal */
   --destructive: #dc2626;
 
   /* Borders & Inputs */
-  --border: #b8e0d8;
+  --border: #a5d1c8;
   --input: #b8e0d8;
   --ring: #358f80; /* focus ring */
 
