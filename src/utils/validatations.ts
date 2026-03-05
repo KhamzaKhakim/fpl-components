@@ -1,4 +1,4 @@
-import { Player, Position } from "../components/Transfers/types";
+import { Player, Position } from "../components/TransferField/types";
 
 //TODO: find better way for type checking
 export function isPlayer(obj: unknown): obj is Player {

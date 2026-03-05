@@ -21,7 +21,7 @@ interface PlayerCardProps {
   canDrop: boolean;
 }
 
-export default function PlayerCard({
+export default function TransferCard({
   player,
   index,
   size,

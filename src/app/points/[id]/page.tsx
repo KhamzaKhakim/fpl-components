@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { notFound, useRouter } from "next/navigation";
 import { use } from "react";
 
-import Points from "@/src/components/Points";
+import Points from "@/src/components/PointsField";
 import { useGameweek } from "@/src/context/gameweek/useGameweek";
 import { useUser } from "@/src/context/user/useUser";
 import { client } from "@/src/elysia/client";

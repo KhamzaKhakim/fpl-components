@@ -1,36 +1,31 @@
 "use client";
+
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-import { LivePointsResponse } from "@/src/elysia/modules/live/model";
+import { TransfersResponse } from "@/src/elysia/modules/transfers/model";
 import { mapCoordinates } from "@/src/utils/mapCoordinates";
 import { createScaler } from "@/src/utils/scaler";
 
-import PointsCard from "../PointsCard";
-import { DEFAULT_POINTS_SQUAD } from "./defaults";
+import PlannerCard from "../PlannerCard";
+import { DEFAULT_TRANSFERS_SQUAD } from "./defaults";
 import { Squad } from "./types";
 
-interface PointsProps {
+interface PlannerProps {
   size?: number;
   perspective?: number;
   rotation?: number;
-  data?: LivePointsResponse | null;
+  data?: TransfersResponse | null;
   isLoading: boolean;
-  currGameweek?: number;
-  gameweek: number | null;
-  setGameweek: (gw: number) => void;
 }
 
-export default function Points({
+export default function PlannerField({
   size = 600,
   perspective = 800,
   rotation = 30,
   data,
   isLoading,
-  currGameweek,
-  gameweek,
-  setGameweek,
-}: PointsProps) {
+}: PlannerProps) {
   const { x: leftX, y: topY } = mapCoordinates(
     0,
     size,
@@ -42,82 +37,23 @@ export default function Points({
   const s = createScaler(size);
 
   const [squad, setSquad] = useState<Squad>(
-    data?.picks || DEFAULT_POINTS_SQUAD,
+    data?.picks || DEFAULT_TRANSFERS_SQUAD,
   );
-
-  const [points, setPoints] = useState<number>(0);
 
   useEffect(() => {
     if (data?.picks) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSquad(data.picks);
-      setPoints(
-        data.picks
-          .slice(0, 11)
-          .reduce((acc, curr) => acc + curr.gwPoints * curr.multiplier, 0),
-      );
     }
   }, [data]);
 
   return (
-    <div className="pt-6">
-      <div className="flex justify-center items-center gap-2">
-        <button
-          aria-label="Previous gameweek"
-          disabled={!gameweek || !currGameweek || gameweek === 1}
-          onClick={() => setGameweek(gameweek! - 1)}
-          className={`
-          p-2 rounded-lg transition 
-          ${
-            !gameweek || !currGameweek || gameweek === 1
-              ? "opacity-40 cursor-not-allowed"
-              : "hover:bg-gray-200"
-          }
-          `}
-        >
-          <Image
-            src="/icons/arrow-left.svg"
-            alt="Prev"
-            width={s(16)}
-            height={s(16)}
-          />
-        </button>
-
-        <div
-          className="flex flex-col justify-center items-center bg-gray-200/50 text-gray-900 transition"
-          style={{ width: s(88), height: s(88), borderRadius: s(12) }}
-        >
-          <p className="text-center text-sm font-medium">GW {gameweek}</p>
-          <p className="text-center text-xs text-gray-600">points:</p>
-          <h1 className="text-center text-2xl font-bold">{points}</h1>
-        </div>
-
-        <button
-          aria-label="Next gameweek"
-          disabled={!gameweek || !currGameweek || gameweek === currGameweek}
-          onClick={() => setGameweek(gameweek! + 1)}
-          className={`
-            p-2 rounded-lg transition
-            ${
-              !gameweek || !currGameweek || gameweek === currGameweek
-                ? "opacity-40 cursor-not-allowed"
-                : "hover:bg-gray-200"
-            }
-          `}
-        >
-          <Image
-            src="/icons/arrow-right.svg"
-            alt="Next"
-            width={s(16)}
-            height={s(16)}
-          />
-        </button>
-      </div>
+    <div>
+      x
       <div
         className="relative overflow-x-hidden"
         style={{
           perspective,
-          margin: s(12),
+          margin: s(24),
         }}
       >
         <div
@@ -136,9 +72,9 @@ export default function Points({
             {squad
               .map((p, i) => ({ player: p, idx: i }))
               .filter((p) => p.player.position == "GK" && p.idx < 11)
-              .map((p, i) => (
-                <PointsCard
-                  key={`${i}-GK`}
+              .map((p) => (
+                <PlannerCard
+                  key={`${p.player.id}-${p.idx}-GK`}
                   player={p.player}
                   size={size}
                   isLoading={isLoading}
@@ -151,9 +87,9 @@ export default function Points({
             {squad
               .map((p, i) => ({ player: p, idx: i }))
               .filter((p) => p.player.position == "DEF" && p.idx < 11)
-              .map((p, i) => (
-                <PointsCard
-                  key={`${i}-DEF`}
+              .map((p) => (
+                <PlannerCard
+                  key={`${p.player.id}-${p.idx}-DEF`}
                   player={p.player}
                   size={size}
                   isLoading={isLoading}
@@ -166,9 +102,9 @@ export default function Points({
             {squad
               .map((p, i) => ({ player: p, idx: i }))
               .filter((p) => p.player.position == "MID" && p.idx < 11)
-              .map((p, i) => (
-                <PointsCard
-                  key={`${i}-MID`}
+              .map((p) => (
+                <PlannerCard
+                  key={`${p.player.id}-${p.idx}-MID`}
                   player={p.player}
                   size={size}
                   isLoading={isLoading}
@@ -181,9 +117,9 @@ export default function Points({
             {squad
               .map((p, i) => ({ player: p, idx: i }))
               .filter((p) => p.player.position == "FWD" && p.idx < 11)
-              .map((p, i) => (
-                <PointsCard
-                  key={`${i}-FWD`}
+              .map((p) => (
+                <PlannerCard
+                  key={`${p.player.id}-${p.idx}-FWD`}
                   player={p.player}
                   size={size}
                   isLoading={isLoading}
@@ -206,9 +142,9 @@ export default function Points({
           {squad
             .map((p, i) => ({ player: p, idx: i }))
             .filter((_, i) => i > 10)
-            .map((p, i) => (
-              <PointsCard
-                key={`${i}-SUB`}
+            .map((p) => (
+              <PlannerCard
+                key={`${p.player.id}-${p.idx}-SUB`}
                 player={p.player}
                 size={size}
                 isLoading={isLoading}
