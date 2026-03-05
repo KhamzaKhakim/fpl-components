@@ -7,7 +7,7 @@ import { TransfersResponse } from "@/src/elysia/modules/transfers/model";
 import { mapCoordinates } from "@/src/utils/mapCoordinates";
 import { createScaler } from "@/src/utils/scaler";
 
-import PlannerCard from "../PlannerCard";
+import PlannerCard from "../../cards/PlannerCard";
 import { DEFAULT_TRANSFERS_SQUAD } from "./defaults";
 import { Squad } from "./types";
 

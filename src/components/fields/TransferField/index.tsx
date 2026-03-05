@@ -8,7 +8,7 @@ import { mapCoordinates } from "@/src/utils/mapCoordinates";
 import { createScaler } from "@/src/utils/scaler";
 import { isNumber, isPlayer } from "@/src/utils/validatations";
 
-import PlayerCard from "../TranferCard";
+import PlayerCard from "../../cards/TransferCard";
 import { DEFAULT_TRANSFERS_SQUAD } from "./defaults";
 import { Player, Squad } from "./types";
 import { canDrop } from "./utils";

@@ -6,7 +6,7 @@ import { LivePointsResponse } from "@/src/elysia/modules/live/model";
 import { mapCoordinates } from "@/src/utils/mapCoordinates";
 import { createScaler } from "@/src/utils/scaler";
 
-import PointsCard from "../PointsCard";
+import PointsCard from "../../../PointsCard";
 import { DEFAULT_POINTS_SQUAD } from "./defaults";
 import { Squad } from "./types";
 
