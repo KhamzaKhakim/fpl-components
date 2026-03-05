@@ -23,10 +23,10 @@ export const PickSchema = t.Object({
 });
 
 export const TransfersResponseSchema = t.Object({
-  chips: t.Array(ChipEnum),
-  limit: t.Number(),
-  bank: t.Number(),
   picks: t.Array(PickSchema),
+  bank: t.Number(),
+  limit: t.Number(),
+  availableChips: t.Array(ChipEnum),
 });
 
 export type TransfersResponse = typeof TransfersResponseSchema.static;

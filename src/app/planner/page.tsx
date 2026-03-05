@@ -19,7 +19,7 @@ import {
   ItemTitle,
 } from "@/components/ui/item";
 import { Separator } from "@/components/ui/separator";
-import Transfers from "@/src/components/TransferField";
+import PlannerField from "@/src/components/fields/PlannerField";
 import { useUser } from "@/src/context/user/useUser";
 import { client } from "@/src/elysia/client";
 export default function PlannerPage() {
@@ -52,7 +52,7 @@ export default function PlannerPage() {
     <div className="mx-16 my-4">
       <div className="flex justify-center">
         <div>
-          <Transfers
+          <PlannerField
             size={SIZE}
             data={response?.data}
             isLoading={!response || isLoading}

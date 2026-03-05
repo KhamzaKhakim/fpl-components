@@ -48,7 +48,6 @@ export default function PlannerField({
 
   return (
     <div>
-      x
       <div
         className="relative overflow-x-hidden"
         style={{

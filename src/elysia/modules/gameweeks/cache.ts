@@ -4,7 +4,7 @@ import { redis } from "bun";
 import { GameweekSchema, GameweekType } from "./model";
 
 export async function getGameweekById(id: number) {
-  const gameweek = await redis.hget("gameweeks", `gw:${id}`);
+  const gameweek = await redis.hget("gameweeks", id.toString());
 
   if (!gameweek) throw new Error(`Gameweek not found for gw:${id}`);
 

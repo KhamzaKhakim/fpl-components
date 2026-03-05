@@ -5,7 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { PickType } from "@/src/elysia/modules/transfers/model";
 import { createScaler } from "@/src/utils/scaler";
 
-interface PlannerCardProps {
+interface PlayerCardProps {
   size: number;
   player: PickType;
   isLoading: boolean;
@@ -15,7 +15,7 @@ export default function PlannerCard({
   player,
   size,
   isLoading,
-}: PlannerCardProps) {
+}: PlayerCardProps) {
   const s = createScaler(size);
   const src =
     player.position === "GK"
@@ -35,8 +35,8 @@ export default function PlannerCard({
 
   return (
     <div
-      className={`relative select-none backdrop-blur-md border border-cyan-50 z-30
-                  rounded-md overflow-hidden`}
+      className={`relative select-none backdrop-blur-md border border-cyan-50 z-30 cursor-grab
+                  rounded-md overflow-hidden transition-opacity duration-300 ease-in-out`}
       style={{
         height: s(96),
         aspectRatio: "3 / 4",

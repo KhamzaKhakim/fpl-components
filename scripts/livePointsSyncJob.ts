@@ -10,10 +10,6 @@ import { getTeamById } from "@/src/elysia/modules/teams/cache";
 async function enrichLivePoint(element: any): Promise<LiveType | null> {
   try {
     const player = await getPlayerById(element.id);
-    if (!player) {
-      console.warn(`Player not found for id: ${element.id}`);
-      return null;
-    }
 
     const team = await getTeamById(player.team);
     if (!team) {
@@ -100,7 +96,7 @@ async function fetchLivePoints(): Promise<LiveType[]> {
   }
 }
 
-async function updateLivePoints(): Promise<void> {
+export async function updateLivePoints(): Promise<void> {
   try {
     const gw = await getCurrentGameweekId();
 
@@ -113,7 +109,7 @@ async function updateLivePoints(): Promise<void> {
 
     const record: Record<string, string> = livePoints.reduce(
       (acc, livePoint) => {
-        acc[`${livePoint.id}`] = JSON.stringify(livePoint);
+        acc[livePoint.id] = JSON.stringify(livePoint);
         return acc;
       },
       {} as Record<string, string>,

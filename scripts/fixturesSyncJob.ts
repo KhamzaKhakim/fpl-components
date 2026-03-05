@@ -46,14 +46,14 @@ async function fetchFixtures(): Promise<FixtureType[]> {
   }
 }
 
-async function updateFixtures(): Promise<void> {
+export async function updateFixtures(): Promise<void> {
   try {
     console.log("Updating fixtures...");
     const fixtures = await fetchFixtures();
 
     const record: Record<string, string> = fixtures.reduce(
       (acc, fixture) => {
-        acc[`fixture:${fixture.id}`] = JSON.stringify(fixture);
+        acc[fixture.id] = JSON.stringify(fixture);
         return acc;
       },
       {} as Record<string, string>,

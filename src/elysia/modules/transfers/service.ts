@@ -4,15 +4,14 @@ import { positionById } from "@/src/utils/mapApi";
 
 import { fplFetch } from "../../fplClient";
 import { ChipEnum, FplPicksType } from "../../shared/service/fpl/model";
-import { getPicks } from "../../shared/service/fpl/service";
+import { getHistory, getPicks } from "../../shared/service/fpl/service";
 import { getCurrentGameweekId } from "../gameweeks/cache";
 import { getNextGameweekId } from "../gameweeks/service";
-import { getPlayerById } from "../players/cache";
+import { getAllPlayers, getPlayerById } from "../players/cache";
 import { PlayerType } from "../players/model";
-import { getTeamById } from "../teams/cache";
+import { getAllTeams } from "../teams/cache";
 import { ChipType } from "../teams/types";
 import {
-  HistorySchema,
   HistoryType,
   PickType,
   TransfersResponse,
@@ -21,19 +20,24 @@ import {
 
 export async function getTransfers(id: number): Promise<TransfersResponse> {
   const gw = await getCurrentGameweekId();
-  const res = await getPicks({ id, gw });
+  const playersMap = await getAllPlayers();
+  const teamsMap = await getAllTeams();
+
+  const [res, transfers, history] = await Promise.all([
+    getPicks({ id, gw }),
+    getFplTransfers(id),
+    getHistory(id),
+  ]);
 
   const picks: PickType[] = await Promise.all(
     res.picks.map(async (p: FplPicksType) => {
-      const player = await getPlayerById(p.element);
+      const player = playersMap.get(p.element);
 
       if (!player) throw new Error(`Player by id ${p.element} not found`);
 
-      const team = await getTeamById(player.team);
+      const team = teamsMap.get(player.team);
 
       if (!team) throw new Error(`Team by id ${player.team} not found`);
-
-      const transfers = await getFplTransfers(id);
 
       const pick: PickType = {
         id: p.element,
@@ -52,30 +56,33 @@ export async function getTransfers(id: number): Promise<TransfersResponse> {
     }),
   );
 
-  const { limit, bank, availableChips } = await getTransferInfo(id);
+  const { limit, bank, availableChips } = await getTransferInfo(
+    id,
+    transfers,
+    history,
+  );
 
   return {
     picks,
     limit,
     bank,
-    chips: availableChips,
+    availableChips,
   };
 }
 
 export async function getTransferInfo(
   id: number,
-  // picks: Awaited<ReturnType<typeof getPicks>>["picks"],
+  transfers: Awaited<ReturnType<typeof getFplTransfers>>,
+  history: HistoryType,
 ) {
-  const chips = await getUsedChips(id);
-  const firstGw = (await getGameweeksHistory(id))[0];
+  // const history = await fplFetch(`/entry/${id}/history`);
+
+  // if (!Value.Check(HistorySchema, history))
+  //   throw new Error(`Invalid history response for id: ${id}`);
+
+  const chips = getUsedChips(history);
+  const firstGw = getGameweeksHistory(history)[0];
   const nextGw = await getNextGameweekId();
-
-  const history = await fplFetch(`/entry/${id}/history`);
-
-  if (!Value.Check(HistorySchema, history))
-    throw new Error(`Invalid history response for id: ${id}`);
-
-  const transfers = await getFplTransfers(id);
 
   const availableChips =
     nextGw > 19
@@ -111,12 +118,7 @@ export async function getTransferInfo(
   };
 }
 
-async function getUsedChips(id: number) {
-  const history = await fplFetch(`/entry/${id}/history`);
-
-  if (!Value.Check(HistorySchema, history))
-    throw new Error(`Invalid history response for id: ${id}`);
-
+function getUsedChips(history: HistoryType) {
   const res = history.chips.reduce(
     (acc, curr) => {
       if (!acc[curr.name]) {
@@ -133,12 +135,7 @@ async function getUsedChips(id: number) {
   return res;
 }
 
-async function getGameweeksHistory(id: number) {
-  const history = await fplFetch(`/entry/${id}/history`);
-
-  if (!Value.Check(HistorySchema, history))
-    throw new Error(`Invalid history response for id: ${id}`);
-
+function getGameweeksHistory(history: HistoryType) {
   return history.current.map((h) => ({
     event: h.event,
     points: h.points,

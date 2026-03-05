@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { notFound, useRouter } from "next/navigation";
 import { use } from "react";
 
-import Points from "@/src/components/PointsField";
+import PointsField from "@/src/components/fields/PointsField";
 import { useGameweek } from "@/src/context/gameweek/useGameweek";
 import { useUser } from "@/src/context/user/useUser";
 import { client } from "@/src/elysia/client";
@@ -46,7 +46,7 @@ export default function Page({ params }: Props) {
 
   return (
     <div className="flex justify-center">
-      <Points
+      <PointsField
         size={600}
         gameweek={+gameweek}
         setGameweek={changeGameweek}

@@ -45,7 +45,7 @@ export async function updateGameweeks(): Promise<void> {
 
     const record: Record<string, string> = gameweeks.reduce(
       (acc, gw) => {
-        acc[`gw:${gw.id}`] = JSON.stringify(gw);
+        acc[gw.id] = JSON.stringify(gw);
         return acc;
       },
       {} as Record<string, string>,

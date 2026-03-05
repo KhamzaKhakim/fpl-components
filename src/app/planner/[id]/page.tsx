@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 
-import Transfers from "@/src/components/TransferField";
+import Transfers from "@/src/components/fields/TransferField";
 import { useUser } from "@/src/context/user/useUser";
 import { client } from "@/src/elysia/client";
 export default function PlannerPage() {

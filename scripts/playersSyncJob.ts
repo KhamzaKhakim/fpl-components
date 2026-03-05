@@ -49,14 +49,14 @@ async function fetchPlayers(): Promise<PlayerType[]> {
   }
 }
 
-async function updatePlayers(): Promise<void> {
+export async function updatePlayers(): Promise<void> {
   try {
     console.log("Updating players...");
     const players = await fetchPlayers();
 
     const record: Record<string, string> = players.reduce(
       (acc, player) => {
-        acc[`player:${player.id}`] = JSON.stringify(player);
+        acc[player.id] = JSON.stringify(player);
         return acc;
       },
       {} as Record<string, string>,

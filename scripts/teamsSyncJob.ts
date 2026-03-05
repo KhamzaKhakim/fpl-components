@@ -36,14 +36,14 @@ async function fetchTeams(): Promise<TeamType[]> {
   }
 }
 
-async function updateTeams(): Promise<void> {
+export async function updateTeams(): Promise<void> {
   try {
     console.log("Updating teams...");
     const teams = await fetchTeams();
 
     const record: Record<string, string> = teams.reduce(
       (acc, team) => {
-        acc[`team:${team.id}`] = JSON.stringify(team);
+        acc[team.id] = JSON.stringify(team);
         return acc;
       },
       {} as Record<string, string>,
