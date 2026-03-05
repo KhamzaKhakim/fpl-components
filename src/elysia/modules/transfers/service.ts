@@ -1,10 +1,10 @@
 import { Value } from "@sinclair/typebox/value";
+import camelcaseKeys from "camelcase-keys";
 
 import { positionById } from "@/src/utils/mapApi";
 
-import { fplFetch } from "../../fplClient";
 import { ChipEnum, FplPicksType } from "../../shared/service/fpl/model";
-import { getHistory, getPicks } from "../../shared/service/fpl/service";
+import { fplFetcher, getPicks } from "../../shared/service/fpl/service";
 import { getCurrentGameweekId } from "../gameweeks/cache";
 import { getNextGameweekId } from "../gameweeks/service";
 import { getAllPlayers, getPlayerById } from "../players/cache";
@@ -24,9 +24,11 @@ export async function getTransfers(id: number): Promise<TransfersResponse> {
   const teamsMap = await getAllTeams();
 
   const [res, transfers, history] = await Promise.all([
-    getPicks({ id, gw }),
-    getFplTransfers(id),
-    getHistory(id),
+    fplFetcher.fetch(`/entry/${id}/event/${gw}/picks/`),
+    fplFetcher.fetch(`/entry/${id}/transfers`),
+    fplFetcher
+      .fetch(`/entry/${id}/history`)
+      .then((v) => camelcaseKeys(v, { deep: true })),
   ]);
 
   const picks: PickType[] = await Promise.all(
@@ -153,7 +155,7 @@ function getGameweeksHistory(history: HistoryType) {
 }
 
 async function getFplTransfers(id: number) {
-  const transfers = await fplFetch(`/entry/${id}/transfers`);
+  const transfers = await fplFetcher.fetch(`/entry/${id}/transfers`);
 
   if (!Value.Check(TransfersSchema, transfers))
     throw new Error(`Invalid transfers response for id: ${id}`);
