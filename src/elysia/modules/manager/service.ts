@@ -1,8 +1,8 @@
-import { getManagerInfo } from "../../shared/service/fpl/service";
+import { fplFetcher } from "../../shared/service/fpl/service";
 import { InfoResponse } from "./model";
 
 export async function getInfo(id: number): Promise<InfoResponse> {
-  const res = await getManagerInfo(id);
+  const res = await fplFetcher.fetch(`/entry/${id}`);
   return {
     id: res.id,
     name: res.name,

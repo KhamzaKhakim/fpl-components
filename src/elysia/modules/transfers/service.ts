@@ -1,7 +1,7 @@
 import { positionById } from "@/src/utils/mapApi";
 
 import { ChipEnum, FplPicksType } from "../../shared/service/fpl/model";
-import { fplFetcher, getPicks } from "../../shared/service/fpl/service";
+import { fplFetcher } from "../../shared/service/fpl/service";
 import { getCurrentGameweekId } from "../gameweeks/cache";
 import { getNextGameweekId } from "../gameweeks/service";
 import { getAllPlayers, getPlayerById } from "../players/cache";
@@ -72,11 +72,6 @@ export async function getTransferInfo(
   transfers: TransfersType,
   history: HistoryType,
 ) {
-  // const history = await fplFetch(`/entry/${id}/history`);
-
-  // if (!Value.Check(HistorySchema, history))
-  //   throw new Error(`Invalid history response for id: ${id}`);
-
   const chips = getUsedChips(history);
   const firstGw = getGameweeksHistory(history)[0];
   const nextGw = await getNextGameweekId();
@@ -149,23 +144,6 @@ function getGameweeksHistory(history: HistoryType) {
   }));
 }
 
-// async function getFplTransfers(id: number) {
-//   const transfers = await fplFetcher.fetch(`/entry/${id}/transfers`);
-
-//   if (!Value.Check(TransfersSchema, transfers))
-//     throw new Error(`Invalid transfers response for id: ${id}`);
-
-//   return transfers.map((t) => ({
-//     elementIn: t.element_in,
-//     elementInCost: t.element_in_cost,
-//     elementOut: t.element_out,
-//     elementOutCost: t.element_out_cost,
-//     entry: t.entry,
-//     event: t.event,
-//     time: t.time,
-//   }));
-// }
-
 const AFCON_GW = 16;
 
 function calculateFts({
@@ -224,7 +202,7 @@ async function calculateBank({
 }) {
   const transfersReversed = transfers.toReversed();
 
-  const res = await getPicks({ id, gw: firstGw });
+  const res = await fplFetcher.fetch(`/entry/${id}/event/${firstGw}/picks/`);
 
   const initialPlayerPrices = await Promise.all(
     res.picks.map(async (p) => await getPlayerById(p.element)),
