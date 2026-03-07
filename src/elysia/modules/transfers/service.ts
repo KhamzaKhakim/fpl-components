@@ -1,6 +1,3 @@
-import { Value } from "@sinclair/typebox/value";
-import camelcaseKeys from "camelcase-keys";
-
 import { positionById } from "@/src/utils/mapApi";
 
 import { ChipEnum, FplPicksType } from "../../shared/service/fpl/model";
@@ -15,7 +12,7 @@ import {
   HistoryType,
   PickType,
   TransfersResponse,
-  TransfersSchema,
+  TransfersType,
 } from "./model";
 
 export async function getTransfers(id: number): Promise<TransfersResponse> {
@@ -26,9 +23,7 @@ export async function getTransfers(id: number): Promise<TransfersResponse> {
   const [res, transfers, history] = await Promise.all([
     fplFetcher.fetch(`/entry/${id}/event/${gw}/picks/`),
     fplFetcher.fetch(`/entry/${id}/transfers`),
-    fplFetcher
-      .fetch(`/entry/${id}/history`)
-      .then((v) => camelcaseKeys(v, { deep: true })),
+    fplFetcher.fetch(`/entry/${id}/history`),
   ]);
 
   const picks: PickType[] = await Promise.all(
@@ -74,7 +69,7 @@ export async function getTransfers(id: number): Promise<TransfersResponse> {
 
 export async function getTransferInfo(
   id: number,
-  transfers: Awaited<ReturnType<typeof getFplTransfers>>,
+  transfers: TransfersType,
   history: HistoryType,
 ) {
   // const history = await fplFetch(`/entry/${id}/history`);
@@ -154,22 +149,22 @@ function getGameweeksHistory(history: HistoryType) {
   }));
 }
 
-async function getFplTransfers(id: number) {
-  const transfers = await fplFetcher.fetch(`/entry/${id}/transfers`);
+// async function getFplTransfers(id: number) {
+//   const transfers = await fplFetcher.fetch(`/entry/${id}/transfers`);
 
-  if (!Value.Check(TransfersSchema, transfers))
-    throw new Error(`Invalid transfers response for id: ${id}`);
+//   if (!Value.Check(TransfersSchema, transfers))
+//     throw new Error(`Invalid transfers response for id: ${id}`);
 
-  return transfers.map((t) => ({
-    elementIn: t.element_in,
-    elementInCost: t.element_in_cost,
-    elementOut: t.element_out,
-    elementOutCost: t.element_out_cost,
-    entry: t.entry,
-    event: t.event,
-    time: t.time,
-  }));
-}
+//   return transfers.map((t) => ({
+//     elementIn: t.element_in,
+//     elementInCost: t.element_in_cost,
+//     elementOut: t.element_out,
+//     elementOutCost: t.element_out_cost,
+//     entry: t.entry,
+//     event: t.event,
+//     time: t.time,
+//   }));
+// }
 
 const AFCON_GW = 16;
 
@@ -224,7 +219,7 @@ async function calculateBank({
 }: {
   id: number;
   firstGw: number;
-  transfers: Awaited<ReturnType<typeof getFplTransfers>>;
+  transfers: TransfersType;
   chips: Awaited<ReturnType<typeof getUsedChips>>;
 }) {
   const transfersReversed = transfers.toReversed();
@@ -248,8 +243,8 @@ async function calculateBank({
 
     bank =
       bank -
-      transfersReversed[i].elementInCost +
-      transfersReversed[i].elementOutCost;
+      transfersReversed[i].element_in_cost +
+      transfersReversed[i].element_out_cost;
   }
 
   return bank;
@@ -260,10 +255,10 @@ function calculateSellCost({
   transfers,
 }: {
   player: PlayerType;
-  transfers: Awaited<ReturnType<typeof getFplTransfers>>;
+  transfers: TransfersType;
 }) {
   const inPrice =
-    transfers.find((t) => t.elementIn == player.id)?.elementInCost ??
+    transfers.find((t) => t.element_in == player.id)?.element_in_cost ??
     player.nowCost - player.costChangeStart;
 
   if (player.nowCost <= inPrice) return player.nowCost;
