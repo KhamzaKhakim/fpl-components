@@ -1,6 +1,11 @@
 import { positionById } from "@/src/utils/mapApi";
 
-import { ChipEnum, FplPicksType } from "../../shared/service/fpl/model";
+import {
+  ChipEnum,
+  FplHistoryResponse,
+  FplPicksResponse,
+  FplTransfersResponse,
+} from "../../shared/service/fpl/model";
 import { fplFetcher } from "../../shared/service/fpl/service";
 import { getCurrentGameweekId } from "../gameweeks/cache";
 import { getNextGameweekId } from "../gameweeks/service";
@@ -8,12 +13,7 @@ import { getAllPlayers, getPlayerById } from "../players/cache";
 import { PlayerType } from "../players/model";
 import { getAllTeams } from "../teams/cache";
 import { ChipType } from "../teams/types";
-import {
-  HistoryType,
-  PickType,
-  TransfersResponse,
-  TransfersType,
-} from "./model";
+import { PickType, TransfersResponse } from "./model";
 
 export async function getTransfers(id: number): Promise<TransfersResponse> {
   const gw = await getCurrentGameweekId();
@@ -27,7 +27,7 @@ export async function getTransfers(id: number): Promise<TransfersResponse> {
   ]);
 
   const picks: PickType[] = await Promise.all(
-    res.picks.map(async (p: FplPicksType) => {
+    res.picks.map(async (p: FplPicksResponse["picks"][number]) => {
       const player = playersMap.get(p.element);
 
       if (!player) throw new Error(`Player by id ${p.element} not found`);
@@ -69,8 +69,8 @@ export async function getTransfers(id: number): Promise<TransfersResponse> {
 
 export async function getTransferInfo(
   id: number,
-  transfers: TransfersType,
-  history: HistoryType,
+  transfers: FplTransfersResponse,
+  history: FplHistoryResponse,
 ) {
   const chips = getUsedChips(history);
   const firstGw = getGameweeksHistory(history)[0];
@@ -110,7 +110,7 @@ export async function getTransferInfo(
   };
 }
 
-function getUsedChips(history: HistoryType) {
+function getUsedChips(history: FplHistoryResponse) {
   const res = history.chips.reduce(
     (acc, curr) => {
       if (!acc[curr.name]) {
@@ -121,13 +121,13 @@ function getUsedChips(history: HistoryType) {
 
       return acc;
     },
-    {} as Record<ChipType, HistoryType["chips"]>,
+    {} as Record<ChipType, FplHistoryResponse["chips"]>,
   );
 
   return res;
 }
 
-function getGameweeksHistory(history: HistoryType) {
+function getGameweeksHistory(history: FplHistoryResponse) {
   return history.current.map((h) => ({
     event: h.event,
     points: h.points,
@@ -197,7 +197,7 @@ async function calculateBank({
 }: {
   id: number;
   firstGw: number;
-  transfers: TransfersType;
+  transfers: FplTransfersResponse;
   chips: Awaited<ReturnType<typeof getUsedChips>>;
 }) {
   const transfersReversed = transfers.toReversed();
@@ -233,7 +233,7 @@ function calculateSellCost({
   transfers,
 }: {
   player: PlayerType;
-  transfers: TransfersType;
+  transfers: FplTransfersResponse;
 }) {
   const inPrice =
     transfers.find((t) => t.element_in == player.id)?.element_in_cost ??

@@ -1,7 +1,15 @@
 import { t } from "elysia";
 
 // Picks Model
-const chip = t.UnionEnum(["wildcard", "freehit", "bboost", "3xc"]);
+export const ChipEnum = t.UnionEnum(["wildcard", "freehit", "bboost", "3xc"]);
+export const PositionEnum = t.UnionEnum(["GK", "DEF", "MID", "FWD"]);
+
+export const PicksBodySchema = t.Object({
+  id: t.Number(),
+  gw: t.Number(),
+});
+
+export type PicksBody = typeof PicksBodySchema.static;
 
 const AutomaticSubSchema = t.Object({
   element_in: t.Number(),
@@ -25,13 +33,6 @@ const EntryHistorySchema = t.Object({
   value: t.Number(),
 });
 
-export const PicksBodySchema = t.Object({
-  id: t.Number(),
-  gw: t.Number(),
-});
-
-export type PicksBody = typeof PicksBodySchema.static;
-
 export const PickSchema = t.Object({
   element: t.Number(),
   element_type: t.Number(),
@@ -42,17 +43,13 @@ export const PickSchema = t.Object({
 });
 
 export const PicksResponseSchema = t.Object({
-  active_chip: t.Nullable(chip),
+  active_chip: t.Nullable(ChipEnum),
   automatic_subs: t.Array(AutomaticSubSchema),
   entry_history: EntryHistorySchema,
   picks: t.Array(PickSchema),
 });
 
-export type PicksResponse = typeof PicksResponseSchema.static;
-export type FplPicksType = typeof PickSchema.static;
-
-export const ChipEnum = t.UnionEnum(["wildcard", "freehit", "bboost", "3xc"]);
-export const PositionEnum = t.UnionEnum(["GK", "DEF", "MID", "FWD"]);
+export type FplPicksResponse = typeof PicksResponseSchema.static;
 
 // Manager Model
 const ActivePhaseSchema = t.Object({
@@ -191,4 +188,58 @@ export const ManagerResponseSchema = t.Object({
   club_badge_src: t.Nullable(t.String()),
 });
 
-export type ManagerResponse = typeof ManagerResponseSchema.static;
+export type FplManagerResponse = typeof ManagerResponseSchema.static;
+
+// History Model
+export const HistoryResponseSchema = t.Object({
+  current: t.Array(
+    t.Object({
+      event: t.Number(),
+      points: t.Number(),
+      total_points: t.Number(),
+      rank: t.Number(),
+      rank_sort: t.Number(),
+      overall_rank: t.Number(),
+      percentile_rank: t.Number(),
+      bank: t.Number(),
+      value: t.Number(),
+      event_transfers: t.Number(),
+      event_transfers_cost: t.Number(),
+      points_on_bench: t.Number(),
+    }),
+  ),
+
+  past: t.Array(
+    t.Object({
+      season_name: t.String(),
+      total_points: t.Number(),
+      rank: t.Number(),
+    }),
+  ),
+
+  chips: t.Array(
+    t.Object({
+      name: ChipEnum,
+      time: t.String({ format: "date-time" }),
+      event: t.Number(),
+    }),
+  ),
+});
+
+export type FplHistoryResponse = typeof HistoryResponseSchema.static;
+
+// Transfers Model
+
+export const TransfersResponseSchema = t.Array(
+  t.Object({
+    element_in: t.Number(),
+    element_in_cost: t.Number(),
+    element_out: t.Number(),
+    element_out_cost: t.Number(),
+    entry: t.Number(),
+    event: t.Number(),
+    time: t.String({ format: "date-time" }),
+  }),
+);
+
+export type FplTransfersResponse = typeof TransfersResponseSchema.static;

@@ -1,16 +1,17 @@
-import {
-  HistoryType,
-  TransfersType,
-} from "@/src/elysia/modules/transfers/model";
 import { apiFetcher } from "@/src/elysia/modules/utils/fetcher";
 
-import { ManagerResponse, PicksResponse } from "./model";
+import {
+  FplHistoryResponse,
+  FplManagerResponse,
+  FplPicksResponse,
+  FplTransfersResponse,
+} from "./model";
 
 type FplApi = {
-  [x: `/entry/${number}/event/${number}/picks/`]: PicksResponse;
-  [x: `/entry/${number}`]: ManagerResponse;
-  [x: `/entry/${number}/history`]: HistoryType;
-  [x: `/entry/${number}/transfers`]: TransfersType;
+  [x: `/entry/${number}/event/${number}/picks/`]: FplPicksResponse;
+  [x: `/entry/${number}`]: FplManagerResponse;
+  [x: `/entry/${number}/history`]: FplHistoryResponse;
+  [x: `/entry/${number}/transfers`]: FplTransfersResponse;
 };
 export const fplFetcher = apiFetcher<FplApi>(
   "https://fantasy.premierleague.com/api",
