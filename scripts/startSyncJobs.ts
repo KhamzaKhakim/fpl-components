@@ -3,6 +3,7 @@ import {
   startPeriodicGameweekUpdates,
   updateGameweeks,
 } from "./gameweeksSyncJob";
+import { getOldLivePoints } from "./getOldLivePoints";
 import {
   startPeriodicLivePointsUpdates,
   updateLivePoints,
@@ -20,4 +21,6 @@ startPeriodicGameweekUpdates();
 startPeriodicFixtureUpdates();
 startPeriodicTeamUpdates();
 startPeriodicPlayerUpdates();
+
+await getOldLivePoints();
 startPeriodicLivePointsUpdates();

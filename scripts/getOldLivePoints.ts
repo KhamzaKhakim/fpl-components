@@ -106,7 +106,7 @@ async function storeLivePointsForGameweek(
   }
 }
 
-async function getOldLivePoints(): Promise<void> {
+export async function getOldLivePoints(): Promise<void> {
   try {
     console.log("Fetching all gameweeks...");
     const allGameweeks = await getAllGameweeks();
@@ -149,5 +149,3 @@ async function getOldLivePoints(): Promise<void> {
     throw error;
   }
 }
-
-await getOldLivePoints();

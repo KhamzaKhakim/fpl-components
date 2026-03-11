@@ -216,6 +216,7 @@ export default function TransferField({
         >
           <Image
             src="/field.svg"
+            preload
             alt="Football field"
             width={size}
             height={size}

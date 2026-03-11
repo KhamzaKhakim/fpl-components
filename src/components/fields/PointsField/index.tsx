@@ -228,6 +228,7 @@ export default function PointsField({
             alt="Football field"
             width={size}
             height={size}
+            preload
             style={{
               transform: `rotateX(${rotation}deg)`,
               transformStyle: "preserve-3d",
