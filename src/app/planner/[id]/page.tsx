@@ -27,6 +27,7 @@ export default function PlanPage() {
     if (!gw && data) setGw(data[0].gw);
   }, [data, gw, setGw]);
 
+  //TODO: Create good loading page, even though this might never run in this case.
   if (!data) {
     return <h1>Loading...</h1>;
   }
@@ -59,9 +60,11 @@ export default function PlanPage() {
             onChange={(updatedGwData) => {
               setData((d) => {
                 if (!d) return d;
+
                 const updated = d.map((item) =>
                   item.gw === updatedGwData.gw ? updatedGwData : item,
                 );
+
                 store.set(`plans.${id}`, updated);
                 return updated;
               });
