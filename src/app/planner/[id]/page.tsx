@@ -21,8 +21,11 @@ export default function PlanPage() {
     const plan = store.get(`plans.${id}`) as TransferPlan[];
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setData(plan);
-    if (!gw) setGw(plan[0].gw);
-  }, [id, gw, setGw]);
+  }, [id]);
+
+  useEffect(() => {
+    if (!gw && data) setGw(data[0].gw);
+  }, [data, gw, setGw]);
 
   if (!data) {
     return <h1>Loading...</h1>;
@@ -30,19 +33,18 @@ export default function PlanPage() {
 
   const gwData = gw ? (data.find((d) => d.gw == gw) ?? data[0]) : data[0];
 
-  const createNextGw = (onDone?: () => void) => {
+  const createNextGw = () => {
     setData((prev) => {
-      // ✅ use prev, not data
       if (!prev || prev.length === 0) return prev;
       const last = prev[prev.length - 1];
       const next = [...prev, { ...last, gw: last.gw + 1 }];
-      onDone?.();
       return next;
     });
   };
 
   return (
     <div className="mx-16 my-4">
+      <div>{data.map((d) => d.gw)}</div>
       <div className="flex justify-center">
         <div>
           <GameweekChooser
