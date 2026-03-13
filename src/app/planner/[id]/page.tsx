@@ -44,7 +44,6 @@ export default function PlanPage() {
 
   return (
     <div className="mx-16 my-4">
-      <div>{data.map((d) => d.gw)}</div>
       <div className="flex justify-center">
         <div>
           <GameweekChooser
@@ -97,8 +96,6 @@ function GameweekChooser({
       <button
         aria-label="Previous gameweek"
         disabled={currGw == data[0].gw}
-        // if there is already gw with that gw then just go,
-        // if there isnot then create on then go.
         onClick={() => setGw(currGw - 1)}
         className={`
             p-2 rounded-lg transition
@@ -127,13 +124,12 @@ function GameweekChooser({
 
       <button
         aria-label="Next gameweek"
-        disabled={currGw == 37}
+        disabled={currGw == 38}
         onClick={() => {
           const nextGw = data.find((d) => d.gw == currGw + 1);
 
           if (!nextGw) {
             createNextGw();
-            console.log("Create");
           }
 
           setGw(currGw + 1);
@@ -141,7 +137,7 @@ function GameweekChooser({
         className={`
               p-2 rounded-lg transition
               ${
-                currGw == 37
+                currGw == 38
                   ? "opacity-40 cursor-not-allowed"
                   : "hover:bg-gray-200"
               }

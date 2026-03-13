@@ -9,6 +9,7 @@ import {
   Trash2Icon,
 } from "lucide-react";
 import { redirect } from "next/navigation";
+import { useEffect, useState } from "react";
 import store from "store2";
 
 import { Badge } from "@/components/ui/badge";
@@ -25,6 +26,8 @@ import PlannerField from "@/src/components/fields/PlannerField";
 import { useUser } from "@/src/context/user/useUser";
 import { client } from "@/src/elysia/client";
 import { TransfersResponse } from "@/src/elysia/modules/transfers/model";
+
+import { PlanType } from "./types";
 export default function PlannerPage() {
   const user = useUser();
   const SIZE = 600;
@@ -39,17 +42,6 @@ export default function PlannerPage() {
         .get(),
     enabled: !!user.id,
   });
-
-  // const { data: managerData, isLoading: managerDataLoading } = useQuery({
-  //   queryKey: ["manager"],
-  //   queryFn: () =>
-  //     client
-  //       .manager({
-  //         id: user.id!,
-  //       })
-  //       .get(),
-  //   enabled: !!user.id,
-  // });
 
   return (
     <div className="mx-16 my-4">
@@ -69,22 +61,33 @@ export default function PlannerPage() {
 }
 
 function Plans({ response }: { response: TransfersResponse }) {
-  const tempItems = [
-    {
-      name: "in: Wirtz, Salah & out: Jones, Gakpo",
-      valid: true,
-    },
-    {
-      name: "in: Wilson, Dango & out: Haaland, Alisson",
-      valid: false,
-    },
-  ];
+  const [plans, setPlans] = useState<PlanType[] | null>(null);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setPlans(() => store.get("plans"));
+  }, []);
 
   function createPlan() {
-    const plans = store.get("plans") as number[];
-    let lastPlan = plans?.length ? plans[plans.length - 1] : 0;
-    store.set(`plans.${++lastPlan}`, [response]);
-    redirect(`/planner/${lastPlan}`);
+    const plans = store.get("plans") as PlanType[];
+    const lastPlan = plans[plans.length - 1];
+    const nextId = lastPlan ? lastPlan.id + 1 : 1;
+
+    store.set(`plans.${nextId}`, [response]);
+
+    //TODO: should work on naming. Want to use AI or something like that to create a name automatically.
+    store.set(`plans`, [
+      ...plans,
+      {
+        id: nextId,
+        startGw: response.gw,
+        endGw: response.gw,
+        name: "Bla",
+        valid: true,
+      },
+    ] satisfies PlanType[]);
+
+    redirect(`/planner/${nextId}`);
   }
 
   return (
@@ -92,22 +95,25 @@ function Plans({ response }: { response: TransfersResponse }) {
       <div className="flex justify-between items-center">
         <h1 className="text-xl font-bold">Plans:</h1>
         <Button size="sm" onClick={createPlan}>
-          <CirclePlus /> Add plan
+          <CirclePlus />
+          New plan
         </Button>
       </div>
-      {tempItems.map((i) => (
-        <Item variant="outline" size="xs" key={i.name}>
+      {plans?.map((plan) => (
+        <Item variant="outline" size="xs" key={plan.id}>
           <ItemMedia>
             <CalendarDays className="size-4" />
-            <p className="text-xxs font-bold">GW 16-24</p>
+            <p className="text-xxs font-bold">
+              GW {plan.startGw}-{plan.endGw}
+            </p>
           </ItemMedia>
           <div className="h-8">
             <Separator orientation="vertical" />
           </div>
           <ItemContent>
             <ItemTitle>
-              {i.name}
-              {!i.valid && <Badge variant="destructive">invalid</Badge>}
+              {plan.name}
+              {!plan.valid && <Badge variant="destructive">invalid</Badge>}
             </ItemTitle>
           </ItemContent>
           <ItemActions>
@@ -117,7 +123,12 @@ function Plans({ response }: { response: TransfersResponse }) {
             <Button type="button" variant="ghost" size="icon-xs">
               <SquarePen className="size-4" />
             </Button>
-            <Button type="button" variant="ghost" size="icon-xs">
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-xs"
+              onClick={() => redirect(`/planner/${plan.id}`)}
+            >
               <ChevronRightIcon className="size-4" />
             </Button>
           </ItemActions>
