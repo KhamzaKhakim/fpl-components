@@ -2,6 +2,7 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Roboto } from "next/font/google";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import Header from "../components/Header";
 import Providers from "../context/Providers";
@@ -36,10 +37,12 @@ export default function RootLayout({
       <body
         className={`${roboto.className} ${geistSans.variable} ${geistMono.variable} antialiased text-black!`}
       >
-        <Providers>
-          <Header />
-          {children}
-        </Providers>
+        <NuqsAdapter>
+          <Providers>
+            <Header />
+            {children}
+          </Providers>
+        </NuqsAdapter>
       </body>
     </html>
   );

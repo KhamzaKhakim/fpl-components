@@ -1,12 +1,7 @@
 "use client";
 
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
+import store from "store2";
 
 export type UserType = {
   id: string | null;
@@ -18,10 +13,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [id, setId] = useState<string | null>(null);
 
   useEffect(() => {
-    const id = localStorage.getItem("id");
-    if (id) {
-      setId(id);
-    }
+    const stored = store.get("id");
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (stored) setId(stored);
   }, []);
 
   return (

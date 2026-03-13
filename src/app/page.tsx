@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import store from "store2";
 
 import { Button } from "@/components/ui/button";
 
@@ -16,7 +17,8 @@ export default function Home() {
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData);
     if (data?.id && typeof data?.id == "string") {
-      localStorage.setItem("id", data.id);
+      store.set("id", data.id);
+      store.set("plans", []);
       setId(data.id);
       inputRef.current!.value = "";
     }

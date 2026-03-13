@@ -3,14 +3,13 @@ import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/ad
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-import { TransfersResponse } from "@/src/elysia/modules/transfers/model";
+import { TransferPlan } from "@/src/elysia/modules/transfers/model";
 import { mapCoordinates } from "@/src/utils/mapCoordinates";
 import { createScaler } from "@/src/utils/scaler";
 import { isNumber, isPlayer } from "@/src/utils/validatations";
 
 import PlayerCard from "../../cards/TransferCard";
-import { DEFAULT_TRANSFERS_SQUAD } from "./defaults";
-import { Player, Squad } from "./types";
+import { Player } from "./types";
 import { canDrop } from "./utils";
 
 //TODO:
@@ -22,7 +21,8 @@ interface TransferProps {
   size?: number;
   perspective?: number;
   rotation?: number;
-  data?: TransfersResponse | null;
+  data?: TransferPlan | null;
+  onChange: (data: TransferPlan) => void;
   isLoading: boolean;
 }
 
@@ -31,6 +31,7 @@ export default function TransferField({
   perspective = 800,
   rotation = 30,
   data,
+  onChange,
   isLoading,
 }: TransferProps) {
   const { x: leftX, y: topY } = mapCoordinates(
@@ -43,54 +44,49 @@ export default function TransferField({
 
   const s = createScaler(size);
 
-  const [squad, setSquad] = useState<Squad>(
-    data?.picks || DEFAULT_TRANSFERS_SQUAD,
-  );
   const [selectedPlayer, setSelectedPlayer] = useState<number | null>(null);
 
   useEffect(() => {
-    if (data?.picks) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setSquad(data.picks);
+    if (data) {
+      return monitorForElements({
+        onDragStart({ source }) {
+          const data = source.data as { index: number; player: Player };
+          setSelectedPlayer(data.index);
+        },
+        onDrop({ source, location }) {
+          setSelectedPlayer(null);
+          const destination = location.current.dropTargets[0];
+
+          if (!destination) return;
+
+          const srcPlayer = source.data.player;
+          const destPlayer = destination.data.player;
+
+          const srcIndex = source.data.index;
+          const destIndex = destination.data.index;
+
+          if (!isPlayer(srcPlayer) || !isPlayer(destPlayer)) {
+            return;
+          }
+
+          if (!isNumber(srcIndex) || !isNumber(destIndex)) return;
+
+          const nextSquad = structuredClone(data.picks);
+          const temp = nextSquad[destIndex];
+          nextSquad[destIndex] = nextSquad[srcIndex];
+          nextSquad[srcIndex] = temp;
+
+          onChange({ ...data, picks: nextSquad });
+        },
+      });
     }
-  }, [data]);
+  }, [data, onChange]);
 
-  useEffect(() => {
-    return monitorForElements({
-      onDragStart({ source }) {
-        const data = source.data as { index: number; player: Player };
-        setSelectedPlayer(data.index);
-      },
-      onDrop({ source, location }) {
-        setSelectedPlayer(null);
-        const destination = location.current.dropTargets[0];
+  const squad = data?.picks;
 
-        if (!destination) return;
-
-        const srcPlayer = source.data.player;
-        const destPlayer = destination.data.player;
-
-        const srcIndex = source.data.index;
-        const destIndex = destination.data.index;
-
-        if (!isPlayer(srcPlayer) || !isPlayer(destPlayer)) {
-          return;
-        }
-
-        if (!isNumber(srcIndex) || !isNumber(destIndex)) return;
-
-        setSquad((prev) => {
-          const next = structuredClone(prev);
-
-          const temp = next[destIndex];
-          next[destIndex] = next[srcIndex];
-          next[srcIndex] = temp;
-
-          return next;
-        });
-      },
-    });
-  }, []);
+  if (!squad) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <div>

@@ -8,6 +8,8 @@ import {
   SquarePen,
   Trash2Icon,
 } from "lucide-react";
+import { redirect } from "next/navigation";
+import store from "store2";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -22,6 +24,7 @@ import { Separator } from "@/components/ui/separator";
 import PlannerField from "@/src/components/fields/PlannerField";
 import { useUser } from "@/src/context/user/useUser";
 import { client } from "@/src/elysia/client";
+import { TransfersResponse } from "@/src/elysia/modules/transfers/model";
 export default function PlannerPage() {
   const user = useUser();
   const SIZE = 600;
@@ -59,13 +62,13 @@ export default function PlannerPage() {
             // canDrag={false}
           />
         </div>
-        <Plans />
+        {response?.data && <Plans response={response?.data} />}
       </div>
     </div>
   );
 }
 
-function Plans() {
+function Plans({ response }: { response: TransfersResponse }) {
   const tempItems = [
     {
       name: "in: Wirtz, Salah & out: Jones, Gakpo",
@@ -77,11 +80,18 @@ function Plans() {
     },
   ];
 
+  function createPlan() {
+    const plans = store.get("plans") as number[];
+    let lastPlan = plans?.length ? plans[plans.length - 1] : 0;
+    store.set(`plans.${++lastPlan}`, [response]);
+    redirect(`/planner/${lastPlan}`);
+  }
+
   return (
     <div className="flex flex-col px-8 gap-2">
       <div className="flex justify-between items-center">
         <h1 className="text-xl font-bold">Plans:</h1>
-        <Button size="sm">
+        <Button size="sm" onClick={createPlan}>
           <CirclePlus /> Add plan
         </Button>
       </div>

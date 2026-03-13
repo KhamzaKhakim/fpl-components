@@ -17,6 +17,7 @@ import { PickType, TransfersResponse } from "./model";
 
 export async function getTransfers(id: number): Promise<TransfersResponse> {
   const gw = await getCurrentGameweekId();
+
   const playersMap = await getAllPlayers();
   const teamsMap = await getAllTeams();
 
@@ -64,6 +65,7 @@ export async function getTransfers(id: number): Promise<TransfersResponse> {
     limit,
     bank,
     availableChips,
+    gw: gw + 1,
   };
 }
 

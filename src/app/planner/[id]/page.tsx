@@ -1,47 +1,157 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
+import { useParams } from "next/navigation";
+import { parseAsInteger, useQueryState } from "nuqs";
+import { useEffect, useState } from "react";
+import store from "store2";
 
-import Transfers from "@/src/components/fields/TransferField";
-import { useUser } from "@/src/context/user/useUser";
-import { client } from "@/src/elysia/client";
-export default function PlannerPage() {
-  const user = useUser();
-  const SIZE = 600;
+import TransferField from "@/src/components/fields/TransferField";
+import { TransferPlan } from "@/src/elysia/modules/transfers/model";
+import { createScaler } from "@/src/utils/scaler";
 
-  const { data: response, isLoading } = useQuery({
-    queryKey: ["squad", user.id],
-    queryFn: () =>
-      client
-        .transfers({
-          id: user.id!,
-        })
-        .get(),
-    enabled: !!user.id,
-  });
+export default function PlanPage() {
+  const { id } = useParams<{ id: string }>();
 
-  // const { data: managerData, isLoading: managerDataLoading } = useQuery({
-  //   queryKey: ["manager"],
-  //   queryFn: () =>
-  //     client
-  //       .manager({
-  //         id: user.id!,
-  //       })
-  //       .get(),
-  //   enabled: !!user.id,
-  // });
+  const [data, setData] = useState<TransferPlan[] | null>(null);
+
+  const [gw, setGw] = useQueryState("gw", parseAsInteger);
+
+  useEffect(() => {
+    const plan = store.get(`plans.${id}`) as TransferPlan[];
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setData(plan);
+    if (!gw) setGw(plan[0].gw);
+  }, [id, gw, setGw]);
+
+  if (!data) {
+    return <h1>Loading...</h1>;
+  }
+
+  const gwData = gw ? (data.find((d) => d.gw == gw) ?? data[0]) : data[0];
+
+  const createNextGw = (onDone?: () => void) => {
+    setData((prev) => {
+      // ✅ use prev, not data
+      if (!prev || prev.length === 0) return prev;
+      const last = prev[prev.length - 1];
+      const next = [...prev, { ...last, gw: last.gw + 1 }];
+      onDone?.();
+      return next;
+    });
+  };
 
   return (
     <div className="mx-16 my-4">
       <div className="flex justify-center">
         <div>
-          <Transfers
-            size={SIZE}
-            data={response?.data}
-            isLoading={!response || isLoading}
+          <GameweekChooser
+            size={600}
+            data={data}
+            currGw={gw ?? undefined}
+            setGw={setGw}
+            createNextGw={createNextGw}
+          />
+          <TransferField
+            size={600}
+            data={gwData}
+            onChange={(updatedGwData) => {
+              setData((d) => {
+                if (!d) return d;
+                const updated = d.map((item) =>
+                  item.gw === updatedGwData.gw ? updatedGwData : item,
+                );
+                store.set(`plans.${id}`, updated);
+                return updated;
+              });
+            }}
+            isLoading={false}
           />
         </div>
+        <div>Table</div>
+        {/* {response?.data && <Plans response={response?.data} />} */}
       </div>
+    </div>
+  );
+}
+
+function GameweekChooser({
+  currGw = 0,
+  createNextGw,
+  data,
+  size = 600,
+  setGw,
+}: {
+  currGw?: number;
+  size?: number;
+  data: TransferPlan[];
+  setGw: (value: number) => Promise<URLSearchParams>;
+  createNextGw: () => void;
+}) {
+  const s = createScaler(size);
+
+  return (
+    <div className="flex justify-center items-center gap-2">
+      <button
+        aria-label="Previous gameweek"
+        disabled={currGw == data[0].gw}
+        // if there is already gw with that gw then just go,
+        // if there isnot then create on then go.
+        onClick={() => setGw(currGw - 1)}
+        className={`
+            p-2 rounded-lg transition
+            ${
+              currGw == data[0].gw
+                ? "opacity-40 cursor-not-allowed"
+                : "hover:bg-gray-200"
+            }
+            `}
+      >
+        <Image
+          src="/icons/arrow-left.svg"
+          alt="Prev"
+          width={s(16)}
+          height={s(16)}
+        />
+      </button>
+
+      <div
+        className="flex flex-col justify-center items-center bg-gray-200/50 text-gray-900 transition"
+        style={{ width: s(88), height: s(88), borderRadius: s(12) }}
+      >
+        <p className="text-center text-sm font-medium">{data.length}</p>
+        <p className="text-center text-xs text-gray-600">gws</p>
+      </div>
+
+      <button
+        aria-label="Next gameweek"
+        disabled={currGw == 37}
+        onClick={() => {
+          const nextGw = data.find((d) => d.gw == currGw + 1);
+
+          if (!nextGw) {
+            createNextGw();
+            console.log("Create");
+          }
+
+          setGw(currGw + 1);
+        }}
+        className={`
+              p-2 rounded-lg transition
+              ${
+                currGw == 37
+                  ? "opacity-40 cursor-not-allowed"
+                  : "hover:bg-gray-200"
+              }
+            `}
+      >
+        <Image
+          src="/icons/arrow-right.svg"
+          alt="Next"
+          width={s(16)}
+          height={s(16)}
+        />
+      </button>
     </div>
   );
 }
