@@ -29,23 +29,18 @@ export function canDrop(
   if (squad[dropIndex].position == "GK") return false;
 
   if (currStartingDefs == 3) {
-    if (squad[dragIndex].position == "DEF" && dragIndex < 11)
-      return squad[dropIndex].position == "DEF";
-
     if (dropIndex < 11 && squad[dropIndex].position == "DEF") return false;
+    if (squad[dragIndex].position == "DEF" && dragIndex < 11) return false;
   }
 
   if (currStartingMids == 2) {
-    if (squad[dragIndex].position == "MID" && dragIndex < 11)
-      return squad[dropIndex].position == "MID";
-
     if (dropIndex < 11 && squad[dropIndex].position == "MID") return false;
+    if (squad[dragIndex].position == "MID" && dragIndex < 11) return false;
   }
 
   if (currStartingFwds == 1) {
-    if (dropIndex == 10) return false;
-    if (squad[dragIndex].position == "FWD")
-      return squad[dropIndex].position == "FWD";
+    if (dropIndex < 11 && squad[dropIndex].position == "FWD") return false;
+    if (squad[dragIndex].position == "FWD" && dragIndex < 11) return false;
   }
 
   return true;

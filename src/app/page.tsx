@@ -17,6 +17,7 @@ export default function Home() {
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData);
     if (data?.id && typeof data?.id == "string") {
+      store.clearAll();
       store.set("id", data.id);
       store.set("plans", []);
       setId(data.id);
@@ -31,7 +32,7 @@ export default function Home() {
           <CurrentId
             id={id}
             clearId={() => {
-              localStorage.removeItem("id");
+              store.clearAll();
               setId(null);
             }}
           />
