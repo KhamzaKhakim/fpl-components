@@ -5,7 +5,7 @@ import {
 } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { disableNativeDragPreview } from "@atlaskit/pragmatic-drag-and-drop/element/disable-native-drag-preview";
 import { preventUnhandled } from "@atlaskit/pragmatic-drag-and-drop/prevent-unhandled";
-import { X } from "lucide-react";
+import { CirclePlus, RotateCcw, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -21,7 +21,7 @@ interface PlayerCardProps {
   index: number;
   isLoading: boolean;
   canDrop: boolean;
-  removePlayer: (idx: number) => void;
+  toggleRemoved: (idx: number) => void;
 }
 
 export default function TransferCard({
@@ -30,7 +30,7 @@ export default function TransferCard({
   size,
   isLoading,
   canDrop,
-  removePlayer,
+  toggleRemoved,
 }: PlayerCardProps) {
   const s = createScaler(size);
   const src =
@@ -49,6 +49,8 @@ export default function TransferCard({
   } | null>(null);
 
   useEffect(() => {
+    if (player.removed) return;
+
     const el = ref.current;
     if (!el) return;
 
@@ -137,23 +139,32 @@ export default function TransferCard({
         <Button
           variant="ghost"
           size="icon-xxs"
-          className="absolute right-0 rounded-full"
-          onClick={() => removePlayer(index)}
+          className="absolute top-0 right-0 rounded-full"
+          onClick={() => toggleRemoved(index)}
         >
-          <X />
+          {player.removed ? <RotateCcw /> : <X />}
         </Button>
-        <Image
-          src={src}
-          alt={player.teamShortName}
-          draggable={false}
-          height={s(96)}
-          width={s(72)}
-          style={{
-            padding: s(4),
-          }}
-        />
+        {player.removed ? (
+          <div className="h-[70%] flex flex-col justify-center items-center">
+            <CirclePlus size={s(46)} className="text-gray-200" />
+            <p className="text-gray-200 text-xxs">Add player</p>
+          </div>
+        ) : (
+          <Image
+            src={src}
+            alt={player.teamShortName}
+            draggable={false}
+            height={s(96)}
+            width={s(72)}
+            style={{
+              padding: s(4),
+            }}
+          />
+        )}
       </div>
-      <div className="h-[30%] absolute bottom-0 w-full">
+      <div
+        className={`h-[30%] absolute bottom-0 w-full ${player.removed ? "opacity-40 pointer-events-none" : ""}`}
+      >
         <p
           className=" text-center bg-white rounded-t-sm"
           style={{ fontSize: fs }}

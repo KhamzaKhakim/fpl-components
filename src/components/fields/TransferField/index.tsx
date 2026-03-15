@@ -8,7 +8,6 @@ import { mapCoordinates } from "@/src/utils/mapCoordinates";
 import { createScaler } from "@/src/utils/scaler";
 import { isNumber, isPlayer } from "@/src/utils/validatations";
 
-import EmptyCard from "../../cards/EmptyCard";
 import TransferCard from "../../cards/TransferCard";
 import { Player } from "./types";
 import { canDrop } from "./utils";
@@ -89,13 +88,13 @@ export default function TransferField({
     return <h1>Loading...</h1>;
   }
 
-  function removePlayer(idx: number) {
-    if (data) {
-      const nextSquad = structuredClone(data.picks);
-      nextSquad[idx].removed = false;
+  function togglePlayerRemoved(idx: number) {
+    if (!data || !data.picks[idx]) return;
 
-      onChange({ ...data, picks: nextSquad });
-    }
+    const nextSquad = structuredClone(data.picks);
+    nextSquad[idx].removed = !nextSquad[idx].removed;
+
+    onChange({ ...data, picks: nextSquad });
   }
 
   console.log(data.picks[0]);
@@ -133,7 +132,7 @@ export default function TransferField({
                   index={p.idx}
                   isLoading={isLoading}
                   canDrop={canDrop(selectedPlayer, p.idx, squad)}
-                  removePlayer={removePlayer}
+                  toggleRemoved={togglePlayerRemoved}
                 />
               ))}
           </div>
@@ -151,7 +150,7 @@ export default function TransferField({
                   index={p.idx}
                   isLoading={isLoading}
                   canDrop={canDrop(selectedPlayer, p.idx, squad)}
-                  removePlayer={removePlayer}
+                  toggleRemoved={togglePlayerRemoved}
                 />
               ))}
           </div>
@@ -169,7 +168,7 @@ export default function TransferField({
                   index={p.idx}
                   isLoading={isLoading}
                   canDrop={canDrop(selectedPlayer, p.idx, squad)}
-                  removePlayer={removePlayer}
+                  toggleRemoved={togglePlayerRemoved}
                 />
               ))}
           </div>
@@ -187,10 +186,9 @@ export default function TransferField({
                   index={p.idx}
                   isLoading={isLoading}
                   canDrop={canDrop(selectedPlayer, p.idx, squad)}
-                  removePlayer={removePlayer}
+                  toggleRemoved={togglePlayerRemoved}
                 />
               ))}
-            <EmptyCard key="TEst" size={size} index={12} />
           </div>
         </div>
         <div
@@ -216,7 +214,7 @@ export default function TransferField({
                 index={p.idx}
                 isLoading={isLoading}
                 canDrop={canDrop(selectedPlayer, p.idx, squad)}
-                removePlayer={removePlayer}
+                toggleRemoved={togglePlayerRemoved}
               />
             ))}
         </div>
