@@ -69,7 +69,8 @@ function Plans({ response }: { response: TransfersResponse }) {
   }, []);
 
   function createPlan() {
-    const plans = store.get("plans") as PlanType[];
+    const plans = (store.get("plans") ?? []) as PlanType[];
+
     const lastPlan = plans[plans.length - 1];
     const nextId = lastPlan ? lastPlan.id + 1 : 1;
 

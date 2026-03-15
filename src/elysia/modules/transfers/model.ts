@@ -19,6 +19,7 @@ export const PickSchema = t.Object({
   multiplier: t.Number(),
   nowCost: t.Number(),
   sellCost: t.Number(),
+  removed: t.Boolean({ default: true }),
 });
 
 export const TransfersResponseSchema = t.Object({

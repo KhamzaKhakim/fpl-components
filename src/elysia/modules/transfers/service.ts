@@ -48,6 +48,7 @@ export async function getTransfers(id: number): Promise<TransfersResponse> {
         multiplier: p.multiplier,
         nowCost: player.nowCost,
         sellCost: calculateSellCost({ player, transfers }),
+        removed: false,
       };
 
       return pick;

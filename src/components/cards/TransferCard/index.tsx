@@ -5,10 +5,12 @@ import {
 } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { disableNativeDragPreview } from "@atlaskit/pragmatic-drag-and-drop/element/disable-native-drag-preview";
 import { preventUnhandled } from "@atlaskit/pragmatic-drag-and-drop/prevent-unhandled";
+import { X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PickType } from "@/src/elysia/modules/transfers/model";
 import { createScaler } from "@/src/utils/scaler";
@@ -19,6 +21,7 @@ interface PlayerCardProps {
   index: number;
   isLoading: boolean;
   canDrop: boolean;
+  removePlayer: (idx: number) => void;
 }
 
 export default function TransferCard({
@@ -27,6 +30,7 @@ export default function TransferCard({
   size,
   isLoading,
   canDrop,
+  removePlayer,
 }: PlayerCardProps) {
   const s = createScaler(size);
   const src =
@@ -130,6 +134,14 @@ export default function TransferCard({
       key={`${player.name}-${player.team}`}
     >
       <div className="relative w-full h-full">
+        <Button
+          variant="ghost"
+          size="icon-xxs"
+          className="absolute right-0 rounded-full"
+          onClick={() => removePlayer(index)}
+        >
+          <X />
+        </Button>
         <Image
           src={src}
           alt={player.teamShortName}

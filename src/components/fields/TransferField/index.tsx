@@ -8,7 +8,8 @@ import { mapCoordinates } from "@/src/utils/mapCoordinates";
 import { createScaler } from "@/src/utils/scaler";
 import { isNumber, isPlayer } from "@/src/utils/validatations";
 
-import PlayerCard from "../../cards/TransferCard";
+import EmptyCard from "../../cards/EmptyCard";
+import TransferCard from "../../cards/TransferCard";
 import { Player } from "./types";
 import { canDrop } from "./utils";
 
@@ -88,6 +89,17 @@ export default function TransferField({
     return <h1>Loading...</h1>;
   }
 
+  function removePlayer(idx: number) {
+    if (data) {
+      const nextSquad = structuredClone(data.picks);
+      nextSquad[idx].removed = false;
+
+      onChange({ ...data, picks: nextSquad });
+    }
+  }
+
+  console.log(data.picks[0]);
+
   return (
     <div>
       <div
@@ -114,13 +126,14 @@ export default function TransferField({
               .map((p, i) => ({ player: p, idx: i }))
               .filter((p) => p.player.position == "GK" && p.idx < 11)
               .map((p) => (
-                <PlayerCard
+                <TransferCard
                   key={`${p.player.id}-${p.idx}-GK`}
                   player={p.player}
                   size={size}
                   index={p.idx}
                   isLoading={isLoading}
                   canDrop={canDrop(selectedPlayer, p.idx, squad)}
+                  removePlayer={removePlayer}
                 />
               ))}
           </div>
@@ -131,13 +144,14 @@ export default function TransferField({
               .map((p, i) => ({ player: p, idx: i }))
               .filter((p) => p.player.position == "DEF" && p.idx < 11)
               .map((p) => (
-                <PlayerCard
+                <TransferCard
                   key={`${p.player.id}-${p.idx}-DEF`}
                   player={p.player}
                   size={size}
                   index={p.idx}
                   isLoading={isLoading}
                   canDrop={canDrop(selectedPlayer, p.idx, squad)}
+                  removePlayer={removePlayer}
                 />
               ))}
           </div>
@@ -148,13 +162,14 @@ export default function TransferField({
               .map((p, i) => ({ player: p, idx: i }))
               .filter((p) => p.player.position == "MID" && p.idx < 11)
               .map((p) => (
-                <PlayerCard
+                <TransferCard
                   key={`${p.player.id}-${p.idx}-MID`}
                   player={p.player}
                   size={size}
                   index={p.idx}
                   isLoading={isLoading}
                   canDrop={canDrop(selectedPlayer, p.idx, squad)}
+                  removePlayer={removePlayer}
                 />
               ))}
           </div>
@@ -165,15 +180,17 @@ export default function TransferField({
               .map((p, i) => ({ player: p, idx: i }))
               .filter((p) => p.player.position == "FWD" && p.idx < 11)
               .map((p) => (
-                <PlayerCard
+                <TransferCard
                   key={`${p.player.id}-${p.idx}-FWD`}
                   player={p.player}
                   size={size}
                   index={p.idx}
                   isLoading={isLoading}
                   canDrop={canDrop(selectedPlayer, p.idx, squad)}
+                  removePlayer={removePlayer}
                 />
               ))}
+            <EmptyCard key="TEst" size={size} index={12} />
           </div>
         </div>
         <div
@@ -192,13 +209,14 @@ export default function TransferField({
             .map((p, i) => ({ player: p, idx: i }))
             .filter((_, i) => i > 10)
             .map((p) => (
-              <PlayerCard
+              <TransferCard
                 key={`${p.player.id}-${p.idx}-SUB`}
                 player={p.player}
                 size={size}
                 index={p.idx}
                 isLoading={isLoading}
                 canDrop={canDrop(selectedPlayer, p.idx, squad)}
+                removePlayer={removePlayer}
               />
             ))}
         </div>
