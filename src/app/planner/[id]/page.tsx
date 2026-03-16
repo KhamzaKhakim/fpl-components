@@ -9,6 +9,9 @@ import store from "store2";
 import TransferField from "@/src/components/fields/TransferField";
 import { TransferPlan } from "@/src/elysia/modules/transfers/model";
 import { createScaler } from "@/src/utils/scaler";
+import PlayersTable from "@/src/components/table/PlayersTable";
+import { client } from "@/src/elysia/client";
+import { useQuery } from "@tanstack/react-query";
 
 export default function PlanPage() {
   const { id } = useParams<{ id: string }>();
@@ -16,6 +19,17 @@ export default function PlanPage() {
   const [data, setData] = useState<TransferPlan[] | null>(null);
 
   const [gw, setGw] = useQueryState("gw", parseAsInteger);
+
+  const { data: players, isLoading } = useQuery({
+    queryKey: ["players"],
+    queryFn: async () => {
+      const { data, error } = await client.players.get();
+
+      if (error) throw error;
+
+      return data;
+    },
+  });
 
   useEffect(() => {
     const plan = store.get(`plans.${id}`) as TransferPlan[];
@@ -47,6 +61,11 @@ export default function PlanPage() {
     <div className="mx-16 my-4">
       <div className="flex justify-center">
         <div>
+          {/* need to store all transfers
+              change bank based on transfers
+              add table to the right to select players
+              add logic to disable transfers to gw is next gw already defined or maybe show mddal to ensure
+              trash can to delete players */}
           <GameweekChooser
             size={600}
             data={data}
@@ -72,7 +91,7 @@ export default function PlanPage() {
             isLoading={false}
           />
         </div>
-        <div>Table</div>
+        <div>{players && <PlayersTable data={players} />}</div>
         {/* {response?.data && <Plans response={response?.data} />} */}
       </div>
     </div>

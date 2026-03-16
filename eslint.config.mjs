@@ -38,6 +38,12 @@ const eslintConfig = defineConfig([
     },
   },
 
+  {
+    rules: {
+      "react-hooks/incompatible-library": false,
+    },
+  },
+
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:

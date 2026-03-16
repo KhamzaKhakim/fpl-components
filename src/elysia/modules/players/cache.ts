@@ -39,6 +39,25 @@ export async function getAllPlayers() {
   return fixedMap;
 }
 
+export async function getAllPlayersArray() {
+  if (playersCache) return [...playersCache.values()];
+
+  const players = await redis.hgetall("players");
+
+  if (!players) throw new Error("Players not found");
+
+  const fixedMap = new Map<number, PlayerType>();
+
+  for (const [key, val] of Object.entries(players)) {
+    fixedMap.set(+key, JSON.parse(val));
+  }
+
+  playersCache = fixedMap;
+
+  //not sure how use values
+  return [...fixedMap.values()];
+}
+
 export function invalidatePlayersCache() {
   playersCache = null;
 }
