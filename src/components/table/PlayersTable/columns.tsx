@@ -30,7 +30,7 @@ export const columns: ColumnDef<PlayerType>[] = [
   },
   {
     accessorKey: "totalPoints",
-    // header: () => <div className="text-center">Total Points</div>,
+    sortDescFirst: true,
     header: ({ column }) => {
       return (
         <div className="flex justify-center items-center gap-1">
@@ -38,7 +38,9 @@ export const columns: ColumnDef<PlayerType>[] = [
           <Button
             size="icon-xxs"
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() =>
+              column.toggleSorting(column.getIsSorted() !== "desc")
+            }
           >
             <ArrowUpDown />
           </Button>
@@ -53,7 +55,7 @@ export const columns: ColumnDef<PlayerType>[] = [
   },
   {
     accessorKey: "nowCost",
-    // header: () => <div className="text-center">Price</div>,
+    sortDescFirst: true,
     header: ({ column }) => {
       return (
         <div className="flex justify-center items-center gap-1">
@@ -61,7 +63,9 @@ export const columns: ColumnDef<PlayerType>[] = [
           <Button
             size="icon-xxs"
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() =>
+              column.toggleSorting(column.getIsSorted() !== "desc")
+            }
           >
             <ArrowUpDown />
           </Button>

@@ -30,8 +30,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { client } from "@/src/elysia/client";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -48,7 +49,19 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [theme, setTheme] = useState<string>("");
+  const [team, setTeam] = useState<string>("");
+  const [position, setPosition] = useState<string>("");
+
+  const { data: teams, isLoading } = useQuery({
+    queryKey: ["teams"],
+    queryFn: async () => {
+      const { data, error } = await client.teams.get();
+
+      if (error) throw error;
+
+      return data;
+    },
+  });
 
   const table = useReactTable({
     data,
@@ -87,38 +100,75 @@ export function DataTable<TData, TValue>({
         ]
       : [0, 0];
 
+  const handleTeamFilterChange = (value: string) => {
+    setTeam(value);
+    table.getColumn("teamShortName")?.setFilterValue(value || undefined);
+    virtualizer.scrollToIndex(0);
+  };
+
+  const handlePositionFilterChange = (value: string) => {
+    setPosition(value);
+    table.getColumn("position")?.setFilterValue(value || undefined);
+    virtualizer.scrollToIndex(0);
+  };
+
   return (
     <div>
       <div className="flex items-center py-4 gap-4">
+        {/* TODO: fix Odeegard case */}
         <Input
+          className="flex-2"
           placeholder="Search by name..."
           value={(table.getColumn("webName")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("webName")?.setFilterValue(event.target.value)
           }
         />
-        <div className="relative w-full max-w-xs">
-          <Select value={theme} onValueChange={setTheme}>
+
+        <div className="flex-1">
+          <Select value={team} onValueChange={handleTeamFilterChange}>
             <SelectTrigger
-              className="w-70"
-              value={theme}
-              onReset={() => setTheme("")}
+              className="w-full"
+              value={team}
+              onReset={() => handleTeamFilterChange("")}
             >
-              <SelectValue
-                placeholder="Place Select Theme"
-                defaultValue={theme}
-              />
+              <SelectValue placeholder="Team" defaultValue={team} />
             </SelectTrigger>
             <SelectContent position="popper">
               <SelectGroup>
-                <SelectItem value="light">Light</SelectItem>
-                <SelectItem value="dark">Dark</SelectItem>
-                <SelectItem value="system">System</SelectItem>
+                {teams?.map((t) => (
+                  <SelectItem value={t.shortName} key={t.id}>
+                    {t.shortName}
+                  </SelectItem>
+                ))}
               </SelectGroup>
             </SelectContent>
           </Select>
         </div>
       </div>
+      <div className="py-4">
+        <ToggleGroup
+          type="single"
+          variant="outline"
+          className="w-full"
+          value={position}
+          onValueChange={handlePositionFilterChange}
+        >
+          <ToggleGroupItem value="GK" className="flex-1">
+            GK
+          </ToggleGroupItem>
+          <ToggleGroupItem value="DEF" className="flex-1">
+            DEF
+          </ToggleGroupItem>
+          <ToggleGroupItem value="MID" className="flex-1">
+            MID
+          </ToggleGroupItem>
+          <ToggleGroupItem value="FWD" className="flex-1">
+            FWD
+          </ToggleGroupItem>
+        </ToggleGroup>
+      </div>
+
       <div
         ref={scrollRef}
         className="overflow-auto rounded-md border px-4"

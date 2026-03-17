@@ -55,7 +55,6 @@ function SelectTrigger({
             }}
             onClick={(e) => {
               e.stopPropagation();
-              console.log("Resetting");
               onReset?.();
             }}
           />
