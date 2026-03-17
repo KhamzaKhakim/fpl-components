@@ -23,10 +23,6 @@ export async function getLivePoints(
 
     if (!player) throw new Error(`Player by id ${p.element} not found`);
 
-    const team = teamsMap.get(player.team);
-
-    if (!team) throw new Error(`Team by id ${player.team} not found`);
-
     const livePoint = await LiveCache.getLivePointByPlayerAndGameweek(
       gw,
       player.id,
@@ -39,9 +35,9 @@ export async function getLivePoints(
       id: p.element,
       name: player.webName,
       team: player.team,
-      teamShortName: team.shortName,
+      teamShortName: player.teamShortName,
       gwPoints: livePoint.gwPoints,
-      position: positionById[p.element_type],
+      position: player.position,
       isCaptain: p.is_captain,
       isViceCaptain: p.is_vice_captain,
       multiplier: p.multiplier,

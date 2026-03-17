@@ -2,17 +2,24 @@
 import { redis } from "bun";
 
 import { PlayerType } from "@/src/elysia/modules/players/model";
+import { getAllTeams } from "@/src/elysia/modules/teams/cache";
+import { positionById } from "@/src/utils/mapApi";
 
-function mapPlayer(p: any): PlayerType {
+function mapPlayer(
+  p: any,
+  teamsMap: Awaited<ReturnType<typeof getAllTeams>>,
+): PlayerType {
   return {
     id: p.id,
     webName: p.web_name,
     team: p.team,
+    teamShortName: teamsMap.get(p.team)?.shortName!,
     selectedByPercent: p.selected_by_percent,
     totalPoints: p.total_points,
     nowCost: p.now_cost,
     costChangeStart: p.cost_change_start,
     elementType: p.element_type,
+    position: positionById[p.element_type],
     canSelect: p.can_select,
     epNext: p.ep_next,
     epThis: p.ep_this,
@@ -41,8 +48,9 @@ async function fetchPlayers(): Promise<PlayerType[]> {
 
     const json = await response.json();
     const players: any[] = json?.["elements"];
+    const teams = await getAllTeams();
 
-    return players.map(mapPlayer);
+    return players.map((p) => mapPlayer(p, teams));
   } catch (error) {
     console.error("Failed to fetch players:", error);
     throw error;

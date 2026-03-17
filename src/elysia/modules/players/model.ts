@@ -1,14 +1,17 @@
 import { t } from "elysia";
+import { PositionEnum } from "../../shared/service/fpl/model";
 
 export const PlayerSchema = t.Object({
   id: t.Number(),
   webName: t.String(),
   team: t.Number(),
+  teamShortName: t.String(),
   selectedByPercent: t.String(),
   totalPoints: t.Number(),
   nowCost: t.Number(),
   costChangeStart: t.Number(),
   elementType: t.Number(),
+  position: PositionEnum,
   canSelect: t.Boolean(),
   epNext: t.String(),
   epThis: t.String(),
