@@ -11,7 +11,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { notUndefined, useVirtualizer } from "@tanstack/react-virtual";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
   Table,
@@ -33,6 +33,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { client } from "@/src/elysia/client";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { NumberInput } from "@/components/number-input";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -47,10 +48,17 @@ export function DataTable<TData, TValue>({
   rowHeight = 48,
   tableHeight = 500,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>([
+    {
+      id: "totalPoints",
+      desc: true,
+    },
+  ]);
+
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [team, setTeam] = useState<string>("");
-  const [position, setPosition] = useState<string>("");
+  const [minMax, setMinMax] = useState<
+    [number | undefined, number | undefined]
+  >([undefined, undefined]);
 
   const { data: teams, isLoading } = useQuery({
     queryKey: ["teams"],
@@ -77,6 +85,10 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  useEffect(() => {
+    table.getColumn("nowCost")?.setFilterValue(minMax);
+  }, [minMax]);
+
   const { rows } = table.getRowModel();
 
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -85,7 +97,7 @@ export function DataTable<TData, TValue>({
     count: rows.length,
     getScrollElement: () => scrollRef.current,
     estimateSize: () => rowHeight,
-    overscan: 0, // rows rendered beyond the visible area (buffer)
+    overscan: 10,
   });
 
   const virtualRows = virtualizer.getVirtualItems();
@@ -100,14 +112,16 @@ export function DataTable<TData, TValue>({
         ]
       : [0, 0];
 
+  const teamFilter = table
+    .getColumn("teamShortName")
+    ?.getFilterValue() as string;
+
   const handleTeamFilterChange = (value: string) => {
-    setTeam(value);
-    table.getColumn("teamShortName")?.setFilterValue(value || undefined);
+    table.getColumn("teamShortName")?.setFilterValue(value || "");
     virtualizer.scrollToIndex(0);
   };
 
   const handlePositionFilterChange = (value: string) => {
-    setPosition(value);
     table.getColumn("position")?.setFilterValue(value || undefined);
     virtualizer.scrollToIndex(0);
   };
@@ -115,9 +129,8 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="flex items-center py-4 gap-4">
-        {/* TODO: fix Odeegard case */}
         <Input
-          className="flex-2"
+          className="flex-1"
           placeholder="Search by name..."
           value={(table.getColumn("webName")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
@@ -125,14 +138,20 @@ export function DataTable<TData, TValue>({
           }
         />
 
-        <div className="flex-1">
-          <Select value={team} onValueChange={handleTeamFilterChange}>
+        <div className="w-1/3 shrink-0">
+          <Select
+            value={teamFilter ?? ""}
+            onValueChange={handleTeamFilterChange}
+          >
             <SelectTrigger
               className="w-full"
-              value={team}
+              value={teamFilter}
               onReset={() => handleTeamFilterChange("")}
             >
-              <SelectValue placeholder="Team" defaultValue={team} />
+              <SelectValue
+                placeholder="Team"
+                //  defaultValue={team}
+              />
             </SelectTrigger>
             <SelectContent position="popper">
               <SelectGroup>
@@ -146,12 +165,12 @@ export function DataTable<TData, TValue>({
           </Select>
         </div>
       </div>
-      <div className="py-4">
+      <div className="py-4 flex gap-4">
         <ToggleGroup
           type="single"
           variant="outline"
-          className="w-full"
-          value={position}
+          className="flex-1"
+          // value={position}
           onValueChange={handlePositionFilterChange}
         >
           <ToggleGroupItem value="GK" className="flex-1">
@@ -167,6 +186,32 @@ export function DataTable<TData, TValue>({
             FWD
           </ToggleGroupItem>
         </ToggleGroup>
+        <div className="w-1/3 shrink-0 flex gap-4">
+          <NumberInput
+            className="flex-1"
+            placeholder="Min £"
+            value={minMax[0]}
+            onValueChange={(val) => setMinMax((prev) => [val, prev[1]])}
+            min={0}
+            max={20}
+            prefix="£"
+            suffix="m"
+            stepper={0.1}
+            decimalScale={1}
+          />
+          <NumberInput
+            className="flex-1"
+            placeholder="Max £"
+            value={minMax[1]}
+            onValueChange={(val) => setMinMax((prev) => [prev[0], val])}
+            min={0}
+            max={20}
+            prefix="£"
+            suffix="m"
+            stepper={0.1}
+            decimalScale={1}
+          />
+        </div>
       </div>
 
       <div

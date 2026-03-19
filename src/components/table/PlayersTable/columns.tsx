@@ -1,16 +1,43 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, FilterFn } from "@tanstack/react-table";
 
 import { PlayerType } from "@/src/elysia/modules/players/model";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
+
+import { remove } from "diacritics";
+
+const costRangeFilter: FilterFn<PlayerType> = (
+  row,
+  columnId,
+  value: [number, number],
+) => {
+  const cost = row.getValue<number>(columnId);
+  const [min, max] = value;
+
+  if (min && cost / 10 < Number(min)) return false;
+  if (max && cost / 10 > Number(max)) return false;
+  return true;
+};
+
+const nameFilter: FilterFn<PlayerType> = (row, columnId, value: string) => {
+  const normalize = (str: string) => remove(str).toLowerCase();
+
+  const name = row.getValue<string>(columnId);
+  if (normalize(name).includes(normalize(value))) {
+    console.log(normalize(name));
+  }
+
+  return normalize(name).includes(normalize(value));
+};
 
 export const columns: ColumnDef<PlayerType>[] = [
   {
     accessorKey: "webName",
     header: "Name",
     size: 140,
+    filterFn: nameFilter,
   },
   {
     accessorKey: "teamShortName",
@@ -56,6 +83,7 @@ export const columns: ColumnDef<PlayerType>[] = [
   {
     accessorKey: "nowCost",
     sortDescFirst: true,
+    filterFn: costRangeFilter,
     header: ({ column }) => {
       return (
         <div className="flex justify-center items-center gap-1">
