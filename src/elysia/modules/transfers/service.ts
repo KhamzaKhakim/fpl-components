@@ -160,8 +160,8 @@ function calculateFts({
   nextGw: number;
   chips: Awaited<ReturnType<typeof getUsedChips>>;
 }): number {
-  const freehitGws = chips["freehit"].map((v) => v.event);
-  const wildcardGws = chips["wildcard"].map((v) => v.event);
+  const freehitGws = chips["freehit"]?.map((v) => v.event) || [];
+  const wildcardGws = chips["wildcard"]?.map((v) => v.event) || [];
 
   const nTransfers: Record<number, number> = {};
   for (let i = 2; i < nextGw; i++) nTransfers[i] = 0;
@@ -219,7 +219,10 @@ async function calculateBank({
     );
 
   for (let i = 0; i < transfersReversed.length; i++) {
-    if (chips.freehit.map((v) => v.event).includes(transfersReversed[i].event))
+    if (
+      chips.freehit &&
+      chips.freehit.map((v) => v.event).includes(transfersReversed[i].event)
+    )
       continue;
 
     bank =
